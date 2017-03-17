@@ -40,4 +40,5 @@
 
 * 如果你想与他人分享你的项目，还是建议你选择一种开源许可证。
 
-#####关于如何选择许可证，详细信息请参阅[http://choosealicense.com/licenses/][CHOOSEALICENSE]
+#####关于如何选择许可证，详细信息请参阅[http://choosealicense.com/licenses/][CHOOSEALICENSE] 
+HEHE
