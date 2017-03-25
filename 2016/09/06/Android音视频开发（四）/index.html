@@ -1,0 +1,740 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android,音视频," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Android真正有价值的是与具体的业务方向结合。Android与音视频技术，Android与智能硬件交互，Android与前端技术的融合与探索，Android信息安全，Android源码深度定制等等
+
+无论是文字、图像还是声音，都必须以一定的格式来组织和存储起来，这样播放器才知道以怎样的方式去解析这一段数据，例如，对于原始的图像数据，我们常见的格式有 YUV、Bitmap，而对于音频来说，最简">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android音频开发（四）：如何存储和解析wav文件">
+<meta property="og:url" content="https://AndrRousite.github.io/2016/09/06/Android音视频开发（四）/index.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="Android真正有价值的是与具体的业务方向结合。Android与音视频技术，Android与智能硬件交互，Android与前端技术的融合与探索，Android信息安全，Android源码深度定制等等
+
+无论是文字、图像还是声音，都必须以一定的格式来组织和存储起来，这样播放器才知道以怎样的方式去解析这一段数据，例如，对于原始的图像数据，我们常见的格式有 YUV、Bitmap，而对于音频来说，最简">
+<meta property="og:image" content="https://AndrRousite.github.io/images/Android音视频开发/1490467844.jpg">
+<meta property="og:updated_time" content="2017-03-25T19:00:39.167Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android音频开发（四）：如何存储和解析wav文件">
+<meta name="twitter:description" content="Android真正有价值的是与具体的业务方向结合。Android与音视频技术，Android与智能硬件交互，Android与前端技术的融合与探索，Android信息安全，Android源码深度定制等等
+
+无论是文字、图像还是声音，都必须以一定的格式来组织和存储起来，这样播放器才知道以怎样的方式去解析这一段数据，例如，对于原始的图像数据，我们常见的格式有 YUV、Bitmap，而对于音频来说，最简">
+<meta name="twitter:image" content="https://AndrRousite.github.io/images/Android音视频开发/1490467844.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/2016/09/06/Android音视频开发（四）/"/>
+
+
+
+
+
+  <title> Android音频开发（四）：如何存储和解析wav文件 | AndrRousite </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://AndrRousite.github.io/2016/09/06/Android音视频开发（四）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liu-feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AndrRousite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android音频开发（四）：如何存储和解析wav文件
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-06T23:48:01+08:00">
+                2016-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Android真正有价值的是与具体的业务方向结合。<br>Android与音视频技术，Android与智能硬件交互，Android与前端技术的融合与探索，Android信息安全，Android源码深度定制等等</p>
+</blockquote>
+<p>无论是文字、图像还是声音，都必须以一定的格式来组织和存储起来，这样播放器才知道以怎样的方式去解析这一段数据，例如，对于原始的图像数据，我们常见的格式有 YUV、Bitmap，而对于音频来说，最简单常见的格式就是 wav 格式了。</p>
+<p>wav 格式，与 bitmap 一样，都是微软开发的一种文件格式规范，它们都有一个相似之处，就是整个文件分为两部分，第一部分是“文件头”，记录重要的参数信息，对于音频而言，就包括：采样率、通道数、位宽等等，对于图像而言，就包括：图像的宽高、色彩位数等等；第二部分是“数据块”，即一帧一帧的二进制数据，对于音频而言，就是原始的 PCM 数据；对于图像而言，就是 RGB 数据。</p>
+<p>前面几篇文章讲了如何利用 Android 平台的 API 完成原始音频信号的采集和播放，而本文则重点关注如何在 Android 平台上，将采集到的 PCM 音频数据保存到 wav 文件，同时，也介绍如何读取和解析 wav 文件。</p>
+<p>而文章最后，我还会给出一段 AudioDemo 程序，该程序将最近的几篇文章涉及到的代码综合起来了，演示了一个完整的 Android 音频从采集到播放的全过程。</p>
+<p>下面言归正传，讲讲如何读写 wav 文件格式。</p>
+<h5 id="文件头"><a href="#文件头" class="headerlink" title="文件头"></a>文件头</h5><p>首先，我们了解一下 wav 格式的“文件头”，可以参考这篇文章：<a href="http://soundfile.sapp.org/doc/WaveFormat/" target="_blank" rel="external">《WAVE PCM soundfile format》</a></p>
+<p><img src="/images/Android音视频开发/1490467844.jpg" alt="1490467844.jpg"></p>
+<p>我们可以简单地分析一下这个 wav 格式头，它主要分为三个部分：</p>
+<p>第一部分，属于最“顶层”的信息块，通过“ChunkID”来表示这是一个 “RIFF”格式的文件，通过“Format”填入“WAVE”来标识这是一个 wav 文件。而“ChunkSize”则记录了整个 wav 文件的字节数。</p>
+<p>第二部分，属于“fmt”信息块，主要记录了本 wav 音频文件的详细音频参数信息，例如：通道数、采样率、位宽等等（含义请参考我的第一篇文章《Android音频开发（1）：基础知识》）</p>
+<p>第三部分，属于“data”信息块，由“Subchunk2Size”这个字段来记录后面存储的二进制原始音频数据的长度。</p>
+<p>分析到这里，我想大家应该就明白了，其实，做一种多媒体格式的解析，也不是一件特别复杂的事，说白了，格式就是一种规范，告诉你，我的二进制数据是怎么存储的，你应该按照什么样的方式来解析。</p>
+<p>具体而言，我们可以定义一个如下的 Java 类来抽象和描述 wav 文件头：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> *  COPYRIGHT NOTICE</div><div class="line"> *  Copyright (C) 2016, Jhuster &lt;lujun.hust@gmail.com&gt;</div><div class="line"> *  https://github.com/Jhuster/AudioDemo</div><div class="line"> *</div><div class="line"> *  @license under the Apache License, Version 2.0</div><div class="line"> *</div><div class="line"> *  @file    WavFileHeader.java</div><div class="line"> *</div><div class="line"> *  @version 1.0</div><div class="line"> *  @author  Jhuster</div><div class="line"> *  @date    2016/03/19</div><div class="line"> */</div><div class="line">package com.jhuster.audiodemo.api;</div><div class="line"></div><div class="line">public class WavFileHeader &#123;</div><div class="line"></div><div class="line">    public String mChunkID = &quot;RIFF&quot;;</div><div class="line">    public int mChunkSize = 0;</div><div class="line">    public String mFormat = &quot;WAVE&quot;;</div><div class="line"></div><div class="line">    public String mSubChunk1ID = &quot;fmt &quot;;</div><div class="line">    public int mSubChunk1Size = 16;</div><div class="line">    public short mAudioFormat = 1;</div><div class="line">    public short mNumChannel = 1;</div><div class="line">    public int mSampleRate = 8000;</div><div class="line">    public int mByteRate = 0;</div><div class="line">    public short mBlockAlign = 0;</div><div class="line">    public short mBitsPerSample = 8;</div><div class="line"></div><div class="line">    public String mSubChunk2ID = &quot;data&quot;;</div><div class="line">    public int mSubChunk2Size  = 0;</div><div class="line"></div><div class="line">    public WavFileHeader() &#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public WavFileHeader(int sampleRateInHz, int bitsPerSample, int channels) &#123;</div><div class="line">        mSampleRate = sampleRateInHz;</div><div class="line">        mBitsPerSample = (short)bitsPerSample;</div><div class="line">        mNumChannel = (short)channels;</div><div class="line">        mByteRate = mSampleRate*mNumChannel*mBitsPerSample/8;</div><div class="line">        mBlockAlign = (short)(mNumChannel*mBitsPerSample/8);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>具体每一个字段的含义，可以参考我上面给出的链接，下面我们再看看如何读写 wav 文件。</p>
+<h5 id="读写-wav-文件"><a href="#读写-wav-文件" class="headerlink" title="读写 wav 文件"></a>读写 wav 文件</h5><p>文章开头已经说过，其实说白了，wav 文件就是一段“文件头”+“音频二进制数据”，因此：</p>
+<ul>
+<li>写 wav 文件，其实就是先写入一个 wav 文件头，然后再继续写入音频二进制数据即可</li>
+<li>读 wav 文件，其实也就是先读一个 wav 文件头，然后再继续读出音频二进制数据即可</li>
+</ul>
+<p>那么，在动手写代码之前，有两点你需要搞清楚：</p>
+<ol>
+<li><p>wav 文件头中，有哪些是“变化的”，哪些是“不变的”？</p>
+<p> 比如：文件头开头的“RIFF”字符串就是“不变的”部分，而用来记录音频数据总长度的“Subchunk2Size”变量就是属于“变化的”部分，因为，再音频数据没有彻底全部写完之前，你是无法知道一共写入了多少字节的音频数据的，因此，这个部分，需要用一个变量记录起来，到全部写完之后，再使用 Java 的“RandomAccessFile”类，将文件指针跳转到“Subchunk2Size”字段，改写一下默认值即可。</p>
+</li>
+<li><p>如何把 int、short 变量与 byte[] 的转换</p>
+<p> 因为 wav 文件都是二进制的方式读写，因此，“WavFileHeader”类中定义的变量都需要转换为byte字节流，具体转换方法如下：</p>
+<pre><code>private static byte[] intToByteArray(int data) {
+    return ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(data).array();
+}
+
+private static byte[] shortToByteArray(short data) {
+    return ByteBuffer.allocate(2).order(ByteOrder.LITTLE_ENDIAN).putShort(data).array();
+}
+
+private static short byteArrayToShort(byte[] b) {
+    return ByteBuffer.wrap(b).order(ByteOrder.LITTLE_ENDIAN).getShort();
+}
+
+private static int byteArrayToInt(byte[] b) {
+    return ByteBuffer.wrap(b).order(ByteOrder.LITTLE_ENDIAN).getInt();
+}
+</code></pre><p> 关于 wav 文件读写的类已经帮大家“封装”好了，并且结合着前面几篇文章给出的音频采集和播放的代码，完成了一个 AudioDemo 程序，放在 Github 上了，欢迎大家下载运行测试，然后结合着代码具体学习 Android 音频相关技术，代码地址：</p>
+<p> <a href="https://github.com/Jhuster/AudioDemo" target="_blank" rel="external">AudioDemo</a></p>
+<p> 注：本系列文章的所有代码，以后都会并入到该 demo 项目中。</p>
+</li>
+</ol>
+<h5 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h5><p>音频开发的知识点其实挺多的，因此不够全面和详尽，请大家搜索专业资料进行深入了解</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag"># android</a>
+          
+            <a href="/tags/音视频/" rel="tag"># 音视频</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/06/Android音视频开发（三）/" rel="next" title="Android音频开发（三）">
+                <i class="fa fa-chevron-left"></i> Android音频开发（三）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/09/Android音视频开发（五）/" rel="prev" title="Android音频开发（五）：音频数据的编解码">
+                Android音频开发（五）：音频数据的编解码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#文件头"><span class="nav-number">1.</span> <span class="nav-text">文件头</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#读写-wav-文件"><span class="nav-number">2.</span> <span class="nav-text">读写 wav 文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-03-26 03:22</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

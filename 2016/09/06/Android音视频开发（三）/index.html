@@ -1,0 +1,732 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android,音视频," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Android真正有价值的是与具体的业务方向结合。Android与音视频技术，Android与智能硬件交互，Android与前端技术的融合与探索，Android信息安全，Android源码深度定制等等
+
+本文重点关注如何在Android平台上播放一帧音频数据。阅读本文之前，简易你先看一下上一章的内容Android音频开发(一))
+Android SDK 提供了3套音频播放的API，分别是：Med">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android音频开发（三）">
+<meta property="og:url" content="https://AndrRousite.github.io/2016/09/06/Android音视频开发（三）/index.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="Android真正有价值的是与具体的业务方向结合。Android与音视频技术，Android与智能硬件交互，Android与前端技术的融合与探索，Android信息安全，Android源码深度定制等等
+
+本文重点关注如何在Android平台上播放一帧音频数据。阅读本文之前，简易你先看一下上一章的内容Android音频开发(一))
+Android SDK 提供了3套音频播放的API，分别是：Med">
+<meta property="og:image" content="https://AndrRousite.github.io/images/Android音视频开发/1490467392.jpg">
+<meta property="og:updated_time" content="2017-03-25T18:48:31.255Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android音频开发（三）">
+<meta name="twitter:description" content="Android真正有价值的是与具体的业务方向结合。Android与音视频技术，Android与智能硬件交互，Android与前端技术的融合与探索，Android信息安全，Android源码深度定制等等
+
+本文重点关注如何在Android平台上播放一帧音频数据。阅读本文之前，简易你先看一下上一章的内容Android音频开发(一))
+Android SDK 提供了3套音频播放的API，分别是：Med">
+<meta name="twitter:image" content="https://AndrRousite.github.io/images/Android音视频开发/1490467392.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/2016/09/06/Android音视频开发（三）/"/>
+
+
+
+
+
+  <title> Android音频开发（三） | AndrRousite </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://AndrRousite.github.io/2016/09/06/Android音视频开发（三）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liu-feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AndrRousite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android音频开发（三）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-06T22:50:22+08:00">
+                2016-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Android真正有价值的是与具体的业务方向结合。<br>Android与音视频技术，Android与智能硬件交互，Android与前端技术的融合与探索，Android信息安全，Android源码深度定制等等</p>
+</blockquote>
+<p>本文重点关注如何在Android平台上播放一帧音频数据。阅读本文之前，简易你先看一下上一章的内容<a href="../../25/Android音频开发(一">Android音频开发(一)</a>)</p>
+<p>Android SDK 提供了3套音频播放的API，分别是：MediaPlayer，SoundPool，AudioTrack，关于它们的区别可以看这篇文章：《Intro to the three Android Audio APIs》，简单来说，MediaPlayer 更加适合在后台长时间播放本地音乐文件或者在线的流式资源; SoundPool 则适合播放比较短的音频片段，比如游戏声音、按键声、铃声片段等等，它可以同时播放多个音频; 而 AudioTrack 则更接近底层，提供了非常强大的控制能力，支持低延迟播放，适合流媒体和VoIP语音电话等场景。</p>
+<p>音频的开发，更广泛地应用不仅仅局限于播放本地文件或者音频片段，因此，本文重点关注如何利AudioTrack API 来播放音频数据（注意，使用AudioTrack播放的音频必须是解码后的PCM数据）。</p>
+<h5 id="AudioTrack-的工作流程"><a href="#AudioTrack-的工作流程" class="headerlink" title="AudioTrack 的工作流程"></a>AudioTrack 的工作流程</h5><p>首先，我们了解一下 AudioTrack 的工作流程：</p>
+<ol>
+<li>配置参数，初始化内部的音频播放缓冲区</li>
+<li>开始播放</li>
+<li>需要一个线程，不断地向 AudioTrack 的缓冲区“写入”音频数据，注意，这个过程一定要及时，否则就会出现“underrun”的错误，该错误在音频开发中比较常见，意味着应用层没有及时地“送入”音频数据，导致内部的音频播放缓冲区为空。</li>
+<li>停止播放，释放资源</li>
+</ol>
+<h5 id="AudioTrack-的参数配置"><a href="#AudioTrack-的参数配置" class="headerlink" title="AudioTrack 的参数配置"></a>AudioTrack 的参数配置</h5><p><img src="/images/Android音视频开发/1490467392.jpg" alt="1490467392.jpg"><br>上面是 AudioTrack 的构造函数原型，主要靠构造函数来配置相关的参数，下面一一解释:</p>
+<ul>
+<li><p>streamType<br>  这个参数代表着当前应用使用的哪一种音频管理策略，当系统有多个进程需要播放音频时，这个管理策略会决定最终的展现效果，该参数的可选的值以常量的形式定义在 AudioManager 类中，主要包括：</p>
+<p>  STREAM_VOCIE_CALL：电话声音<br>  STREAM_SYSTEM：系统声音<br>  STREAM_RING：铃声<br>  STREAM_MUSCI：音乐声<br>  STREAM_ALARM：警告声<br>  STREAM_NOTIFICATION：通知声</p>
+</li>
+<li><p>sampleRateInHz<br>  采样率，从AudioTrack源码的“audioParamCheck”函数可以看到，这个采样率的取值范围必须在 4000Hz～192000Hz 之间。</p>
+</li>
+<li><p>channelConfig<br>  通道数的配置，可选的值以常量的形式定义在 AudioFormat 类中，常用的是 CHANNEL_IN_MONO（单通道），CHANNEL_IN_STEREO（双通道）</p>
+</li>
+<li><p>audioFormat<br>  这个参数是用来配置“数据位宽”的，可选的值也是以常量的形式定义在 AudioFormat 类中，常用的是 ENCODING_PCM_16BIT（16bit），ENCODING_PCM_8BIT（8bit），注意，前者是可以保证兼容所有Android手机的。</p>
+</li>
+<li><p>bufferSizeInBytes<br>  这个是最难理解又最重要的一个参数，它配置的是 AudioTrack 内部的音频缓冲区的大小，该缓冲区的值不能低于一帧“音频帧”（Frame）的大小，而前一篇文章介绍过，一帧音频帧的大小计算如下：</p>
+<p>  int size = 采样率 x 位宽 x 采样时间 x 通道数</p>
+<p>  采样时间一般取 2.5ms~120ms 之间，由厂商或者具体的应用决定，我们其实可以推断，每一帧的采样时间取得越短，产生的延时就应该会越小，当然，碎片化的数据也就会越多。</p>
+<p>  在Android开发中，AudioTrack 类提供了一个帮助你确定这个 bufferSizeInBytes 的函数，原型如下：</p>
+<p>  int getMinBufferSize(int sampleRateInHz, int channelConfig, int audioFormat);</p>
+<p>  不同的厂商的底层实现是不一样的，但无外乎就是根据上面的计算公式得到一帧的大小，音频缓冲区的大小则必须是一帧大小的2～N倍，有兴趣的朋友可以继续深入源码探究探究。</p>
+<p>  实际开发中，强烈建议由该函数计算出需要传入的 bufferSizeInBytes，而不是自己手动计算。</p>
+</li>
+<li><p>mode<br>  AudioTrack 提供了两种播放模式，一种是 static 方式，一种是 streaming 方式，前者需要一次性将所有的数据都写入播放缓冲区，简单高效，通常用于播放铃声、系统提醒的音频片段; 后者则是按照一定的时间间隔不间断地写入音频数据，理论上它可用于任何音频播放的场景。</p>
+<p>  可选的值以常量的形式定义在 AudioTrack 类中，一个是 MODE_STATIC，另一个是 MODE_STREAM，根据具体的应用传入对应的值即可。</p>
+</li>
+</ul>
+<h5 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h5><p>AudioTrack 类的接口简单封装了一下，提供了一个 AudioPlayer 类，可以到Github下载：<a href="https://github.com/Jhuster/Android/blob/master/Audio/AudioPlayer.java" target="_blank" rel="external">AudioPlayer</a></p>
+<p>这里也贴出来一份：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> *  COPYRIGHT NOTICE</div><div class="line"> *  Copyright (C) 2016, Jhuster &lt;lujun.hust@gmail.com&gt;</div><div class="line"> *  https://github.com/Jhuster/Android</div><div class="line"> *</div><div class="line"> *  @license under the Apache License, Version 2.0</div><div class="line"> *</div><div class="line"> *  @file    AudioPlayer.java</div><div class="line"> *</div><div class="line"> *  @version 1.0</div><div class="line"> *  @author  Jhuster</div><div class="line"> *  @date    2016/03/13</div><div class="line"> */</div><div class="line">package com.jhuster.audiodemo;</div><div class="line"></div><div class="line">import android.util.Log;</div><div class="line">import android.media.AudioFormat;</div><div class="line">import android.media.AudioManager;</div><div class="line">import android.media.AudioTrack;</div><div class="line"></div><div class="line">public class AudioPlayer &#123;</div><div class="line"></div><div class="line">    private static final String TAG = &quot;AudioPlayer&quot;;</div><div class="line"></div><div class="line">    private static final int DEFAULT_STREAM_TYPE = AudioManager.STREAM_MUSIC;</div><div class="line">    private static final int DEFAULT_SAMPLE_RATE = 44100;</div><div class="line">    private static final int DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_STEREO;</div><div class="line">    private static final int DEFAULT_AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;</div><div class="line">    private static final int DEFAULT_PLAY_MODE = AudioTrack.MODE_STREAM;</div><div class="line"></div><div class="line">    private boolean mIsPlayStarted = false;</div><div class="line">    private int mMinBufferSize = 0;</div><div class="line">    private AudioTrack mAudioTrack;</div><div class="line"></div><div class="line">    public boolean startPlayer() &#123;</div><div class="line">        return startPlayer(DEFAULT_STREAM_TYPE,DEFAULT_SAMPLE_RATE,DEFAULT_CHANNEL_CONFIG,DEFAULT_AUDIO_FORMAT);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean startPlayer(int streamType, int sampleRateInHz, int channelConfig, int audioFormat) &#123;</div><div class="line"></div><div class="line">        if (mIsPlayStarted) &#123;</div><div class="line">            Log.e(TAG, &quot;Player already started !&quot;);</div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        mMinBufferSize = AudioTrack.getMinBufferSize(sampleRateInHz,channelConfig,audioFormat);</div><div class="line">        if (mMinBufferSize == AudioTrack.ERROR_BAD_VALUE) &#123;</div><div class="line">            Log.e(TAG, &quot;Invalid parameter !&quot;);</div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line">        Log.d(TAG , &quot;getMinBufferSize = &quot;+mMinBufferSize+&quot; bytes !&quot;);</div><div class="line"></div><div class="line">        mAudioTrack = new AudioTrack(streamType,sampleRateInHz,channelConfig,audioFormat,mMinBufferSize,DEFAULT_PLAY_MODE);</div><div class="line">        if (mAudioTrack.getState() == AudioTrack.STATE_UNINITIALIZED) &#123;</div><div class="line">            Log.e(TAG, &quot;AudioTrack initialize fail !&quot;);</div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        mIsPlayStarted = true;</div><div class="line"></div><div class="line">        Log.d(TAG, &quot;Start audio player success !&quot;);</div><div class="line"></div><div class="line">        return true;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getMinBufferSize() &#123;</div><div class="line">        return mMinBufferSize;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void stopPlayer() &#123;</div><div class="line"></div><div class="line">        if (!mIsPlayStarted) &#123;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        if (mAudioTrack.getPlayState() == AudioTrack.PLAYSTATE_PLAYING) &#123;</div><div class="line">            mAudioTrack.stop();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        mAudioTrack.release();</div><div class="line">        mIsPlayStarted = false;</div><div class="line"></div><div class="line">        Log.d(TAG, &quot;Stop audio player success !&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean play(byte[] audioData, int offsetInBytes, int sizeInBytes) &#123;</div><div class="line"></div><div class="line">        if (!mIsPlayStarted) &#123;</div><div class="line">            Log.e(TAG, &quot;Player not started !&quot;);</div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        if (sizeInBytes &lt; mMinBufferSize) &#123;</div><div class="line">            Log.e(TAG, &quot;audio data is not enough !&quot;);</div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        if (mAudioTrack.write(audioData,offsetInBytes,sizeInBytes) != sizeInBytes) &#123;</div><div class="line">            Log.e(TAG, &quot;Could not write all the samples to the audio device !&quot;);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        mAudioTrack.play();</div><div class="line"></div><div class="line">        Log.d(TAG , &quot;OK, Played &quot;+sizeInBytes+&quot; bytes !&quot;);</div><div class="line"></div><div class="line">        return true;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h5><p>音频开发的知识点其实挺多的，因此不够全面和详尽，请大家搜索专业资料进行深入了解</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag"># android</a>
+          
+            <a href="/tags/音视频/" rel="tag"># 音视频</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/28/Android音视频开发（二）/" rel="next" title="Android音频开发（二）">
+                <i class="fa fa-chevron-left"></i> Android音频开发（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/06/Android音视频开发（四）/" rel="prev" title="Android音频开发（四）：如何存储和解析wav文件">
+                Android音频开发（四）：如何存储和解析wav文件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#AudioTrack-的工作流程"><span class="nav-number">1.</span> <span class="nav-text">AudioTrack 的工作流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AudioTrack-的参数配置"><span class="nav-number">2.</span> <span class="nav-text">AudioTrack 的参数配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#示例代码"><span class="nav-number">3.</span> <span class="nav-text">示例代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-03-26 03:22</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
