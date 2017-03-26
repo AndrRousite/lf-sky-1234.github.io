@@ -1,0 +1,752 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android,音视频," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Android真正有价值的是与具体的业务方向结合。Android与音视频技术，Android与智能硬件交互，Android与前端技术的融合与探索，Android信息安全，Android源码深度定制等等
+
+Android 官方的 MediaCodec API首先，我们了解一下 Android 官方提供的音频编解码的 API，即 MediaCodec 类，该 API 是在 Andorid 4.1 （">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android音频开发（五）：音频数据的编解码">
+<meta property="og:url" content="https://AndrRousite.github.io/2016/10/09/Android音视频开发（五）/index.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="Android真正有价值的是与具体的业务方向结合。Android与音视频技术，Android与智能硬件交互，Android与前端技术的融合与探索，Android信息安全，Android源码深度定制等等
+
+Android 官方的 MediaCodec API首先，我们了解一下 Android 官方提供的音频编解码的 API，即 MediaCodec 类，该 API 是在 Andorid 4.1 （">
+<meta property="og:image" content="https://AndrRousite.github.io/images/Android音视频开发/1490468725.jpg">
+<meta property="og:image" content="https://AndrRousite.github.io/images/Android音视频开发/1490468922.jpg">
+<meta property="og:updated_time" content="2017-03-26T17:26:32.301Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android音频开发（五）：音频数据的编解码">
+<meta name="twitter:description" content="Android真正有价值的是与具体的业务方向结合。Android与音视频技术，Android与智能硬件交互，Android与前端技术的融合与探索，Android信息安全，Android源码深度定制等等
+
+Android 官方的 MediaCodec API首先，我们了解一下 Android 官方提供的音频编解码的 API，即 MediaCodec 类，该 API 是在 Andorid 4.1 （">
+<meta name="twitter:image" content="https://AndrRousite.github.io/images/Android音视频开发/1490468725.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/2016/10/09/Android音视频开发（五）/"/>
+
+
+
+
+
+  <title> Android音频开发（五）：音频数据的编解码 | AndrRousite </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://AndrRousite.github.io/2016/10/09/Android音视频开发（五）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liu-feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AndrRousite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android音频开发（五）：音频数据的编解码
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-09T22:02:16+08:00">
+                2016-10-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Android真正有价值的是与具体的业务方向结合。<br>Android与音视频技术，Android与智能硬件交互，Android与前端技术的融合与探索，Android信息安全，Android源码深度定制等等</p>
+</blockquote>
+<h4 id="Android-官方的-MediaCodec-API"><a href="#Android-官方的-MediaCodec-API" class="headerlink" title="Android 官方的 MediaCodec API"></a>Android 官方的 MediaCodec API</h4><p>首先，我们了解一下 Android 官方提供的音频编解码的 API，即 MediaCodec 类，该 API 是在 Andorid 4.1 （API 16） 版本引入的，因此只能工作于 Android 4.1 以上的手机上。</p>
+<ol>
+<li>MediaCodec 基本介绍<ul>
+<li>提供了一套访问 Android 底层多媒体模块的接口，主要是音视频的编解码接口</li>
+<li>Android 底层多媒体模块采用的是 OpenMax 框架，任何 Android 底层编解码模块的实现，都必须遵循 OpenMax 标准。Google 官方默认提供了一系列的软件编解码器：包括：OMX.google.h264.encoder，OMX.google.h264.encoder， OMX.google.aac.encoder， OMX.google.aac.decoder 等等，而硬件编解码功能，则需要由芯片厂商依照 OpenMax 框架标准来完成，所以，一般采用不同芯片型号的手机，硬件编解码的实现和性能是不同的</li>
+<li>Android 应用层统一由 MediaCodec API 来提供各种音视频编解码功能，由参数配置来决定采用何种编解码算法、是否采用硬件编解码加速等等</li>
+</ul>
+</li>
+<li><p>MediaCodec 核心原理</p>
+<p> 我不准备详细介绍 MediaCodec API 的每个函数是怎么用，示例代码大家可以在后面给出的资源链接中查看和学习。</p>
+<p> 这里我准备重点介绍一下 MediaCodec 的核心工作原理，因为只有搞清楚了这一点，你才会明白为什么 MediaCodec API 提供的接口是这个样子的。</p>
+<p> MediaCodec 使用的基本流程是：</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- createEncoderByType/createDecoderByType</div><div class="line">        - configure</div><div class="line">        - start</div><div class="line">        - while(1) &#123;</div><div class="line">            - dequeueInputBuffer</div><div class="line">            - queueInputBuffer</div><div class="line">            - dequeueOutputBuffer</div><div class="line">            - releaseOutputBuffer</div><div class="line">        &#125;</div><div class="line">        - stop</div><div class="line">        - release</div></pre></td></tr></table></figure>
+</code></pre><p> 由此可以看到，Buffer 队列的操作是其最核心的部分之一，关于 MediaCodec 的 Buffer 队列 ，示意图如下：</p>
+<p> <img src="/images/Android音视频开发/1490468725.jpg" alt="1490468725.jpg"></p>
+<p> MediaCodec 架构上采用了2个缓冲区队列，异步处理数据，下面描述的 Client 和 MediaCodec 模块是并行工作的（注：这里的 Client 就是指 “开发者，API 的使用者”）：</p>
+<p> （1）Client 从 input 缓冲区队列申请 empty buffer [dequeueInputBuffer]</p>
+<p> （2）Client 把需要编解码的数据拷贝到 empty buffer，然后放入 input 缓冲区队列 [queueInputBuffer]</p>
+<p> （3）MediaCodec 模块从 input 缓冲区队列取一帧数据进行编解码处理</p>
+<p> （4）编解码处理结束后，MediaCodec 将原始数据 buffer 置为 empty 后放回 input 缓冲区队列，将编解码后的数据放入到 output 缓冲区队列</p>
+<p> （5）Client 从 output 缓冲区队列申请编解码后的 buffer [dequeueOutputBuffer]</p>
+<p> （6）Client 对编解码后的 buffer 进行渲染/播放</p>
+<p> （7）渲染/播放完成后，Client 再将该 buffer 放回 output 缓冲区队列 [releaseOutputBuffer]</p>
+<p> MediaCodec 在架构上，其实是采用了一种基于“环形缓冲区”的“生产者-消费者”模式，它设计了 2 个基于 idx 序号的“环形缓冲区” ，注意，是 2 个，一个在 input 端， 一个在 output 端。</p>
+<p> 我曾经在 Github 上分享过一段 Linux C 代码，名叫：“rw_queue”，就是这种环形缓冲区的简化版，大家有兴趣可以看看，地址：<a href="https://github.com/Jhuster/clib/tree/master/rw_queue" target="_blank" rel="external">https://github.com/Jhuster/clib/tree/master/rw_queue</a></p>
+<p> 基于 idx 的环形缓冲区的总体示意图如下，图中，wp 代表 “写指针”，指向的是 “empty buffer”， 而 rp 代表 “读指针”，指向的是 “filled buffer”：</p>
+<p> <img src="/images/Android音视频开发/1490468922.jpg" alt="1490468922.jpg"></p>
+<p> “生产者”和“消费者”其实是共用这一个缓冲区队列，“生产者”负责从队列中取出未使用的 Buffer，填入数据，然后放回队列，“消费者”则负责取出填入数据后的 Buffer，进行处理，处理结束后，再把 Buffer 标记为“空”，退回到队列中去以供“生产者”继续填充数据。</p>
+<p> 在 input 端，“Client”是这个环形缓冲区“生产者”，“MediaoCodec 模块”是“消费者”。<br> 在 output 端，“MediaoCodec 模块”是这个环形缓冲区“生产者”，而“Client”则变成了“消费者”。</p>
+<p> 这就是其核心的工作原理，其实并不复杂，大家静下心来，很快就能理解其中的奥妙。</p>
+</li>
+<li><p>参考资源</p>
+<p> 关于 MediaCodec 的示例代码，网上其实也很多了，直接给出一些个人觉得不错的链接，有兴趣的小伙伴们可以去研究一下。</p>
+<p> （1）Android 官方文档： <a href="http://developer.android.com/intl/zh-cn/reference/android/media/MediaCodec.html" target="_blank" rel="external">《MediaCodec》</a><br> （2）<a href="http://bigflake.com/mediacodec/" target="_blank" rel="external">《Android MediaCodec stuff》</a><br> （3）<a href="https://github.com/OnlyInAmerica/HWEncoderExperiments" target="_blank" rel="external">《HWEncoderExperiments》</a><br> （4）一些开源的播放器 Android 源码，如 <a href="https://github.com/videolan/vlc" target="_blank" rel="external">VLC</a>、<a href="https://github.com/Bilibili/ijkplayer" target="_blank" rel="external">ijkplayer</a></p>
+</li>
+</ol>
+<h4 id="第三方音频编解码的库"><a href="#第三方音频编解码的库" class="headerlink" title="第三方音频编解码的库"></a>第三方音频编解码的库</h4><p>官方的 MediaCodec API 虽然支持硬件编解码加速，但是问题和局限还是很多的，一方面是只能在 Android 4.1 以上机型上才能使用，另一方面，由于 Android 手机种类繁多，厂商对底层源码的修改各不相同，导致 MediaCodec API 在实际使用中，会遇到很多坑，有很多兼容性的问题，因此，我们也可以考虑采用第三方的编解码库。</p>
+<p>这里，我简单推荐几款第三方音频编解码库（可以移植到 Android 平台的），大家可以直接去官网或者项目主页了解其详细信息。</p>
+<p>（1） opus 编解码库<br>很喜欢 opus，低码率下 opus 完胜曾经优势明显的 HE AAC，我曾经用它实现了一款 Android 局域网的VoIP网络电话应用：“飞鸽电话”，效果很不错。</p>
+<p>opus 官网地址：<a href="https://www.opus-codec.org" target="_blank" rel="external">https://www.opus-codec.org</a></p>
+<p>注：如今 Android 5.0 已经官方支持 opus 格式了，关于 Android 支持的多媒体格式列表可以查看 Android developer guide：<a href="http://developer.android.com/intl/zh-cn/guide/appendix/media-formats.html" target="_blank" rel="external">《Supported Media Formats》</a></p>
+<p>（2） Speex 编解码库<br>老牌的音频处理库，不仅是编解码，还提供了包括音频去噪、回声消除、静音检测等功能，官网地址：<a href="http://www.speex.org" target="_blank" rel="external">http://www.speex.org</a></p>
+<p>（3） ffmpeg<br>大名鼎鼎的 ffmpeg 肯定不能错过，官网：<a href="https://www.ffmpeg.org" target="_blank" rel="external">https://www.ffmpeg.org</a></p>
+<p>（4）Android AAC Encoder<br>一款轻量级的 Android aac 编码库：<a href="https://github.com/timsu/android-aac-enc" target="_blank" rel="external">https://github.com/timsu/android-aac-enc</a></p>
+<p>（5）opencore-amr-android<br>从 opencore 抽取出来的 amr 编解码库，地址：<a href="https://github.com/kevinho/opencore-amr-android" target="_blank" rel="external">https://github.com/kevinho/opencore-amr-android</a></p>
+<p>（6）iLBC-Android<br>iLBC 是著名的 WebRTC 项目的音频编解码模块，iLBC-Android 是从中抽取 iLBC 模块移植到 Android 平台的个人项目，地址：<a href="https://github.com/lukeweber/iLBC-Android" target="_blank" rel="external">https://github.com/lukeweber/iLBC-Android</a></p>
+<p>关于第三方编解码库就简单介绍到这里了，最后三个是个人项目，我没有使用过，真心感谢这些作者的无私奉献，另外，更多的第三方库欢迎大家留言或者来信补充。</p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>音频开发的知识点其实挺多的，因此不够全面和详尽，请大家搜索专业资料进行深入了解</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag"># android</a>
+          
+            <a href="/tags/音视频/" rel="tag"># 音视频</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/06/Android音视频开发（四）/" rel="next" title="Android音频开发（四）：如何存储和解析wav文件">
+                <i class="fa fa-chevron-left"></i> Android音频开发（四）：如何存储和解析wav文件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/27/Android进阶整理总结/" rel="prev" title="Android进阶整理总结">
+                Android进阶整理总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Android-官方的-MediaCodec-API"><span class="nav-number">1.</span> <span class="nav-text">Android 官方的 MediaCodec API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三方音频编解码的库"><span class="nav-number">2.</span> <span class="nav-text">第三方音频编解码的库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-03-27 02:54</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
