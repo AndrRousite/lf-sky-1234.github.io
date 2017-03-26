@@ -104,7 +104,7 @@
 音频采集/播放
 音频处理算法（去噪，静音检测，回声消">
 <meta property="og:image" content="https://AndrRousite.github.io/images/Android音视频开发/1490456737.jpg">
-<meta property="og:updated_time" content="2017-03-25T18:25:29.016Z">
+<meta property="og:updated_time" content="2017-03-26T06:49:08.755Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android音频开发（一）">
 <meta name="twitter:description" content="Android真正有价值的是与具体的业务方向结合。Android与音视频技术，Android与智能硬件交互，Android与前端技术的融合与探索，Android信息安全，Android源码深度定制等等
@@ -351,15 +351,15 @@
         <blockquote>
 <p>Android真正有价值的是与具体的业务方向结合。<br>Android与音视频技术，Android与智能硬件交互，Android与前端技术的融合与探索，Android信息安全，Android源码深度定制等等</p>
 </blockquote>
-<h5 id="音频开发主要应用有哪些"><a href="#音频开发主要应用有哪些" class="headerlink" title="音频开发主要应用有哪些"></a>音频开发主要应用有哪些</h5><p>音频播放器，录音机，语音电话，音视频监控应用，音视频直播应用，音频编辑/处理软件，蓝牙耳机/音响等。</p>
-<h5 id="音频开发具体内容"><a href="#音频开发具体内容" class="headerlink" title="音频开发具体内容"></a>音频开发具体内容</h5><ul>
+<h4 id="音频开发主要应用有哪些"><a href="#音频开发主要应用有哪些" class="headerlink" title="音频开发主要应用有哪些"></a>音频开发主要应用有哪些</h4><p>音频播放器，录音机，语音电话，音视频监控应用，音视频直播应用，音频编辑/处理软件，蓝牙耳机/音响等。</p>
+<h4 id="音频开发具体内容"><a href="#音频开发具体内容" class="headerlink" title="音频开发具体内容"></a>音频开发具体内容</h4><ul>
 <li>音频采集/播放</li>
 <li>音频处理算法（去噪，静音检测，回声消除，音效处理，功放/增强，混音/分离，等）</li>
 <li>音频的编解码和格式转换</li>
 <li>音频传输协议的开发（SIP，A2DP，AVRCP，等）</li>
 </ul>
-<h5 id="音频应用的难点"><a href="#音频应用的难点" class="headerlink" title="音频应用的难点"></a>音频应用的难点</h5><p>延时敏感，卡顿敏感，噪音抑制（Denoise），回声消除（AEC），静音检测（VAD），混音算法等</p>
-<h5 id="音频开发基础概念"><a href="#音频开发基础概念" class="headerlink" title="音频开发基础概念"></a>音频开发基础概念</h5><ol>
+<h4 id="音频应用的难点"><a href="#音频应用的难点" class="headerlink" title="音频应用的难点"></a>音频应用的难点</h4><p>延时敏感，卡顿敏感，噪音抑制（Denoise），回声消除（AEC），静音检测（VAD），混音算法等</p>
+<h4 id="音频开发基础概念"><a href="#音频开发基础概念" class="headerlink" title="音频开发基础概念"></a>音频开发基础概念</h4><ol>
 <li><p>采样率（samplerate）<br>采样就是把模拟信号数字化的过程，不仅仅是音频需要采样，所有的模拟信号都需要通过采样转换为可以用机器码0101来表示的数字信号，如图</p>
 <p><img src="/images/Android音视频开发/1490456737.jpg" alt="1490456737.jpg"><br>蓝色代表模拟的音频信号，红色代表的采样得到的量化数值</p>
 <p>采样的频率越高，红色的间隔就越密集，记录这一段音频信号所用的数据量就越大，同时音频的质量也就越好</p>
@@ -378,20 +378,20 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">假设某通道的音频信号时采样率为8kHz，位宽为16bit，20ms一帧，双通道，则一帧音频数据大小为：</div><div class="line">int size = 8000 * 16bit * 0.02s * 2 = 5120bit = 640byte = 0.64kb</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<h5 id="常见的音频编码方式"><a href="#常见的音频编码方式" class="headerlink" title="常见的音频编码方式"></a>常见的音频编码方式</h5><p>上面提到的模拟信号转换为数字信号需要通过采样和量化，量化的过程被成为编码，根据不同的量化策略，产生了许多不同的编码方式，</p>
+<h4 id="常见的音频编码方式"><a href="#常见的音频编码方式" class="headerlink" title="常见的音频编码方式"></a>常见的音频编码方式</h4><p>上面提到的模拟信号转换为数字信号需要通过采样和量化，量化的过程被成为编码，根据不同的量化策略，产生了许多不同的编码方式，</p>
 <p>常见的编码方式有：PCM和ADPCM，这些数据代表着无损的原始数字音频信号，添加一些文件头信息，就可以博阿村为WAV文件，它是由微软和IBM联合开发的音频数字存储的标准，可以很容易被解析和播放。</p>
 <p>我们在音频开发过程中，会经常涉及到WAV文件的读写，以验证采集，传输，接受的音频数据的正确性。</p>
-<h5 id="常见的音频压缩格式"><a href="#常见的音频压缩格式" class="headerlink" title="常见的音频压缩格式"></a>常见的音频压缩格式</h5><p>首先简单介绍一下音频数据压缩的基本原理：采集的音频信号有冗余信息，所以可以压缩</p>
+<h4 id="常见的音频压缩格式"><a href="#常见的音频压缩格式" class="headerlink" title="常见的音频压缩格式"></a>常见的音频压缩格式</h4><p>首先简单介绍一下音频数据压缩的基本原理：采集的音频信号有冗余信息，所以可以压缩</p>
 <ol>
 <li>频谱掩蔽效应：人耳所能察觉的声音信号的频率范围为20Hz~20kHz，在这个频率范围以外的音频信号属于冗余信号</li>
 <li>时域掩蔽效应：当强音信号和弱音信号同时出现，弱信号会听不到，因此弱音信号页属于冗余信号。</li>
 </ol>
 <p>下面列出常见的音频压缩格式：<br>MP3，AAC，OGG，WMA，Opus，FLAC，APE，m4a，AMR等</p>
-<h5 id="Android-VoIP（网络电话）的开源应用"><a href="#Android-VoIP（网络电话）的开源应用" class="headerlink" title="Android VoIP（网络电话）的开源应用"></a>Android VoIP（网络电话）的开源应用</h5><p>imsdroid,sipdroid,csipsimple,linphone,WebRTC等</p>
-<h5 id="音频算法处理的开源库"><a href="#音频算法处理的开源库" class="headerlink" title="音频算法处理的开源库"></a>音频算法处理的开源库</h5><p>speex,ffmpeg,webrtc audio module(NS,VAD,AECM,AGC)等</p>
-<h5 id="Android系统音频开发API"><a href="#Android系统音频开发API" class="headerlink" title="Android系统音频开发API"></a>Android系统音频开发API</h5><p>音频采集：MediaRecoder,AudioRecord<br>音频播放：SoundPool,MediaPlayer,AudioTrack<br>音频编解码：MediaCodec<br>NDK API：OpenSL ES</p>
-<h5 id="音频开发的延时标准"><a href="#音频开发的延时标准" class="headerlink" title="音频开发的延时标准"></a>音频开发的延时标准</h5><p>ITU-TG.114规定，对于高质量语音可接受的时延是300ms。一般来说，如果时延在300~400ms，通话的交互性较差，但是可以接受。如果时延大于400ms时，则交互通信非常困难。</p>
-<h5 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h5><p>音频开发的知识点其实挺多的，因此不够全面和详尽，请大家搜索专业资料进行深入了解</p>
+<h4 id="Android-VoIP（网络电话）的开源应用"><a href="#Android-VoIP（网络电话）的开源应用" class="headerlink" title="Android VoIP（网络电话）的开源应用"></a>Android VoIP（网络电话）的开源应用</h4><p>imsdroid,sipdroid,csipsimple,linphone,WebRTC等</p>
+<h4 id="音频算法处理的开源库"><a href="#音频算法处理的开源库" class="headerlink" title="音频算法处理的开源库"></a>音频算法处理的开源库</h4><p>speex,ffmpeg,webrtc audio module(NS,VAD,AECM,AGC)等</p>
+<h4 id="Android系统音频开发API"><a href="#Android系统音频开发API" class="headerlink" title="Android系统音频开发API"></a>Android系统音频开发API</h4><p>音频采集：MediaRecoder,AudioRecord<br>音频播放：SoundPool,MediaPlayer,AudioTrack<br>音频编解码：MediaCodec<br>NDK API：OpenSL ES</p>
+<h4 id="音频开发的延时标准"><a href="#音频开发的延时标准" class="headerlink" title="音频开发的延时标准"></a>音频开发的延时标准</h4><p>ITU-TG.114规定，对于高质量语音可接受的时延是300ms。一般来说，如果时延在300~400ms，通话的交互性较差，但是可以接受。如果时延大于400ms时，则交互通信非常困难。</p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>音频开发的知识点其实挺多的，因此不够全面和详尽，请大家搜索专业资料进行深入了解</p>
 
       
     </div>
@@ -568,7 +568,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#音频开发主要应用有哪些"><span class="nav-number">1.</span> <span class="nav-text">音频开发主要应用有哪些</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#音频开发具体内容"><span class="nav-number">2.</span> <span class="nav-text">音频开发具体内容</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#音频应用的难点"><span class="nav-number">3.</span> <span class="nav-text">音频应用的难点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#音频开发基础概念"><span class="nav-number">4.</span> <span class="nav-text">音频开发基础概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#常见的音频编码方式"><span class="nav-number">5.</span> <span class="nav-text">常见的音频编码方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#常见的音频压缩格式"><span class="nav-number">6.</span> <span class="nav-text">常见的音频压缩格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Android-VoIP（网络电话）的开源应用"><span class="nav-number">7.</span> <span class="nav-text">Android VoIP（网络电话）的开源应用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#音频算法处理的开源库"><span class="nav-number">8.</span> <span class="nav-text">音频算法处理的开源库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Android系统音频开发API"><span class="nav-number">9.</span> <span class="nav-text">Android系统音频开发API</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#音频开发的延时标准"><span class="nav-number">10.</span> <span class="nav-text">音频开发的延时标准</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#小结"><span class="nav-number">11.</span> <span class="nav-text">小结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#音频开发主要应用有哪些"><span class="nav-number">1.</span> <span class="nav-text">音频开发主要应用有哪些</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#音频开发具体内容"><span class="nav-number">2.</span> <span class="nav-text">音频开发具体内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#音频应用的难点"><span class="nav-number">3.</span> <span class="nav-text">音频应用的难点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#音频开发基础概念"><span class="nav-number">4.</span> <span class="nav-text">音频开发基础概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常见的音频编码方式"><span class="nav-number">5.</span> <span class="nav-text">常见的音频编码方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常见的音频压缩格式"><span class="nav-number">6.</span> <span class="nav-text">常见的音频压缩格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Android-VoIP（网络电话）的开源应用"><span class="nav-number">7.</span> <span class="nav-text">Android VoIP（网络电话）的开源应用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#音频算法处理的开源库"><span class="nav-number">8.</span> <span class="nav-text">音频算法处理的开源库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Android系统音频开发API"><span class="nav-number">9.</span> <span class="nav-text">Android系统音频开发API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#音频开发的延时标准"><span class="nav-number">10.</span> <span class="nav-text">音频开发的延时标准</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小结"><span class="nav-number">11.</span> <span class="nav-text">小结</span></a></li></ol></div>
             
 
           </div>
@@ -591,7 +591,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017-03-26 03:22</span>
+  <span itemprop="copyrightYear">2017-03-26 02:49</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
