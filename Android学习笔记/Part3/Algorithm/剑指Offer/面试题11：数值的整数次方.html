@@ -1,0 +1,561 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#面试题11 数值的整数次方题目：
+
+实现函数double Power(double base,int exponent)，求base的exponent次方，不得使用库函数，同时不需要考虑大数问题。
+
+看到了很多人会这样写：
+1234567public static double powerWithExponent(double base,int exponent)&amp;#123;		double r">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part3/Algorithm/剑指Offer/面试题11：数值的整数次方.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="#面试题11 数值的整数次方题目：
+
+实现函数double Power(double base,int exponent)，求base的exponent次方，不得使用库函数，同时不需要考虑大数问题。
+
+看到了很多人会这样写：
+1234567public static double powerWithExponent(double base,int exponent)&amp;#123;		double r">
+<meta property="og:image" content="http://img.blog.csdn.net/20150731084039653">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.202Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="#面试题11 数值的整数次方题目：
+
+实现函数double Power(double base,int exponent)，求base的exponent次方，不得使用库函数，同时不需要考虑大数问题。
+
+看到了很多人会这样写：
+1234567public static double powerWithExponent(double base,int exponent)&amp;#123;		double r">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20150731084039653">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part3/Algorithm/剑指Offer/面试题11：数值的整数次方.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <h2 id="面试题11-数值的整数次方"><a href="#面试题11-数值的整数次方" class="headerlink" title="#面试题11 数值的整数次方"></a>#面试题11 数值的整数次方</h2><p>题目：</p>
+<blockquote>
+<p>实现函数double Power(double base,int exponent)，求base的exponent次方，不得使用库函数，同时不需要考虑大数问题。</p>
+</blockquote>
+<p>看到了很多人会这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public static double powerWithExponent(double base,int exponent)&#123;</div><div class="line">		double result = 1.0;</div><div class="line">		for(int i = 1; i &lt;= exponent; i++)&#123;</div><div class="line">			result = result * base;</div><div class="line">		&#125;</div><div class="line">		return result;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>输入的指数(exponent)小于1即是零和负数时怎么办？</p>
+<p>当指数为负数的时候，可以先对指数求绝对值，然后算出次方的结果之后再取倒数，当底数(base)是零且指数是负数的时候，如果不做特殊处理，就会出现对0求倒数从而导致程序运行出错。最后，由于0的0次方在数学上是没有意义的，因此无论是输出0还是1都是可以接受的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">public double power(double base, int exponent) throws Exception &#123;</div><div class="line">		double result = 0.0;</div><div class="line">		if (equal(base, 0.0) &amp;&amp; exponent &lt; 0) &#123;</div><div class="line">			throw new Exception(&quot;0的负数次幂无意义&quot;);</div><div class="line">		&#125;</div><div class="line">		if (equal(exponent, 0)) &#123;</div><div class="line">			return 1.0;</div><div class="line">		&#125;</div><div class="line">		if (exponent &lt; 0) &#123;</div><div class="line">			result = powerWithExponent(1.0 / base, -exponent);</div><div class="line">		&#125; else &#123;</div><div class="line">			result = powerWithExponent(base, exponent);</div><div class="line">		&#125;</div><div class="line">		return result;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	private double powerWithExponent(double base, int exponent) &#123;</div><div class="line">		double result = 1.0;</div><div class="line">		for (int i = 1; i &lt;= exponent; i++) &#123;</div><div class="line">			result = result * base;</div><div class="line">		&#125;</div><div class="line">		return result;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	// 判断两个double型数据，计算机有误差</div><div class="line">	private boolean equal(double num1, double num2) &#123;</div><div class="line">		if ((num1 - num2 &gt; -0.0000001) &amp;&amp; (num1 - num2 &lt; 0.0000001)) &#123;</div><div class="line">			return true;</div><div class="line">		&#125; else &#123;</div><div class="line">			return false;</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>一个细节，再判断底数base是不是等于0时，不能直接写base==0，这是因为在计算机内表示小数时(包括float和double型小数)都有误差。判断两个数是否相等，只能判断 它们之间的绝对值是不是在一个很小的范围内。如果两个数相差很小，就可以认为它们相等。</p>
+<p>还有更快的方法。</p>
+<p>如果我们的目标是求出一个数字的32次方，如果我们已经知道了它的16次方，那么只要在16次方的基础上再平方一次就好了，依此类推，我们求32次方只需要做5次乘法。</p>
+<p>我们可以利用如下公式：</p>
+<p><img src="http://img.blog.csdn.net/20150731084039653" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">private double powerWithExponent2(double base,int exponent)&#123;</div><div class="line">		if(exponent == 0)&#123;</div><div class="line">			return 1;</div><div class="line">		&#125;</div><div class="line">		if(exponent == 1)&#123;</div><div class="line">			return base;</div><div class="line">		&#125;</div><div class="line">		double result = powerWithExponent2(base, exponent &gt;&gt; 1);</div><div class="line">		result *= result;</div><div class="line">		if((exponent&amp;0x1) == 1)&#123;</div><div class="line">			result *= base;</div><div class="line">		&#125;</div><div class="line">		return result;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>我们用右移运算代替除2，用位与运算符代替了求余运算符（%)来判断一个数是奇数还是偶数。位运算的效率比乘除法及求余运算的效率要高很多。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

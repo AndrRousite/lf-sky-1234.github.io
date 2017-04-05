@@ -1,0 +1,945 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="第一部分：
+Android(安卓)
+
+Android基础知识
+Android内存泄漏总结
+Handler内存泄漏分析及解决
+Handler、Looper、Message、MessageQueue基础流程分析
+Android性能优化
+ListView详解
+RecyclerView和ListView的异同
+AsyncTask源码分析
+插件化技术
+自定义控件
+事件分发机制
+ANR问题
+Art和Dalvi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android学习笔记">
+<meta property="og:url" content="https://AndrRousite.github.io/2017/03/06/Android学习笔记/index.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="第一部分：
+Android(安卓)
+
+Android基础知识
+Android内存泄漏总结
+Handler内存泄漏分析及解决
+Handler、Looper、Message、MessageQueue基础流程分析
+Android性能优化
+ListView详解
+RecyclerView和ListView的异同
+AsyncTask源码分析
+插件化技术
+自定义控件
+事件分发机制
+ANR问题
+Art和Dalvi">
+<meta property="og:updated_time" content="2017-04-05T17:11:13.574Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android学习笔记">
+<meta name="twitter:description" content="第一部分：
+Android(安卓)
+
+Android基础知识
+Android内存泄漏总结
+Handler内存泄漏分析及解决
+Handler、Looper、Message、MessageQueue基础流程分析
+Android性能优化
+ListView详解
+RecyclerView和ListView的异同
+AsyncTask源码分析
+插件化技术
+自定义控件
+事件分发机制
+ANR问题
+Art和Dalvi">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/2017/03/06/Android学习笔记/"/>
+
+
+
+
+
+  <title> Android学习笔记 | AndrRousite </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://AndrRousite.github.io/2017/03/06/Android学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liu-feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AndrRousite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android学习笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-06T00:49:19+08:00">
+                2017-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="第一部分："><a href="#第一部分：" class="headerlink" title="第一部分："></a>第一部分：</h2><ul>
+<li><p><a href="/Android学习笔记/Part1/Android">Android(安卓)</a></p>
+<ul>
+<li><a href="/Android学习笔记/Part1/Android/Android基础知识.html">Android基础知识</a></li>
+<li><a href="/Android学习笔记/Part1/Android/Android内存泄漏总结.html">Android内存泄漏总结</a></li>
+<li><a href="/Android学习笔记/Part1/Android/Handler内存泄漏分析及解决.html">Handler内存泄漏分析及解决</a></li>
+<li><a href="/Android学习笔记/Part1/Android/线程通信基础流程分析.html">Handler、Looper、Message、MessageQueue基础流程分析</a></li>
+<li><a href="/Android学习笔记/Part1/Android/Android性能优化.html">Android性能优化</a></li>
+<li><a href="/Android学习笔记/Part1/Android/Listview详解.html">ListView详解</a></li>
+<li><a href="/Android学习笔记/Part1/Android/Recyclerview和Listview的异同.html">RecyclerView和ListView的异同</a></li>
+<li><a href="/Android学习笔记/Part1/Android/Asynctask源码分析.html">AsyncTask源码分析</a></li>
+<li><a href="/Android学习笔记/Part1/Android/插件化技术学习.html">插件化技术</a></li>
+<li><a href="/Android学习笔记/Part1/Android/自定义控件.html">自定义控件</a></li>
+<li><a href="http://www.jianshu.com/p/e99b5e8bd67b" target="_blank" rel="external">事件分发机制</a></li>
+<li><a href="/Android学习笔记/Part1/Android/ANR问题.html">ANR问题</a></li>
+<li><a href="/Android学习笔记/Part1/Android/Art和Dalvik区别.html">Art和Dalvik的区别</a></li>
+<li><a href="/Android学习笔记/Part1/Android/Android关于oom的解决方案.html">Android关于OOM的解决方案</a></li>
+<li><a href="/Android学习笔记/Part1/Android/Fragment.html">Fragment</a></li>
+<li><a href="https://github.com/xxv/android-lifecycle" target="_blank" rel="external">Activity&amp;Fragment</a></li>
+<li><a href="/Android学习笔记/Part1/Android/SurfaceView.html">SurfaceView</a></li>
+<li><a href="/Android学习笔记/Part1/Android/Android几种进程.html">Android几种进程</a></li>
+<li><a href="/Android学习笔记/Part1/Android/APP启动过程.html">APP启动过程</a></li>
+<li>Activity启动流程以及界面展示过程</li>
+<li><a href="/Android学习笔记/Part1/Android/Android图片中的三级缓存.html">图片三级缓存</a></li>
+<li><a href="/Android学习笔记/Part1/Android/Bitmap的分析与使用.html">Bitmap的分析与使用</a></li>
+<li><a href="/Android学习笔记/Part1/Android/热修复技术.html">热修复的原理</a></li>
+<li><a href="/Android学习笔记/Part1/Android/AIDL.html">AIDL</a></li>
+<li><a href="/Android学习笔记/Part1/Android/Binder机制.html">Binder机制</a></li>
+<li><a href="/Android学习笔记/Part1/Android/Zygote和System进程的启动过程.html">Zygote和System进程的启动过程</a></li>
+<li><a href="/Android学习笔记/Part1/Android/MVC%2CMVP%2CMVVM的区别.html">Android中的MVC，MVP和MVVM</a></li>
+<li><a href="/Android学习笔记/Part1/Android/MVP.html">MVP</a></li>
+<li><a href="/Android学习笔记/Part1/Android/Android开机过程.html">Android开机过程</a></li>
+<li><a href="http://www.jianshu.com/p/c1a3a881a144" target="_blank" rel="external">Retrofit源码分析</a></li>
+<li><a href="http://frodoking.github.io/2015/10/10/android-glide/" target="_blank" rel="external">Glide源码分析</a></li>
+<li><a href="/Android学习笔记/Part1/Android/EventBus用法详解.html">EventBus用法详解</a></li>
+<li><a href="http://p.codekk.com/blogs/detail/54cfab086c4761e5001b2538" target="_blank" rel="external">EventBus源码分析</a></li>
+<li><a href="http://www.open-open.com/lib/view/open1438065400878.html" target="_blank" rel="external">Android ORM 框架之 greenDAO 使用心得</a></li>
+<li><a href="http://www.jcodecraeer.com/a/anzhuokaifa/developer/2015/0606/3005.html" target="_blank" rel="external">Data Binding（数据绑定）用户指南</a></li>
+<li><a href="http://gank.io/post/560e15be2dca930e00da1083" target="_blank" rel="external">RxJava</a></li>
+<li>设计一套图片异步加载缓存方案</li>
+<li>Android UI适配</li>
+<li><a href="http://wuxiaolong.me/categories/Gradle/" target="_blank" rel="external">Gradle</a></li>
+<li><a href="/Android学习笔记/Part1/Android/查漏补缺.html">查漏补缺</a></li>
+<li><a href="/Android学习笔记/Part1/Android/Git操作.html">Git操作</a></li>
+</ul>
+</li>
+</ul>
+<p>=======</p>
+<hr>
+<ul>
+<li><a href="/Android学习笔记/Part1/DesignPattern">DesignPattern(设计模式)</a></li>
+</ul>
+<ul>
+<li><a href="/Android学习笔记/Part1/DesignPattern/常见的面向对象设计原则.html">面向对象六大原则</a><ul>
+<li><a href="/Android学习笔记/Part1/DesignPattern/单例模式.html">单例模式</a></li>
+<li><a href="/Android学习笔记/Part1/DesignPattern/Builder模式.html">Builder模式</a></li>
+<li><a href="/Android学习笔记/Part1/DesignPattern/原型模式.html">原型模式</a></li>
+<li><a href="/Android学习笔记/Part1/DesignPattern/简单工厂.html">简单工厂</a></li>
+<li>工厂方法模式</li>
+<li>抽象工厂模式</li>
+<li><a href="/Android学习笔记/Part1/DesignPattern/策略模式.html">策略模式</a></li>
+<li>状态模式</li>
+<li><a href="/Android学习笔记/Part1/DesignPattern/责任链模式.html">责任链模式</a></li>
+<li>解释器模式</li>
+<li>命令模式</li>
+<li><a href="/Android学习笔记/Part1/DesignPattern/观察者模式.html">观察者模式</a></li>
+<li>备忘录模式</li>
+<li>迭代器模式</li>
+<li>模板方法模式</li>
+<li>访问者模式</li>
+<li>中介者模式</li>
+<li><a href="/Android学习笔记/Part1/DesignPattern/代理模式.html">代理模式</a></li>
+<li>组合模式</li>
+<li><a href="/Android学习笔记/Part1/DesignPattern/适配器模式.html">适配器模式</a></li>
+<li>装饰模式</li>
+<li>享元模式</li>
+<li><a href="/Android学习笔记/Part1/DesignPattern/外观模式.html">外观模式</a></li>
+<li>桥接模式</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="第二部分"><a href="#第二部分" class="headerlink" title="第二部分"></a>第二部分</h2><ul>
+<li><p><a href="/Android学习笔记/Part2/JavaSE">JavaSE(Java基础)</a></p>
+<ul>
+<li><a href="/Android学习笔记/Part2/JavaSE/Java基础知识.html">Java基础知识</a></li>
+<li><a href="/Android学习笔记/Part2/JavaSE/Java中的内存泄漏.html">Java中的内存泄漏</a></li>
+<li><a href="/Android学习笔记/Part2/JavaSE/String源码分析.html">String源码分析</a></li>
+<li><a href="/Android学习笔记/Part2/JavaSE/Java集合框架.html">Java集合框架</a></li>
+<li><a href="/Android学习笔记/Part2/JavaSE/ArrayList源码剖析.html">ArrayList源码剖析</a></li>
+<li><a href="/Android学习笔记/Part2/JavaSE/LinkedList源码剖析.html">LinkedList源码剖析</a></li>
+<li><a href="/Android学习笔记/Part2/JavaSE/Vector源码剖析.html">Vector源码剖析</a></li>
+<li><a href="/Android学习笔记/Part2/JavaSE/HashMap源码剖析.html">HashMap源码剖析</a></li>
+<li><a href="/Android学习笔记/Part2/JavaSE/HashTable源码剖析.html">HashTable源码剖析</a></li>
+<li><a href="/Android学习笔记/Part2/JavaSE/LinkedHashMap源码剖析.html">LinkedHashMap源码剖析</a></li>
+</ul>
+</li>
+<li><p><a href="/Android学习笔记/Part2/JVM">JVM(Java虚拟机)</a></p>
+<ul>
+<li><a href="/Android学习笔记/Part2/JVM/JVM.html">JVM基础知识</a></li>
+<li><a href="/Android学习笔记/Part2/JVM/JVM类加载机制.html">JVM类加载机制</a></li>
+<li><a href="/Android学习笔记/Part2/JVM/Java内存区域与内存溢出.html">Java内存区域与内存溢出</a></li>
+<li><a href="/Android学习笔记/Part2/JVM/垃圾回收算法.html">垃圾回收算法</a></li>
+</ul>
+</li>
+<li><p><a href="/Android学习笔记/Part2/JavaConcurrent/Java并发.html">JavaConcurrent(Java并发)</a></p>
+<ul>
+<li><a href="/Android学习笔记/Part2/JavaConcurrent/Java并发基础知识.html">Java并发基础知识</a></li>
+<li><a href="/Android学习笔记/Part2/JavaConcurrent/生产者和消费者问题.html">生产者和消费者问题</a><ul>
+<li><a href="/Android学习笔记/Part2/JavaConcurrent/Thread和Runnable实现多线程的区别.html">Thread和Runnable实现多线程的区别</a></li>
+</ul>
+</li>
+<li><a href="/Android学习笔记/Part2/JavaConcurrent/线程中断.html">线程中断</a></li>
+<li><a href="/Android学习笔记/Part2/JavaConcurrent/守护线程与阻塞线程.html">守护线程与阻塞线程</a></li>
+<li><a href="/Android学习笔记/Part2/JavaConcurrent/Synchronized.html">synchronized</a></li>
+<li><a href="/Android学习笔记/Part2/JavaConcurrent/多线程环境中安全使用集合API.html">多线程环境中安全使用集合API</a></li>
+<li><a href="/Android学习笔记/Part2/JavaConcurrent/实现内存可见的两种方法比较：加锁和volatile变量.html">实现内存可见的两种方法比较：加锁和volatile变量</a></li>
+<li><a href="/Android学习笔记/Part2/JavaConcurrent/死锁.html">死锁</a></li>
+<li><a href="/Android学习笔记/Part2/JavaConcurrent/可重入内置锁.html">可重入内置锁</a></li>
+<li><a href="/Android学习笔记/Part2/JavaConcurrent/使用wait:notify:notifyall实现线程间通信.html">使用wait/notify/notifyAll实现线程间通信</a></li>
+<li><a href="/Android学习笔记/Part2/JavaConcurrent/NIO.html">NIO</a></li>
+</ul>
+<hr>
+</li>
+</ul>
+<h2 id="第三部分"><a href="#第三部分" class="headerlink" title="第三部分"></a>第三部分</h2><ul>
+<li><a href="/Android学习笔记/Part3/DataStructure">DataStructure(数据结构)</a><ul>
+<li><a href="/Android学习笔记/Part3/DataStructure/数组.html">数组</a></li>
+<li>链表</li>
+<li><a href="/Android学习笔记/Part3/DataStructure/栈和队列.html">栈和队列</a></li>
+<li>字符串</li>
+<li>树</li>
+<li>图</li>
+</ul>
+</li>
+<li><p><a href="">Algorithm(算法)</a></p>
+<ul>
+<li><a href="https://github.com/anAngryAnt/LearningNotes/tree/master/Part3/Algorithm/Sort" target="_blank" rel="external">排序</a><ul>
+<li><a href="https://github.com/anAngryAnt/LearningNotes/tree/master/Part3/Algorithm/Sort/选择排序.html" target="_blank" rel="external">选择排序</a></li>
+<li><a href="https://github.com/anAngryAnt/LearningNotes/tree/master/Part3/Algorithm/Sort/冒泡排序.html" target="_blank" rel="external">冒泡排序</a></li>
+<li><a href="https://github.com/anAngryAnt/LearningNotes/tree/master/Part3/Algorithm/Sort/快速排序.html" target="_blank" rel="external">快速排序</a></li>
+<li><a href="https://github.com/anAngryAnt/LearningNotes/tree/master/Part3/Algorithm/Sort/归并排序.html" target="_blank" rel="external">归并排序</a></li>
+<li><a href="/Android学习笔记/Part3/Algorithm/Sort/%E9%9D%A2%E8%AF%95%E4%B8%AD%E7%9A%84%2010%20%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93.html">面试中的十大排序算法总结</a></li>
+</ul>
+</li>
+<li>查找<ul>
+<li><a href="/Android学习笔记/Part3/Algorithm/Lookup/顺序查找.html">顺序查找</a></li>
+<li><a href="/Android学习笔记/Part3/Algorithm/Lookup/折半查找.html">折半查找</a></li>
+</ul>
+</li>
+<li>《剑指Offer》<ul>
+<li><a href="/Android学习笔记/Part3/Algorithm/剑指Offer/1.七种方式实现singleton模式.html">面试题2:实现Singleton模式</a></li>
+<li><a href="/Android学习笔记/Part3/Algorithm/剑指Offer/面试题6：重建二叉树.html">面试题6：重建二叉树</a></li>
+<li><a href="/Android学习笔记/Part3/Algorithm/剑指Offer/面试题11：数值的整数次方.html">面试题11：数值的整数次方</a></li>
+<li><a href="/Android学习笔记/Part3/Algorithm/剑指Offer/面试题44：扑克牌的顺子.html">面试题44：扑克牌的顺子</a></li>
+<li><a href="/Android学习笔记/Part3/Algorithm/剑指Offer/面试题45：圆圈中最后剩下的数字.html">面试题45：圆圈中最后剩下的数字</a></li>
+</ul>
+</li>
+<li>《程序员面试金典》</li>
+<li>《LeetCode》<ul>
+<li><a href="/Android学习笔记/Part3/Algorithm/LeetCode/two-sum.html">two-sum</a></li>
+</ul>
+</li>
+<li>《程序员代码面试指南(左程云)》<ul>
+<li><a href="/Android学习笔记/Part3/Algorithm/程序员代码面试指南(左程云">1.设计一个有getMin功能的栈</a>/1.设计一个有getMin功能的栈.html)</li>
+<li><a href="/Android学习笔记/Part3/Algorithm/程序员代码面试指南(左程云">2.由两个栈组成的队列</a>/2.由两个栈组成的队列.html)</li>
+<li><a href="/Android学习笔记/Part3/Algorithm/程序员代码面试指南(左程云">3.如何仅用递归函数和栈操作逆序一个栈</a>/3.如何仅用递归函数和栈操作逆序一个栈.html)</li>
+</ul>
+</li>
+</ul>
+<hr>
+</li>
+</ul>
+<h2 id="第四部分"><a href="#第四部分" class="headerlink" title="第四部分"></a>第四部分</h2><ul>
+<li><a href="/Android学习笔记/Part4/Network">Network(网络)</a><ul>
+<li><a href="/Android学习笔记/Part4/Network/TCP与UDP.html">TCP/UDP</a></li>
+<li><a href="/Android学习笔记/Part4/Network/Http协议.html">HTTP</a></li>
+<li><a href="/Android学习笔记/Part4/Network/Socket.html">Socket</a></li>
+<li><a href="/Android学习笔记/Part4/Network/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E6%B1%87%E6%80%BB.html">计算机网络基础汇总</a></li>
+</ul>
+</li>
+<li><a href="/Android学习笔记/Part4/OperatingSystem/操作系统.html">OperatingSystem(操作系统)</a><ul>
+<li><a href="/Android学习笔记/Part4/OperatingSystem/Linux系统的IPC.html">Linux系统的IPC</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="第五部分"><a href="#第五部分" class="headerlink" title="第五部分"></a>第五部分</h2><ul>
+<li><p><a href="/Android学习笔记/Part5/ReadingNotes">ReadingNotes(读书笔记)</a></p>
+<ul>
+<li><a href="/Android学习笔记/Part5/ReadingNotes/《APP研发录》第1章读书笔记.html">《APP研发录》第1章读书笔记</a></li>
+<li><a href="/Android学习笔记/Part5/ReadingNotes/《APP研发录》第2章读书笔记.html">《APP研发录》第2章读书笔记</a></li>
+<li><a href="/Android学习笔记/Part5/ReadingNotes/《Android开发艺术探索》第一章笔记.html">《Android开发艺术探索》第一章笔记</a></li>
+<li><a href="/Android学习笔记/Part5/ReadingNotes/《Android开发艺术探索》第二章笔记.html">《Android开发艺术探索》第二章笔记</a></li>
+<li><a href="/Android学习笔记/Part5/ReadingNotes/《Android开发艺术探索》第三章笔记.html">《Android开发艺术探索》第三章笔记</a></li>
+<li><a href="/Android学习笔记/Part5/ReadingNotes/《Android开发艺术探索》第四章笔记.html">《Android开发艺术探索》第四章笔记</a></li>
+<li><a href="/Android学习笔记/Part5/ReadingNotes/《Android开发艺术探索》第八章笔记.html">《Android开发艺术探索》第八章笔记</a></li>
+<li><a href="/Android学习笔记/Part5/ReadingNotes/《Android开发艺术探索》第十五章笔记.html">《Android开发艺术探索》第十五章笔记</a></li>
+<li><a href="/Android学习笔记/Part5/ReadingNotes/《深入理解java虚拟机》第12章.html">《深入理解Java虚拟机》第12章</a></li>
+<li><a href="/Android学习笔记/Part5/ReadingNotes/《Java编程思想》第一章读书笔记.html">《Java编程思想》第一章读书笔记</a></li>
+<li><a href="/Android学习笔记/Part5/ReadingNotes/《Java编程思想》第二章读书笔记.html">《Java编程思想》第二章读书笔记</a></li>
+</ul>
+</li>
+<li><p><a href="/Android学习笔记/Part5/Project">Project(项目)</a></p>
+<ul>
+<li><a href="/Android学习笔记/Part5/Project/项目.html">项目难点</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="第六部分"><a href="#第六部分" class="headerlink" title="第六部分"></a>第六部分</h2><ul>
+<li><a href="/Android学习笔记/Part6/InterviewExperience">InterviewExperience(面试经验)</a><ul>
+<li><a href="/Android学习笔记/Part6/InterviewExperience/Alibaba.html">Alibaba</a></li>
+<li><a href="/Android学习笔记/Part6/InterviewExperience/美团.html">美团</a></li>
+<li><a href="/Android学习笔记/Part6/InterviewExperience/豌豆荚.html">豌豆荚</a></li>
+<li><a href="/Android学习笔记/Part6/InterviewExperience/蜻蜓FM.html">蜻蜓FM</a></li>
+<li><a href="/Android学习笔记/Part6/InterviewExperience/新浪微博.html">新浪微博</a></li>
+<li><a href="/Android学习笔记/Part6/InterviewExperience/网易杭研.html">网易杭研</a></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/01/眼界决定境界/" rel="next" title="眼界决定境界">
+                <i class="fa fa-chevron-left"></i> 眼界决定境界
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分："><span class="nav-number">1.</span> <span class="nav-text">第一部分：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分"><span class="nav-number">2.</span> <span class="nav-text">第二部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分"><span class="nav-number">3.</span> <span class="nav-text">第三部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四部分"><span class="nav-number">4.</span> <span class="nav-text">第四部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五部分"><span class="nav-number">5.</span> <span class="nav-text">第五部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第六部分"><span class="nav-number">6.</span> <span class="nav-text">第六部分</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

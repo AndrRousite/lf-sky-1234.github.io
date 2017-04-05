@@ -1,0 +1,597 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Bitmap的分析与使用
+Bitmap的创建
+
+创建Bitmap的时候，Java不提供new Bitmap()的形式去创建，而是通过BitmapFactory中的静态方法去创建,如:BitmapFactory.decodeStream(is);//通过InputStream去解析生成Bitmap(这里就不贴BitmapFactory中创建Bitmap的方法了，大家可以自己去看它的源码)，我们跟进B">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part1/Android/Bitmap的分析与使用.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="Bitmap的分析与使用
+Bitmap的创建
+
+创建Bitmap的时候，Java不提供new Bitmap()的形式去创建，而是通过BitmapFactory中的静态方法去创建,如:BitmapFactory.decodeStream(is);//通过InputStream去解析生成Bitmap(这里就不贴BitmapFactory中创建Bitmap的方法了，大家可以自己去看它的源码)，我们跟进B">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.118Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="Bitmap的分析与使用
+Bitmap的创建
+
+创建Bitmap的时候，Java不提供new Bitmap()的形式去创建，而是通过BitmapFactory中的静态方法去创建,如:BitmapFactory.decodeStream(is);//通过InputStream去解析生成Bitmap(这里就不贴BitmapFactory中创建Bitmap的方法了，大家可以自己去看它的源码)，我们跟进B">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part1/Android/Bitmap的分析与使用.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <h2 id="Bitmap的分析与使用"><a href="#Bitmap的分析与使用" class="headerlink" title="Bitmap的分析与使用"></a><strong>Bitmap</strong>的分析与使用</h2><ul>
+<li><p>Bitmap的创建</p>
+<ul>
+<li><p>创建Bitmap的时候，Java不提供<code>new Bitmap()</code>的形式去创建，而是通过<code>BitmapFactory</code>中的静态方法去创建,如:<code>BitmapFactory.decodeStream(is);//通过InputStream去解析生成Bitmap</code>(这里就不贴<code>BitmapFactory</code>中创建<code>Bitmap</code>的方法了，大家可以自己去看它的源码)，我们跟进<code>BitmapFactory</code>中创建<code>Bitmap</code>的源码，最终都可以追溯到这几个native函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">private static native Bitmap nativeDecodeStream(InputStream is, byte[] storage,</div><div class="line">            Rect padding, Options opts);</div><div class="line">private static native Bitmap nativeDecodeFileDescriptor(FileDescriptor fd,</div><div class="line">        Rect padding, Options opts);</div><div class="line">private static native Bitmap nativeDecodeAsset(long nativeAsset, Rect padding, Options opts);</div><div class="line">private static native Bitmap nativeDecodeByteArray(byte[] data, int offset,</div><div class="line">        int length, Options opts);</div></pre></td></tr></table></figure>
+<p>而<code>Bitmap</code>又是Java对象，这个Java对象又是从native，也就是C/C++中产生的，所以，在Android中Bitmap的内存管理涉及到两部分，一部分是<em>native</em>，另一部分是<em>dalvik</em>，也就是我们常说的java堆(如果对java堆与栈不了解的同学可以戳)，到这里基本就已经了解了创建Bitmap的一些内存中的特性(大家可以使用<code>adb shell dumpsys meminfo</code>去查看Bitmap实例化之后的内存使用情况)。</p>
+</li>
+</ul>
+</li>
+<li><p>Bitmap的使用</p>
+<ul>
+<li><p>我们已经知道了<code>BitmapFactory</code>是如何通过各种资源创建<code>Bitmap</code>了，那么我们如何合理的使用它呢？以下是几个我们使用<code>Bitmap</code>需要关注的点</p>
+<ol>
+<li><p><strong>Size</strong></p>
+<ul>
+<li>这里我们来算一下，在Android中，如果采用<code>Config.ARGB_8888</code>的参数去创建一个<code>Bitmap</code>，<a href="https://developer.android.com/reference/android/graphics/Bitmap.Config.html" target="_blank" rel="external">这是Google推荐的配置色彩参数</a>，也是Android4.4及以上版本默认创建Bitmap的Config参数(<code>Bitmap.Config.inPreferredConfig</code>的默认值)，那么每一个像素将会占用4byte，如果一张手机照片的尺寸为1280×720，那么我们可以很容易的计算出这张图片占用的内存大小为 1280x720x4 = 3686400(byte) = 3.5M，一张未经处理的照片就已经3.5M了! 显而易见，在开发当中，这是我们最需要关注的问题，否则分分钟OOM!</li>
+<li><p><em>那么，我们一般是如何处理Size这个重要的因素的呢？</em>，当然是调整<code>Bitmap</code>的大小到适合的程度啦！辛亏在<code>BitmapFactory</code>中，我们可以很方便的通过<code>BitmapFactory.Options</code>中的<code>options.inSampleSize</code>去设置<code>Bitmap</code>的压缩比，官方给出的说法是 </p>
+<blockquote>
+<p>If set to a value &gt; 1, requests the decoder to subsample the original image, returning a smaller image to save memory….For example, inSampleSize == 4 returns<br>an image that is 1/4 the width/height of the original, and 1/16 the<br>number of pixels. Any value &lt;= 1 is treated the same as 1.</p>
+</blockquote>
+<p>很简洁明了啊！也就是说，只要按计算方法设置了这个参数，就可以完成我们Bitmap的Size调整了。那么，应该怎么调整姿势才比较舒服呢？下面先介绍其中一种通过<code>InputStream</code>的方式去创建<code>Bitmap</code>的方法，上一段从Gallery中获取照片并且将图片Size调整到合适手机尺寸的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div></pre></td><td class="code"><pre><div class="line">static final int PICK_PICS = 9;</div><div class="line"></div><div class="line">public void startGallery()&#123;</div><div class="line">    Intent i = new Intent();</div><div class="line">    i.setAction(Intent.ACTION_PICK);</div><div class="line">    i.setType(&quot;image/*&quot;);</div><div class="line">    startActivityForResult(i,PICK_PICS);</div><div class="line">&#125;</div><div class="line"></div><div class="line"> private int[] getScreenWithAndHeight()&#123;</div><div class="line">    WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);</div><div class="line">    DisplayMetrics dm = new DisplayMetrics();</div><div class="line">    wm.getDefaultDisplay().getMetrics(dm);</div><div class="line">    return new int[]&#123;dm.widthPixels,dm.heightPixels&#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *</div><div class="line"> * @param actualWidth 图片实际的宽度，也就是options.outWidth</div><div class="line"> * @param actualHeight 图片实际的高度，也就是options.outHeight</div><div class="line"> * @param desiredWidth 你希望图片压缩成为的目的宽度</div><div class="line"> * @param desiredHeight 你希望图片压缩成为的目的高度</div><div class="line"> * @return</div><div class="line"> */</div><div class="line">private int findBestSampleSize(int actualWidth, int actualHeight, int desiredWidth, int desiredHeight) &#123;</div><div class="line">    double wr = (double) actualWidth / desiredWidth;</div><div class="line">    double hr = (double) actualHeight / desiredHeight;</div><div class="line">    double ratio = Math.min(wr, hr);</div><div class="line">    float n = 1.0f;</div><div class="line">    //这里我们为什么要寻找 与ratio最接近的2的倍数呢？</div><div class="line">    //原因就在于API中对于inSimpleSize的注释：最终的inSimpleSize应该为2的倍数，我们应该向上取与压缩比最接近的2的倍数。</div><div class="line">    while ((n * 2) &lt;= ratio) &#123;</div><div class="line">        n *= 2;</div><div class="line">    &#125;</div><div class="line">        </div><div class="line">    return (int) n;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@Override</div><div class="line">protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;</div><div class="line">    if(resultCode == RESULT_OK)&#123;</div><div class="line">        switch (requestCode)&#123;</div><div class="line">            case PICK_PICS:</div><div class="line">                Uri uri = data.getData();</div><div class="line">                InputStream is = null;</div><div class="line">                try &#123;</div><div class="line">                    is = getContentResolver().openInputStream(uri);</div><div class="line">                &#125; catch (FileNotFoundException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">        </div><div class="line">                BitmapFactory.Options options = new BitmapFactory.Options();</div><div class="line">                //当这个参数为true的时候,意味着你可以在解析时候不申请内存的情况下去获取Bitmap的宽和高</div><div class="line">                //这是调整Bitmap Size一个很重要的参数设置</div><div class="line">                options.inJustDecodeBounds = true;</div><div class="line">                BitmapFactory.decodeStream( is,null,options );</div><div class="line">        </div><div class="line">                int realHeight = options.outHeight;</div><div class="line">                int realWidth = options.outWidth;</div><div class="line">        </div><div class="line">                int screenWidth = getScreenWithAndHeight()[0];</div><div class="line">                </div><div class="line">                int simpleSize = findBestSampleSize(realWidth,realHeight,screenWidth,300);</div><div class="line">                options.inSampleSize = simpleSize;</div><div class="line">                //当你希望得到Bitmap实例的时候，不要忘了将这个参数设置为false</div><div class="line">                options.inJustDecodeBounds = false;</div><div class="line">        </div><div class="line">                try &#123;</div><div class="line">                    is = getContentResolver().openInputStream(uri);</div><div class="line">                &#125; catch (FileNotFoundException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">        </div><div class="line">                Bitmap bitmap = BitmapFactory.decodeStream(is,null,options);</div><div class="line">        </div><div class="line">                iv.setImageBitmap(bitmap);</div><div class="line">        </div><div class="line">                try &#123;</div><div class="line">                    is.close();</div><div class="line">                    is = null;</div><div class="line">                &#125; catch (IOException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">        </div><div class="line">                break;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    super.onActivityResult(requestCode, resultCode, data);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code> 我们来看看这段代码的功效：
+ 压缩前：![压缩前](https://leanote.com/api/file/getImage?fileId=578d9ed8ab644135ea01684c)
+ 压缩后：![压缩后](https://leanote.com/api/file/getImage?fileId=578d9f76ab644135ea016851)
+ **对比条件为：1080P的魅族Note3拍摄的高清无码照片**
+
+    2. **Reuse**
+    上面介绍了``BitmapFactory``通过``InputStream``去创建`Bitmap`的这种方式，以及``BitmapFactory.Options.inSimpleSize`` 和 ``BitmapFactory.Options.inJustDecodeBounds``的使用方法，但将单个Bitmap加载到UI是简单的，但是如果我们需要一次性加载大量的图片，事情就会变得复杂起来。`Bitmap`是吃内存大户，我们不希望多次解析相同的`Bitmap`，也不希望可能不会用到的`Bitmap`一直存在于内存中，所以，这个场景下，`Bitmap`的重用变得异常的重要。
+    *在这里只介绍一种``BitmapFactory.Options.inBitmap``的重用方式，下一篇文章会介绍使用三级缓存来实现Bitmap的重用。*
+
+          根据官方文档[在Android 3.0 引进了BitmapFactory.Options.inBitmap](https://developer.android.com/reference/android/graphics/BitmapFactory.Options.html#inBitmap)，如果这个值被设置了，decode方法会在加载内容的时候去重用已经存在的bitmap. 这意味着bitmap的内存是被重新利用的，这样可以提升性能, 并且减少了内存的分配与回收。然而，使用inBitmap有一些限制。特别是在Android 4.4 之前，只支持同等大小的位图。
+        我们看来看看这个参数最基本的运用方法。
+
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">new BitmapFactory.Options options = new BitmapFactory.Options();</div><div class="line">//inBitmap只有当inMutable为true的时候是可用的。</div><div class="line">options.inMutable = true;</div><div class="line">Bitmap reusedBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.reused_btimap,options);</div><div class="line">options.inBitmap = reusedBitmap;</div></pre></td></tr></table></figure>
+
+
+          这样，当你在下一次decodeBitmap的时候，将设置了`options.inMutable=true`以及`options.inBitmap`的`Options`传入，Android就会复用你的Bitmap了，具体实例：
+
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">protected void onCreate(@Nullable Bundle savedInstanceState) &#123;</div><div class="line">    super.onCreate(savedInstanceState);</div><div class="line">    setContentView(reuseBitmap());</div><div class="line">&#125;</div><div class="line">    </div><div class="line">private LinearLayout reuseBitmap()&#123;</div><div class="line">    LinearLayout linearLayout = new LinearLayout(this);</div><div class="line">    linearLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));</div><div class="line">    linearLayout.setOrientation(LinearLayout.VERTICAL);</div><div class="line">        </div><div class="line">    ImageView iv = new ImageView(this);</div><div class="line">    iv.setLayoutParams(new ViewGroup.LayoutParams(500,300));</div><div class="line">        </div><div class="line">    options = new BitmapFactory.Options();</div><div class="line">    options.inJustDecodeBounds = true;</div><div class="line">    //inBitmap只有当inMutable为true的时候是可用的。</div><div class="line">    options.inMutable = true;</div><div class="line">    BitmapFactory.decodeResource(getResources(),R.drawable.big_pic,options);</div><div class="line">    </div><div class="line">    //压缩Bitmap到我们希望的尺寸</div><div class="line">    //确保不会OOM</div><div class="line">    options.inSampleSize = findBestSampleSize(options.outWidth,options.outHeight,500,300);</div><div class="line">    options.inJustDecodeBounds = false;</div><div class="line">        </div><div class="line">    Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.big_pic,options);</div><div class="line">    options.inBitmap = bitmap;</div><div class="line">        </div><div class="line">    iv.setImageBitmap(bitmap);</div><div class="line">        </div><div class="line">    linearLayout.addView(iv);</div><div class="line">        </div><div class="line">    ImageView iv1 = new ImageView(this);</div><div class="line">    iv1.setLayoutParams(new ViewGroup.LayoutParams(500,300));</div><div class="line">    iv1.setImageBitmap( BitmapFactory.decodeResource(getResources(),R.drawable.big_pic,options));</div><div class="line">    linearLayout.addView(iv1);</div><div class="line">        </div><div class="line">    ImageView iv2 = new ImageView(this);</div><div class="line">    iv2.setLayoutParams(new ViewGroup.LayoutParams(500,300));</div><div class="line">    iv2.setImageBitmap( BitmapFactory.decodeResource(getResources(),R.drawable.big_pic,options));</div><div class="line">    linearLayout.addView(iv2);</div><div class="line">        </div><div class="line">        </div><div class="line">    return linearLayout;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+
+         以上代码中，我们在解析了一次一张1080P分辨率的图片，并且设置在`options.inBitmap`中，然后分别decode了同一张图片，并且传入了相同的`options`。最终只占用一份第一次解析`Bitmap`的内存。
+
+    3. **Recycle**
+    一定要记得及时回收Bitmap，否则如上分析，你的native以及dalvik的内存都会被一直占用着，最终导致OOM
+
+
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// 先判断是否已经回收</div><div class="line">if(bitmap != null &amp;&amp; !bitmap.isRecycled())&#123;</div><div class="line">    // 回收并且置为null</div><div class="line">    bitmap.recycle();</div><div class="line">    bitmap = null;</div><div class="line">&#125;</div><div class="line">System.gc();</div></pre></td></tr></table></figure>
+
+
+- Enjoy Android  :) 如果有误，轻喷，欢迎指正。
+</code></pre>
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

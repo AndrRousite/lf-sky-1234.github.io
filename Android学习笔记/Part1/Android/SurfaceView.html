@@ -1,0 +1,583 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="##为什么要使用SurfaceView来实现动画？
+###因为View的绘图存在以下缺陷：
+
+View缺乏双缓冲机制
+当程序需要更新View上的图像时，程序必须重绘View上显示的整张图片
+新线程无法直接更新View组件
+
+##SurfaceView的绘图机制
+
+一般会与SurfaceView结合使用
+调用SurfaceView的getHolder()方法即可获得SurfaceView关联的Sur">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part1/Android/SurfaceView.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="##为什么要使用SurfaceView来实现动画？
+###因为View的绘图存在以下缺陷：
+
+View缺乏双缓冲机制
+当程序需要更新View上的图像时，程序必须重绘View上显示的整张图片
+新线程无法直接更新View组件
+
+##SurfaceView的绘图机制
+
+一般会与SurfaceView结合使用
+调用SurfaceView的getHolder()方法即可获得SurfaceView关联的Sur">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.133Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="##为什么要使用SurfaceView来实现动画？
+###因为View的绘图存在以下缺陷：
+
+View缺乏双缓冲机制
+当程序需要更新View上的图像时，程序必须重绘View上显示的整张图片
+新线程无法直接更新View组件
+
+##SurfaceView的绘图机制
+
+一般会与SurfaceView结合使用
+调用SurfaceView的getHolder()方法即可获得SurfaceView关联的Sur">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part1/Android/SurfaceView.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <p>##为什么要使用SurfaceView来实现动画？</p>
+<p>###因为View的绘图存在以下缺陷：</p>
+<ol>
+<li>View缺乏双缓冲机制</li>
+<li>当程序需要更新View上的图像时，程序必须重绘View上显示的整张图片</li>
+<li>新线程无法直接更新View组件</li>
+</ol>
+<p>##SurfaceView的绘图机制</p>
+<ul>
+<li>一般会与SurfaceView结合使用</li>
+<li>调用SurfaceView的getHolder()方法即可获得SurfaceView关联的SurfaceHolder</li>
+</ul>
+<p>##SurfaceHolder提供了如下方法来获取Canvas对象</p>
+<ol>
+<li>Canvas lockCanvas():锁定整个SurfaceView对象，获取该Surface上的Canvas</li>
+<li>Canvas lockCanvas(Rect dirty):锁定SurfaceView上Rect划分的区域，获取该Surface上的Canvas</li>
+<li>unlockCanvasAndPost(canvas):释放绘图、提交所绘制的图形，需要注意，当调用SurfaceHolder上的unlockCanvasAndPost方法之后，该方法之前所绘制的图形还处于缓冲之中，下一次lockCanvas()方法锁定的区域可能会“遮挡”它</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">	public class SurfaceViewTest extends Activity</div><div class="line">&#123;</div><div class="line">	// SurfaceHolder负责维护SurfaceView上绘制的内容</div><div class="line">	private SurfaceHolder holder;</div><div class="line">	private Paint paint;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void onCreate(Bundle savedInstanceState)</div><div class="line">	&#123;</div><div class="line">		super.onCreate(savedInstanceState);</div><div class="line">		setContentView(R.layout.main);</div><div class="line">		paint = new Paint();</div><div class="line">		SurfaceView surface = (SurfaceView) findViewById(R.id.show);</div><div class="line">		// 初始化SurfaceHolder对象</div><div class="line">		holder = surface.getHolder();</div><div class="line">		holder.addCallback(new Callback()</div><div class="line">		&#123;</div><div class="line">			@Override</div><div class="line">			public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2,</div><div class="line">					int arg3)</div><div class="line">			&#123;</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			@Override</div><div class="line">			public void surfaceCreated(SurfaceHolder holder)</div><div class="line">			&#123;</div><div class="line">				// 锁定整个SurfaceView</div><div class="line">				Canvas canvas = holder.lockCanvas();</div><div class="line">				// 绘制背景</div><div class="line">				Bitmap back = BitmapFactory.decodeResource(</div><div class="line">					SurfaceViewTest.this.getResources()</div><div class="line">					, R.drawable.sun);</div><div class="line">				// 绘制背景</div><div class="line">				canvas.drawBitmap(back, 0, 0, null);</div><div class="line">				// 绘制完成，释放画布，提交修改</div><div class="line">				holder.unlockCanvasAndPost(canvas);</div><div class="line">				// 重新锁一次，&quot;持久化&quot;上次所绘制的内容</div><div class="line">				holder.lockCanvas(new Rect(0, 0, 0, 0));</div><div class="line">				holder.unlockCanvasAndPost(canvas);</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			@Override</div><div class="line">			public void surfaceDestroyed(SurfaceHolder holder)</div><div class="line">			&#123;</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">		// 为surface的触摸事件绑定监听器</div><div class="line">		surface.setOnTouchListener(new OnTouchListener()</div><div class="line">		&#123;</div><div class="line">			@Override</div><div class="line">			public boolean onTouch(View source, MotionEvent event)</div><div class="line">			&#123;</div><div class="line">				// 只处理按下事件</div><div class="line">				if (event.getAction() == MotionEvent.ACTION_DOWN)</div><div class="line">				&#123;</div><div class="line">					int cx = (int) event.getX();</div><div class="line">					int cy = (int) event.getY();</div><div class="line">					// 锁定SurfaceView的局部区域，只更新局部内容</div><div class="line">					Canvas canvas = holder.lockCanvas(new Rect(cx - 50,</div><div class="line">							cy - 50, cx + 50, cy + 50));</div><div class="line">					// 保存canvas的当前状态</div><div class="line">					canvas.save();</div><div class="line">					// 旋转画布</div><div class="line">					canvas.rotate(30, cx, cy);</div><div class="line">					paint.setColor(Color.RED);</div><div class="line">					// 绘制红色方块</div><div class="line">					canvas.drawRect(cx - 40, cy - 40, cx, cy, paint);</div><div class="line">					// 恢复Canvas之前的保存状态</div><div class="line">					canvas.restore();</div><div class="line">					paint.setColor(Color.GREEN);</div><div class="line">					// 绘制绿色方块</div><div class="line">					canvas.drawRect(cx, cy, cx + 40, cy + 40, paint);</div><div class="line">					// 绘制完成，释放画布，提交修改</div><div class="line">					holder.unlockCanvasAndPost(canvas);</div><div class="line">				&#125;</div><div class="line">				return false;</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">	&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>上面的程序为SurfaceHolder添加了一个CallBack实例，该Callback中定义了如下三个方法：</p>
+<ul>
+<li>void surfaceChanged(SurfaceHolder holder, int format, int width, int height):当一个surface的格式或大小发生改变时回调该方法。</li>
+<li>void surfaceCreated(SurfaceHolder holder):当surface被创建时回调该方法</li>
+<li>void surfaceDestroyed(SurfaceHolder holder):当surface将要被销毁时回调该方法</li>
+</ul>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,588 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#热修复技术APP提早发出去的包，如果出现客户端的问题，实在是干着急，覆水难收。因此线上修复方案迫在眉睫。
+###概述
+基于Xposed中的思想，通过修改c层的Method实例描述，来实现更改与之对应的java方法的行为，从而达到修复的目的。
+###Xposed
+诞生于XDA论坛，类似一个应用平台，不同的是其提供诸多系统级的应用。可实现许多神奇的功能。Xposed需要以越狱为前提，像是iOS中的c">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part1/Android/热修复技术.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="#热修复技术APP提早发出去的包，如果出现客户端的问题，实在是干着急，覆水难收。因此线上修复方案迫在眉睫。
+###概述
+基于Xposed中的思想，通过修改c层的Method实例描述，来实现更改与之对应的java方法的行为，从而达到修复的目的。
+###Xposed
+诞生于XDA论坛，类似一个应用平台，不同的是其提供诸多系统级的应用。可实现许多神奇的功能。Xposed需要以越狱为前提，像是iOS中的c">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.133Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="#热修复技术APP提早发出去的包，如果出现客户端的问题，实在是干着急，覆水难收。因此线上修复方案迫在眉睫。
+###概述
+基于Xposed中的思想，通过修改c层的Method实例描述，来实现更改与之对应的java方法的行为，从而达到修复的目的。
+###Xposed
+诞生于XDA论坛，类似一个应用平台，不同的是其提供诸多系统级的应用。可实现许多神奇的功能。Xposed需要以越狱为前提，像是iOS中的c">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part1/Android/热修复技术.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <h2 id="热修复技术"><a href="#热修复技术" class="headerlink" title="#热修复技术"></a>#热修复技术</h2><p>APP提早发出去的包，如果出现客户端的问题，实在是干着急，覆水难收。因此线上修复方案迫在眉睫。</p>
+<p>###概述</p>
+<p>基于Xposed中的思想，通过修改c层的Method实例描述，来实现更改与之对应的java方法的行为，从而达到修复的目的。</p>
+<p>###Xposed</p>
+<p>诞生于XDA论坛，类似一个应用平台，不同的是其提供诸多系统级的应用。可实现许多神奇的功能。Xposed需要以越狱为前提，像是iOS中的cydia。</p>
+<p>Xposed可以修改任何程序的任何java方法（需root），github上提供了XposedInstaller，是一个android app。提供很多framework层，应用层级的程序。开发者可以为其开发一些系统或应用方面的插件，自定义android系统，它甚至可以做动态权限管理（XposedMods）。</p>
+<p>###Android系统启动与应用启动</p>
+<p>Zygote进程是Android手机系统启动后，常驻的一个名为‘受精卵’的进程。</p>
+<ul>
+<li>zygote的启动实现脚本在/init.rc文件中</li>
+<li>启动过程中执行的二进制文件在/system/bin/app_process</li>
+</ul>
+<p>任何应用程序启动时，会从zygote进程fork出一个新的进程。并装载一些必要的class，invoke一些初始化方法。这其中包括像：</p>
+<ul>
+<li>ActivityThread</li>
+<li>ServiceThread</li>
+<li>ApplicationPackageManager</li>
+</ul>
+<p>等应用启动中必要的类，触发必要的方法，比如：handleBindApplication，将此进程与对应的应用绑定的初始化方法；同时，会将zygote进程中的dalvik虚拟机实例复制一份，因此每个应用程序进程都有自己的dalvik虚拟机实例；会将已有Java运行时加载到进程中；会注册一些android核心类的jni方法到虚拟机中，支撑从c到java的启动过程。</p>
+<p>###Xposed做了手脚</p>
+<p>Xposed在这个过程改写了app_process(源码在Xposed : a modified app_process binary)，替换/system/bin/app_process这个二进制文件。然后做了两个事：</p>
+<ol>
+<li>通过Xposed的hook技术，在上述过程中，对上面提到的那些加载的类的方法hook。</li>
+<li>加载XposedBridge.jar</li>
+</ol>
+<p>这时hook必要的方法是为了方便开发者为它开发插件，加载XposedBridge.jar是为动态hook提供了基础。在这个时候加载它意味着，所有的程序在启动时，都可以加载这个jar（因为上面提到的fork过程）。结合hook技术，从而达到了控制所有程序的所有方法。</p>
+<p>为获得/system/bin/目录的读写权限，因而需要以root为前提。</p>
+<p>###Xposed的hook思想</p>
+<p>那么Xposed是怎么hook java方法的呢？要从XposedBridge看起，重点在<br>XposedBridge.hookmethod(原方法的Member对象，含有新方法的XC_MethodHook对象)；，这里会调到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">private native synchronized static void hookMethodNative(Member method, Class&lt;?&gt; declaringClass, int slot, Object additionalInfo);</div></pre></td></tr></table></figure>
+<p>这个native的方法，通过这个方法，可以让所hook的方法，转向native层的一个c方法。如何做到？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">When a transmit from java to native occurs, dvm sets up a native stack.</div><div class="line">In dvmCallJNIMethod(), dvmPlatformInvoke is used to call the native method(signature in Method.insns).</div></pre></td></tr></table></figure>
+<p>在jni这个中间世界里，类型数据由jni表来沟通java和c的世界；方法由c++指针结合DVM*系(如dvmSlotToMethod,dvmDecodeIndirectRef等方法)的api方法，操作虚拟机，从而实现java方法与c方法的世界。</p>
+<p>那么hook的过程是这样：首先通过dexclassload来load所要hook的方法，分析类后，进c层，见代码XposedBridge_hookMethodNative方法，拿到要hook的Method类，然后通过dvmslotTomethod方法获取Method*指针，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Method* method = dvmSlotToMethod(declaredClass, slot);</div></pre></td></tr></table></figure>
+<p>declaredClass就是所hook方法所在的类，对应的jobject。slot是Method类中，描述此java对象在vm中的索引；那么通过这个方法，我们就获取了c层的Method指针,通过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SET_METHOD_FLAG(method, ACC_NATIVE);</div></pre></td></tr></table></figure>
+<p>将该方法标记为一个native方法，然后通过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">method-&gt;nativeFunc = &amp;hookedMethodCallback;</div></pre></td></tr></table></figure>
+<p>定向c层方法到hookedMethodCallback，这样当被hook的java方法执行时，就会调到c层的hookedMethodCallback方法。</p>
+<p>通过meth-&gt;nativeFunc重定向MethodCallBridge到hookedMethodCallback这个方法上，控制这个c++指针是无视java的private的。</p>
+<p>另外，在method结构体中有</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">method-&gt;insns = (const u2*) hookInfo;</div></pre></td></tr></table></figure>
+<p>用insns指向替换成为的方法，以便hookedMethodCallback可以获取真正期望执行的java方法。</p>
+<p>现在所有被hook的方法，都指向了hookedMethodCallbackc方法中，然后在此方法中实现调用替换成为的java方法。</p>
+<p>###从Xposed提炼精髓</p>
+<p>回顾Xposed，以root为必要条件，在app_process加载XposedBidge.jar，从而实现有hook所有应用的所有方法的能力；而后续动态hook应用内的方法，其实只是load了从zypote进程复制出来的运行时的这个XposedBidge.jar，然后hook而已。因此，若在一个应用范围内的hook，root不是必须的，只是单纯的加载hook的实现方法，即可修改本应用的方法。</p>
+<p>业界内也不乏通过「修改BaseDexClassLoader中的pathList，来动态加载dex」方式实现热修复。后者纯java实现，但需要hack类的优化流程，将打CLASS_ISPREVERIFIED标签的类，去除此标签，以解决类与类引用不在一个dex中的异常问题。这会放弃dex optimize对启动运行速度的优化。原则上，这对于方法数没有大到需要multidex的应用，损失更明显。而前者不触犯原有的优化流程，只点杀需要hook的方法，更为纯粹、有效。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

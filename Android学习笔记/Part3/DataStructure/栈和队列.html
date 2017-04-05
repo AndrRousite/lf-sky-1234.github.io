@@ -1,0 +1,543 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#栈和队列##栈栈只允许访问一个数据项：即最后插入的数据。溢出这个数据才能访问倒数第二个插入的数据项。它是一种”后进先出”的数据结构。
+栈最基本的操作是出栈(Pop)、入栈(Push)，还有其他扩展操作，如查看栈顶元素，判断栈是否为空、是否已满，读取栈的大小等。
+12345678910111213141516171819202122232425262728293031323334353637383">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part3/DataStructure/栈和队列.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="#栈和队列##栈栈只允许访问一个数据项：即最后插入的数据。溢出这个数据才能访问倒数第二个插入的数据项。它是一种”后进先出”的数据结构。
+栈最基本的操作是出栈(Pop)、入栈(Push)，还有其他扩展操作，如查看栈顶元素，判断栈是否为空、是否已满，读取栈的大小等。
+12345678910111213141516171819202122232425262728293031323334353637383">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.202Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="#栈和队列##栈栈只允许访问一个数据项：即最后插入的数据。溢出这个数据才能访问倒数第二个插入的数据项。它是一种”后进先出”的数据结构。
+栈最基本的操作是出栈(Pop)、入栈(Push)，还有其他扩展操作，如查看栈顶元素，判断栈是否为空、是否已满，读取栈的大小等。
+12345678910111213141516171819202122232425262728293031323334353637383">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part3/DataStructure/栈和队列.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <h2 id="栈和队列"><a href="#栈和队列" class="headerlink" title="#栈和队列"></a>#栈和队列</h2><h2 id="栈"><a href="#栈" class="headerlink" title="##栈"></a>##栈</h2><p>栈只允许访问一个数据项：即最后插入的数据。溢出这个数据才能访问倒数第二个插入的数据项。它是一种”后进先出”的数据结构。</p>
+<p>栈最基本的操作是出栈(Pop)、入栈(Push)，还有其他扩展操作，如查看栈顶元素，判断栈是否为空、是否已满，读取栈的大小等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 栈是先进后出</div><div class="line"> * 只能访问栈顶的数据</div><div class="line"> * @author dream</div><div class="line"> *</div><div class="line"> */</div><div class="line"></div><div class="line">/**</div><div class="line"> * 基于数组来实现栈的基本操作</div><div class="line"> * 数据项入栈和出栈的时间复杂度均为O(1)</div><div class="line"> * @author dream</div><div class="line"> *</div><div class="line"> */</div><div class="line">public class ArrayStack &#123;</div><div class="line"></div><div class="line">	private long[] a;</div><div class="line">	private int size;   //栈数组的大小</div><div class="line">	private int top;   //栈顶</div><div class="line">	</div><div class="line">	public ArrayStack(int maxSize)&#123;</div><div class="line">		this.size = maxSize;</div><div class="line">		this.a = new long[size];</div><div class="line">		this.top = -1;   //表示空栈</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public void push(long value)&#123;   //入栈</div><div class="line">		if(isFull())&#123;</div><div class="line">			System.out.println(&quot;栈已满!&quot;);</div><div class="line">			return;</div><div class="line">		&#125;</div><div class="line">		a[++top] = value;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public long peek()&#123;   //返回栈顶内容，但不删除</div><div class="line">		if(isEmpty())&#123;</div><div class="line">			System.out.println(&quot;栈中没有数据&quot;);</div><div class="line">			return 0;</div><div class="line">		&#125;</div><div class="line">		return a[top];</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">	public long pop()&#123;   //弹出栈顶内容</div><div class="line">		if(isEmpty())&#123;</div><div class="line">			System.out.println(&quot;栈中没有数据!&quot;);</div><div class="line">			return 0;</div><div class="line">		&#125;</div><div class="line">		return a[top--];</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public int size()&#123;</div><div class="line">		return top + 1;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * 判断是否满了</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public boolean isFull()&#123;</div><div class="line">		return (top == size - 1);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * 是否为空</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public boolean isEmpty()&#123;</div><div class="line">		return (top == -1);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">	public void display()&#123;</div><div class="line">		for (int i = top; i &gt;= 0; i--) &#123;</div><div class="line">			System.out.println(a[i] + &quot; &quot;);</div><div class="line">		&#125;</div><div class="line">		System.out.println(&quot;&quot;);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="队列"><a href="#队列" class="headerlink" title="##队列"></a>##队列</h2><p>依然使用数组作为底层容器来实现一个队列的封装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 队列也可以用数组来实现，不过这里有个问题，当数组下标满了后就不能再添加了，</div><div class="line"> * 但是数组前面由于已经删除队列头的数据了，导致空。所以队列我们可以用循环数组来实现，</div><div class="line"> * @author dream</div><div class="line"> *</div><div class="line"> */</div><div class="line">public class RoundQueue &#123;</div><div class="line"></div><div class="line">	private long[] a;</div><div class="line">	private int size;     //数组大小</div><div class="line">	private int nItems;    //实际存储数量</div><div class="line">	private int front;     //头</div><div class="line">	private int rear;       //尾</div><div class="line">	</div><div class="line">	public RoundQueue(int maxSize)&#123;</div><div class="line">		this.size = maxSize;</div><div class="line">		a = new long[size];</div><div class="line">		front = 0;</div><div class="line">		rear = -1;</div><div class="line">		nItems = 0;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public void insert(long value)&#123;</div><div class="line">		if(isFull())&#123;</div><div class="line">			System.out.println(&quot;队列已满&quot;);</div><div class="line">			return;</div><div class="line">		&#125;</div><div class="line">		rear = ++rear % size;</div><div class="line">		a[rear] = value;  //尾指针满了就循环到0处，这句相当于下面注释内容</div><div class="line">		nItems++;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public long remove()&#123;</div><div class="line">		if(isEmpty())&#123;</div><div class="line">			System.out.println(&quot;队列为空!&quot;);</div><div class="line">			return 0;</div><div class="line">		&#125;</div><div class="line">		nItems--;</div><div class="line">		front = front % size;</div><div class="line">		return a[front++];</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public void display()&#123;</div><div class="line">		if(isEmpty())&#123;</div><div class="line">			System.out.println(&quot;队列为空!&quot;);</div><div class="line">			return;</div><div class="line">		&#125;</div><div class="line">		int item = front;</div><div class="line">		for(int i = 0;i &lt; nItems; i++)&#123;</div><div class="line">			System.out.println(a[item++ % size] + &quot; &quot;);</div><div class="line">		&#125;</div><div class="line">		System.out.println(&quot;&quot;);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public long peek()&#123;</div><div class="line">		if(isEmpty())&#123;</div><div class="line">			System.out.println(&quot;队列为空！&quot;);</div><div class="line">			return 0;</div><div class="line">		&#125;</div><div class="line">		return a[front];</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public boolean isFull()&#123;</div><div class="line">		return (nItems == size);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public boolean isEmpty()&#123;</div><div class="line">		return (nItems == 0);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public int size()&#123;</div><div class="line">		return nItems;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>和栈一样，队列中插入数据项和删除数据项的时间复杂度均为O(1)</p>
+<p> 还有个优先级队列，优先级队列是比栈和队列更专用的数据结构。优先级队列与上面普通的队列相比，主要区别在于队列中的元素是有序的，关键字最小（或者最大）的数据项总在队头。数据项插入的时候会按照顺序插入到合适的位置以确保队列的顺序。优先级队列的内部实现可以用数组或者一种特别的树——堆来实现。这里用数组实现优先级队列。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"> </div><div class="line">public class PriorityQueue &#123;</div><div class="line"></div><div class="line">	private long[] a;</div><div class="line">	private int size;</div><div class="line">	private int nItems;  //元素个数</div><div class="line">	</div><div class="line">	public PriorityQueue(int maxSize)&#123;</div><div class="line">		size = maxSize;</div><div class="line">		nItems = 0;</div><div class="line">		a = new long[size];</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public void insert(long value)&#123;</div><div class="line">		if(isFull())&#123;</div><div class="line">			System.out.println(&quot;队列已满！&quot;);</div><div class="line">			return;</div><div class="line">		&#125;</div><div class="line">		int j;</div><div class="line">		if(nItems == 0)&#123;  //空队列直接添加</div><div class="line">			a[nItems++] = value;</div><div class="line">		&#125;else &#123;</div><div class="line">			//将数组中的数字依照下标按照从大到小排列</div><div class="line">			for(j=nItems-1; j&gt;=0; j--)&#123;</div><div class="line">				if(value &gt; a[j])&#123;  </div><div class="line">                    a[j+1] = a[j];  </div><div class="line">                &#125;  </div><div class="line">                else &#123;  </div><div class="line">                    break;  </div><div class="line">                &#125; </div><div class="line">			&#125;</div><div class="line">			a[j+1] = value;</div><div class="line">			nItems++;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public long remove()&#123;</div><div class="line">		if(isFull())&#123;</div><div class="line">			System.out.println(&quot;队列为空!&quot;);</div><div class="line">			return 0;</div><div class="line">		&#125;</div><div class="line">		return a[--nItems];</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public long peekMin()&#123;</div><div class="line">		return a[nItems - 1];</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public boolean isFull()&#123;</div><div class="line">		return (nItems == size);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public boolean isEmpty()&#123;</div><div class="line">		return (nItems == 0);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public int size()&#123;</div><div class="line">		return nItems;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public void display()&#123;</div><div class="line">		for(int i = nItems - 1;i &gt;= 0; i--)&#123;</div><div class="line">			System.out.println(a[i] + &quot; &quot;);</div><div class="line">		&#125;</div><div class="line">		System.out.println(&quot; &quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 优先级队列中，插入操作需要O(N)的时间，而删除操作则需要O(1)的时间。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,874 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#计算机网络体系分类：计算机网络整个体系有两个大的分类：一个是国际组织制定的OSI七层模型，一种是实际使用中的TCP/IP四层模型。
+
+
+
+OSI七层模型
+TCP/IP四层模型
+
+
+
+
+应用层
+
+
+
+表示层
+应用层
+
+
+会话层
+
+
+
+传输层
+传输层
+
+
+网络层
+网络层
+
+
+数据链路层
+物理接入层
+
+
+物理层
+
+
+
+#物理层：物理层主要是实现主机和网络之间的物理连接，规定一些与传输媒体接口有关的一些">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part4/Network/计算机网络基础汇总.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="#计算机网络体系分类：计算机网络整个体系有两个大的分类：一个是国际组织制定的OSI七层模型，一种是实际使用中的TCP/IP四层模型。
+
+
+
+OSI七层模型
+TCP/IP四层模型
+
+
+
+
+应用层
+
+
+
+表示层
+应用层
+
+
+会话层
+
+
+
+传输层
+传输层
+
+
+网络层
+网络层
+
+
+数据链路层
+物理接入层
+
+
+物理层
+
+
+
+#物理层：物理层主要是实现主机和网络之间的物理连接，规定一些与传输媒体接口有关的一些">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.218Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="#计算机网络体系分类：计算机网络整个体系有两个大的分类：一个是国际组织制定的OSI七层模型，一种是实际使用中的TCP/IP四层模型。
+
+
+
+OSI七层模型
+TCP/IP四层模型
+
+
+
+
+应用层
+
+
+
+表示层
+应用层
+
+
+会话层
+
+
+
+传输层
+传输层
+
+
+网络层
+网络层
+
+
+数据链路层
+物理接入层
+
+
+物理层
+
+
+
+#物理层：物理层主要是实现主机和网络之间的物理连接，规定一些与传输媒体接口有关的一些">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part4/Network/计算机网络基础汇总.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <p>#计算机网络体系分类：<br>计算机网络整个体系有两个大的分类：一个是国际组织制定的OSI七层模型，一种是实际使用中的TCP/IP四层模型。</p>
+<table>
+<thead>
+<tr>
+<th>OSI七层模型</th>
+<th>TCP/IP四层模型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>应用层</td>
+<td></td>
+</tr>
+<tr>
+<td>表示层</td>
+<td>应用层</td>
+</tr>
+<tr>
+<td>会话层</td>
+<td></td>
+</tr>
+<tr>
+<td>传输层</td>
+<td>传输层</td>
+</tr>
+<tr>
+<td>网络层</td>
+<td>网络层</td>
+</tr>
+<tr>
+<td>数据链路层</td>
+<td>物理接入层</td>
+</tr>
+<tr>
+<td>物理层</td>
+</tr>
+</tbody>
+</table>
+<p>#物理层：<br>物理层主要是实现主机和网络之间的物理连接，规定一些与传输媒体接口有关的一些特性。</p>
+<p>##通信方式：</p>
+<ul>
+<li><p><strong>单工通信：</strong>只能由A主机向B主机发送消息，通信是单向的。</p>
+</li>
+<li><p><strong>半双工通信：</strong>同一时间只能是由A主机向B主机或者是B主机向A主机发送信息，不能同时发送消息。</p>
+</li>
+<li><p><strong>全双工通信：</strong> A主机和B主机可以实现在同一时间内既接收消息，又发送消息，极大的提升了通信效率。</p>
+</li>
+</ul>
+<p>##常见引导型传输媒体：</p>
+<p>###双绞线：<br>分为屏蔽双绞线（STP）和非屏蔽双绞线（UTP），屏蔽双绞线就是在非屏蔽双绞线外边又加了一层屏蔽层</p>
+<p>tips：为什么双绞线要两根线绞起来，两个线绞起来可以有效的减少相互之间的电磁干扰。</p>
+<p>###同轴电缆：<br>由内导体铜制芯线，绝缘层，网状编织的外导体屏蔽层，以及塑料保护外层组成。有良好的抗干扰性，被广泛用于较高速率的传输。</p>
+<p>###光缆：<br>由非常透明的石英玻璃拉成细丝，主要由纤芯和包层构成双层通讯柱。可以分为单模光纤和多模光纤。</p>
+<p>##信道复用技术：</p>
+<ul>
+<li><p><strong>频分复用：</strong>根据传输的波的频率的不同，将不同频段的波用于不同的通信。</p>
+</li>
+<li><p><strong>时分复用：</strong>将时间分割为时间段，规定在某个时间段内发送什么样的信息，根据时间段来进行信息类别的区分。也称为<strong>同步时分复用</strong></p>
+</li>
+<li><p><strong>统计时分复用：</strong>基于时分复用的一种改进，由于基本的时分复用并没有考虑到每个时间段内是否有信息发出，例如说每个时间段是20，但是发送消息只占用其中的2，那么剩下的18就处于空闲时间。统计时分复用就是基于这种考虑而设计的，他允许用户有数据时就将数据发送到缓存中，然后会依次扫描输入缓存，把缓存中的数据放入到STMD帧中，若没有就跳过，每当一个帧满了就把这个帧发出去。STMD帧不是分配的固定时序，而是根据需要动态的分配时隙，也称之为<strong>异步时分复用</strong></p>
+</li>
+<li><p>光分复用：就是光的频分复用，根据光谱中频率的不同，用不同频率的光来携带不同的信息。</p>
+</li>
+</ul>
+<p>#数据链路层：<br>数据链路层主要是将上层的数据转化为数据帧发送到链路上，以及把接受到的帧中的数据取出并交给网络层。</p>
+<p>##通信方式：</p>
+<ul>
+<li><p><strong>点对点通信：</strong>通信方式是点到点的，也就是只能是两个点之间的通信。常见的就是PPP协议</p>
+</li>
+<li><p><strong>广播通信：</strong>广播通讯，也就是可以同时实现一对多的通信。常见的就是CSMA/CD（载波监听多点访问/冲突检测）</p>
+</li>
+</ul>
+<p>##核心要解决的问题：</p>
+<ul>
+<li><p><strong>封装成帧：</strong>在一段数据的前后分别添加首部和尾部，这样就构成了一个帧。接收端在接受到后就可以方便准确的确定帧的首尾，也称为帧定界符。同时定义出了最大传输单元（MTU）–表示一次可以传输的最大长度上限。</p>
+</li>
+<li><p><strong>透明传输：</strong> 由于使用特定的字符来表示帧的开始和结束，所以传输的内容中不能出现和帧定界符相同的字符，但这显然是不可能的，为了解决这个办法，就可以在内容中和帧定界符一样的字符前边加上规定好的转义字符，这种方法称为字符填充或者是字节填充。</p>
+</li>
+<li><p><strong>差错检测：</strong> 比特在传输过程中可能产生差错，差错检测就是用于检测出现的差错，以便及时的重传，最常用的差错检测算法就是<a href="http://baike.sogou.com/v7730112.htm?fromTitle=CRC%E6%A0%A1%E9%AA%8C" target="_blank" rel="external">CRC（循环冗余检验）</a></p>
+</li>
+</ul>
+<p>#网络层</p>
+<p>网络层主要是向上只提供简单灵活的，无连接的，尽最大努力交付的数据报服务。</p>
+<p>##IP协议（网际协议）：<br>IP协议是TCP/IP体系中最主要的协议之一，一切在IP之下，一切又在IP之上。我们常说的应该是IP协议族，还包含配套的协议：</p>
+<ul>
+<li><p>ARP（地址解析协议）：将网络的IP地址转化为实际的物理地址（MAC地址），并存储在MAC地址表中。</p>
+</li>
+<li><p>ICMP（网际控制报文协议）：用于进行差错情况和异常情况的反馈，分为询问报文和差错报告报文。</p>
+</li>
+<li><p>IGMP（网际组管理协议）：用于控制和管理多播和组播的协议。</p>
+</li>
+</ul>
+<p>网络地址（IP地址）主要分为五类：</p>
+<ul>
+<li><p>A类：前8位为网络位，后24位为主机位，首位为0</p>
+</li>
+<li><p>B类：前16位为网络位，后16位为主机位，前两位为10</p>
+</li>
+<li><p>C类：前24位为网络位，后8位位主机位，前三位为110</p>
+</li>
+<li><p>D类：前四位为1110，用于多播地址</p>
+</li>
+<li><p>E类：前四位为1111，保留为以后使用</p>
+</li>
+</ul>
+<p>##路由选择协议：</p>
+<p>路由选择协议分为<strong>内部网关协议（IGP）</strong>和<strong>外部网关协议（EGP）</strong></p>
+<p>###内部网关协议：</p>
+<p>主要是有RIP协议和OSPF协议</p>
+<ul>
+<li><p><strong>RIP协议（路由信息协议）：</strong>基于距离矢量的协议</p>
+</li>
+<li><p><strong>OSPF（开放最短路径优先协议）：</strong>基于链路状态的协议</p>
+</li>
+</ul>
+<p>###外部网关协议：</p>
+<p>主要是<strong>边界网关协议（BGP）</strong>，将一个大的网络分为多个小的自治域，每个自治域内有一个网关路由负责和其他的自治域的网关进行通讯。</p>
+<h1 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h1><p>网络层主要是为主机之间提供逻辑通讯，而传输层为应用程序之间提供端到端的逻辑通讯。主要是两种类型的通讯方式，面向连接的TCP协议和面向无连接的UDP。</p>
+<p>##端口号：<br>端口号按照使用地方的不同分为两大类：服务端端口号，客户端端口号。<br>按照占用时长又可以分为熟知端口号（0~1023），登记端口号（1024~49151），短暂端口号（49152~65535）</p>
+<p>###常见端口：</p>
+<ul>
+<li><p>FTP（文件传输协议）：20，21——其中20端口用于传输数据，21端口用于命令控制</p>
+</li>
+<li><p>Telnet（远程登录协议）：23 </p>
+</li>
+<li><p>DNS（域名解析服务）：53</p>
+</li>
+<li><p>TFTP（简单文件传输协议）：69</p>
+</li>
+<li><p>HTTP（超文本传输协议）：80</p>
+</li>
+</ul>
+<p>##两种协议：</p>
+<ul>
+<li><p><strong>UDP（用户数据报协议）：</strong> </p>
+<ul>
+<li>UDP是无连接的</li>
+<li>UDP使用尽最大努力交付，但是不保证可靠交付</li>
+<li>UDP是面向报文的</li>
+<li>UDP没有拥塞控制</li>
+<li>UDP支持一对一，一对多，多对一，多对一的交互通讯</li>
+<li>UDP首部的开销小</li>
+</ul>
+</li>
+<li><p><strong>TCP（传输控制协议）：</strong></p>
+<ul>
+<li>TCP是面向连接的</li>
+<li>每一条TCP连接只能由两个端点，每一条TCP连接只能是点对点的$TCP连接：：= { socket_1,socket_2 } ={ (IP_1:port_1),(IP_2:port_2)}$</li>
+<li>TCP提供可靠交付的服务</li>
+<li>TCP提供全双工通信</li>
+<li>面向字节流</li>
+</ul>
+</li>
+</ul>
+<p>###可靠传输的实现机制：</p>
+<ul>
+<li><p><strong>停止等待协议：</strong> 每发完一个分组就停止发送，直到收到上一个分组的确认信息。若超过规定时间没有接收到确认信息，边认为是分组丢失，开始重传。</p>
+</li>
+<li><p><strong>连续ARQ协议：</strong>  发送方采用滑动窗口的形式，处于滑动窗口的分组可以直接发送出去；接收方一般采用累积确认的方式，也就是说接受方不必对接收到的每一个分组都进行确认，而是对按序到达的最后一个分组进行确认，而发送方每接收到一个确认，窗口就向前滑动一定距离。</p>
+</li>
+<li><p><strong>流量控制：</strong>协调发送方和接收方的收发速率，利用滑动窗口来协调，使用探测报文来探测当前应该发送的速率，采用<a href="http://baike.sogou.com/v10500918.htm?fromTitle=Nagle%E7%AE%97%E6%B3%95" target="_blank" rel="external">Nagle算法</a></p>
+</li>
+<li><p><strong>拥塞控制：</strong><br>当网络中某一资源的需求超出了该资源所能提供的可用部分，这时网络的性能就要开始变坏，这种情况就叫做拥塞。而拥塞控制就是为了减少或者避免拥塞对网络性能的影响而做出的一种控制手段。</p>
+<ul>
+<li><p><strong>拥塞控制思路：</strong>发送方维持一个叫做<strong>拥塞窗口</strong>的状态变量，拥塞窗口的大小取决于网络的拥塞程度，并且在动态的变化。发送方让自己的发送窗口等于拥塞窗口，如果在考虑接收方的接收能力，一般发送窗口还要小于拥塞窗口。</p>
+</li>
+<li><p><strong>慢开始：</strong>当主机开始发送数据的时候，由小到大的增大发送窗口，也就是由小到大的增大拥塞窗口。接收方接收到一个报文之后就回传一个确认报文，发送方每接收到一个确认报文，就将拥塞窗口加1，这样每经过一个传输轮次之后，拥塞窗口就增大一倍。</p>
+</li>
+<li><p><strong>拥塞避免：</strong>思路是让拥塞窗口缓慢的增大，即每经过一个往返时间RTT就把发送方的拥塞窗口加1，而不是加倍，这样拥塞窗口就是线性缓慢增加，比慢开始的增长速率缓慢的多。</p>
+</li>
+<li><p><strong>慢开始门限：</strong>为了防止拥塞窗口增长过大引起网络拥塞，还需要设置一个慢开始门限</p>
+<ul>
+<li>拥塞窗口&lt;慢开始门限时，使用慢开始算法</li>
+<li>拥塞窗口&gt;慢开始门限时，使用拥塞避免算法</li>
+<li>拥塞窗口=慢开始门限时，两种算法都可以</li>
+</ul>
+</li>
+<li><p><strong>快重传：</strong>要求收到方每收到一个时序的报文段之后就立即发出重复确认，而不要等到自己发送数据时才进行捎带确认。而发送方只要一连收到三个重复确认就应当立即重传对方尚未接受到的报文，而不必等待为报文设置的重传计时器到期。 </p>
+</li>
+<li><p><strong>快回复：</strong>与快重传配合使用，当发送方连续收到三个重复确认的时候，就执行“乘法减小”算法，将慢开始门限减半。将拥塞窗口设置为慢开始门限减半之后的值，并开始指向拥塞避免算法。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>###TCP的连接管理：</p>
+<p>####连接三次握手：</p>
+<ol>
+<li>客户端请求建立连接：SYN=1，seq=x；</li>
+<li>服务器对客户端的请求进行响应：SYN=1，ACK=1，seq=y，ack=x+1</li>
+<li>客户端对服务器端的响应信息进行回应：ACK=1，seq=x+1，ack=y+1</li>
+</ol>
+<p><strong>注：</strong> SYN为同步信息，在建立连接过程中始终为1</p>
+<p>####断开连接四次握手：</p>
+<ol>
+<li>客户端请求断开连接： FIN=1，seq = u；</li>
+<li>服务端对客户端的请求应答：ACK=1，seq=v，ack=u+1；</li>
+<li>服务端请求断开连接：FIN=1，ACK=1，seq=w，ack=u+1；</li>
+<li>客户端对服务端的请求应答：ACK=1，seq=u+1，ack=w+1；</li>
+</ol>
+<h1 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h1><p>应用层有多种协议，常用到的就是HTTP以及HTTPS。</p>
+<p><strong>HTTP协议报文格式</strong></p>
+<table>
+<thead>
+<tr>
+<th>请求报文</th>
+<th>相应报文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>请求行（用于区分是请求报文还是响应报文，在响应报文中为状态行）</td>
+<td>状态行</td>
+</tr>
+<tr>
+<td>首部行（用来说明浏览器，服务器或者是报文主体的一些信息）</td>
+<td>首部行</td>
+</tr>
+<tr>
+<td>空行（用于隔开请求实体和首部行）</td>
+<td>空行</td>
+</tr>
+<tr>
+<td>实体主体（用于一些请求或者是响应的的参数内容等）</td>
+<td>实体主体</td>
+</tr>
+</tbody>
+</table>
+<p><strong>常见状态码</strong></p>
+<blockquote>
+<p>1xx：表示通知信息，例如表示收到或者是正在处理<br>2xx：表示成功，例如表示接受或知道了<br>3xx：表示重定向，例如表示完成请求还需要采取进一步的行动<br>4xx：表示客户端的差错，例如表示请求中有语法错误或不能完成<br>5xx：表示服务器端的差错：例如表示服务器失效无法完成请求</p>
+</blockquote>
+<p>HTTPS协议就是对HTTP协议的加密，更加安全可靠，采用HTTP+SSL（安全套接字层）来保证数据的安全性。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,657 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#《APP研发录》读书笔记##第一章
+###1.1重新规划Android项目结构
+重新规划Android项目的目录结构，分两步走：
+
+建立AndroidLab类库，将与业务无关的逻辑转移到AndroidLab，AndroidLab至少包括五大部分：包名+ acticity,cache,net,ui,utils 。
+
+activity包里面存放的是与业务无关的Activity基类。
+net包里存放的">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part5/ReadingNotes/《APP研发录》第1章读书笔记.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="#《APP研发录》读书笔记##第一章
+###1.1重新规划Android项目结构
+重新规划Android项目的目录结构，分两步走：
+
+建立AndroidLab类库，将与业务无关的逻辑转移到AndroidLab，AndroidLab至少包括五大部分：包名+ acticity,cache,net,ui,utils 。
+
+activity包里面存放的是与业务无关的Activity基类。
+net包里存放的">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.218Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="#《APP研发录》读书笔记##第一章
+###1.1重新规划Android项目结构
+重新规划Android项目的目录结构，分两步走：
+
+建立AndroidLab类库，将与业务无关的逻辑转移到AndroidLab，AndroidLab至少包括五大部分：包名+ acticity,cache,net,ui,utils 。
+
+activity包里面存放的是与业务无关的Activity基类。
+net包里存放的">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part5/ReadingNotes/《APP研发录》第1章读书笔记.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <h2 id="《APP研发录》读书笔记"><a href="#《APP研发录》读书笔记" class="headerlink" title="#《APP研发录》读书笔记"></a>#《APP研发录》读书笔记</h2><p>##第一章</p>
+<p>###1.1重新规划Android项目结构</p>
+<p>重新规划Android项目的目录结构，分两步走：</p>
+<ol>
+<li><p><strong>建立AndroidLab类库，将与业务无关的逻辑转移到AndroidLab，AndroidLab至少包括五大部分：包名+ acticity,cache,net,ui,utils 。</strong></p>
+<ul>
+<li>activity包里面存放的是与业务无关的Activity基类。</li>
+<li>net包里存放的是网络底层封装。</li>
+<li>cacahe包里面存放的是缓存数据的图片和图片的相关处理。</li>
+<li>ui包中存放的是自定义控件</li>
+<li>utils包中存放的是各种与类无关的功用方法。    </li>
+</ul>
+</li>
+<li><strong>将主项目的类分门别类的进行划分，放置在各种包中。</strong></li>
+</ol>
+<pre><code>* activity:我们按照模块继续划分，将不同模块的Activity划分到不同的包中。
+* adapter:所有的适配器都放在一起
+* entity:所有的实体都放在一起
+* db:SQLite相关逻辑的封装
+* engine:将业务相关的类都放在一起
+* ui:将自定义控件都放在这个包里
+* utils:将所有的公用方法都放在这里
+* interfaces:真正意义上的接口，命名以I作为开头
+* listener:基于Listener的接口，命名以On作为开头
+</code></pre><p>###1.2为Activity定义新的生命周期</p>
+<p>可以把onCreate方法拆成三个子方法</p>
+<ul>
+<li>initVariables:初始化变量，包括Intent带的数据和Activity内的变量</li>
+<li>initViews:加载layout布局文件，初始化控件，为控件挂上事件方法</li>
+<li>loadData:调用MobileAPI获取数据</li>
+</ul>
+<p>###1.3统一事件编程模型</p>
+<p>只要在一个团队内部达成了协议，决定使用某种事件编程方式，所有开发人员就要按照同样的方式编写代码。</p>
+<p>###1.4实体化编程</p>
+<p>####1.4.1在网络请求中使用实体</p>
+<p>一些开发人员不使用实体化编程，在获取MobileAPI网络请求返回的JSON数据时，使用JSONObject或者JSONArray来承载数据，然后把返回的数据当作一个字典，根据键取出响应的值。介绍fastJSON和GSON这种实体化编程的方式.</p>
+<ul>
+<li><strong>使用fastJSON如下</strong>：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">WeatherEntity weatherEntity = JSON.parseObject(content,</div><div class="line">						WeatherEntity.class);</div><div class="line">				WeatherInfo weatherInfo = weatherEntity.getWeatherInfo();</div><div class="line">				if (weatherInfo != null) &#123;</div><div class="line">					tvCity.setText(weatherInfo.getCity());</div><div class="line">					tvCityId.setText(weatherInfo.getCityid());</div><div class="line">				&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>使用GSON如下：</strong>：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Gson gson = new Gson();</div><div class="line">				WeatherEntity weatherEntity = gson.fromJson(content,</div><div class="line">						WeatherEntity.class);</div><div class="line">				WeatherInfo weatherInfo = weatherEntity.getWeatherInfo();</div><div class="line">				if (weatherInfo != null) &#123;</div><div class="line">					tvCity.setText(weatherInfo.getCity());</div><div class="line">					tvCityId.setText(weatherInfo.getCityid());</div><div class="line">				&#125;</div></pre></td></tr></table></figure>
+<p>####1.4.3在页面跳转中实现实体</p>
+<p>在一个页面中，数据的来源有两种：</p>
+<ol>
+<li>调用MobileAPI获取JSON数据</li>
+<li>从上一个页面传递过来</li>
+</ol>
+<p>Activity之间的数据传递一个偷懒的办法是设置一个全局变量，在来源页设置全局变量，在目标页接收全局变量。以下是来源页MainActivity的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Intent intent = new Intent(MainActivity.this,</div><div class="line">						LoginActivity.class);</div><div class="line">				intent.putExtra(AppConstants.Email, &quot;jianqiang.bao@qq.com&quot;);</div><div class="line">								</div><div class="line">				CinemaBean cinema = new CinemaBean();</div><div class="line">				cinema.setCinemaId(&quot;1&quot;);</div><div class="line">				cinema.setCinemaName(&quot;星美&quot;);</div><div class="line"></div><div class="line">				//使用全局变量的方式传递参数</div><div class="line">				GlobalVariables.Cinema = cinema;</div><div class="line">				startActivity(intent);</div></pre></td></tr></table></figure>
+<p>以下是目标页LoginActivity的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// 使用全局变量的方式传值</div><div class="line">		CinemaBean cinema = GlobalVariables.Cinema;</div><div class="line">		if (cinema != null) &#123;</div><div class="line">			cinemaName = cinema.getCinemaName();</div><div class="line">		&#125; else &#123;</div><div class="line">			cinemaName = &quot;&quot;;</div><div class="line">		&#125;</div></pre></td></tr></table></figure>
+<p><strong>不建议使用全局变量。App一旦被切换到后台，当手机内存不足的时候，就会回收这些全局变量，从而当App再次切换回前台时，再继续使用全局变量，就会因为它们为空而崩溃。如果必须使用全局变量，就一定要把它们序列化到本地。这样即使全局变量为空，也能从本地文件中恢复。</strong></p>
+<p>我们使用Intent在页面间来传递数据实体的机制。</p>
+<p>首先，在MainActivity中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Intent intent = new Intent(MainActivity.this,</div><div class="line">						LoginNewActivity.class);</div><div class="line">				intent.putExtra(AppConstants.Email, &quot;jianqiang.bao@qq.com&quot;);</div><div class="line">				</div><div class="line">				CinemaBean cinema = new CinemaBean();</div><div class="line">				cinema.setCinemaId(&quot;1&quot;);</div><div class="line">				cinema.setCinemaName(&quot;星美&quot;);</div><div class="line">				</div><div class="line">				//使用intent上挂可序列化实体的方式传递参数</div><div class="line">				intent.putExtra(AppConstants.Cinema, cinema);</div><div class="line"></div><div class="line">				startActivity(intent);</div></pre></td></tr></table></figure>
+<p>其次，目标页LoginActivity要这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">CinemaBean cinema = (CinemaBean)getIntent()</div><div class="line">				.getSerializableExtra(AppConstants.Cinema);</div><div class="line">		if (cinema != null) &#123;</div><div class="line">			cinemaName = cinema.getCinemaName();</div><div class="line">		&#125; else &#123;</div><div class="line">			cinemaName = &quot;&quot;;</div><div class="line">		&#125;</div></pre></td></tr></table></figure>
+<p>这里的CinemaBean要实现Serializable接口，支持序列化：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">public class CinemaBean implements Serializable &#123;</div><div class="line">	private static final long serialVersionUID = 1L;</div><div class="line"></div><div class="line">	private String cinemaId;</div><div class="line">	private String cinemaName;</div><div class="line"></div><div class="line">	public CinemaBean() &#123;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getCinemaId() &#123;</div><div class="line">		return cinemaId;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setCinemaId(String cinemaId) &#123;</div><div class="line">		this.cinemaId = cinemaId;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getCinemaName() &#123;</div><div class="line">		return cinemaName;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setCinemaName(String cinemaName) &#123;</div><div class="line">		this.cinemaName = cinemaName;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>###1.5Adapter模版<br>不对Adapter的写法进行规范，就会写出以下的Adapter</p>
+<ul>
+<li>很多开发人员都喜欢将Adapter内嵌在Activity中，一般会使用SimpleAdapter</li>
+<li>由于没有使用实体，所以一般会把一个字典作为构造函数的参数注入到Adapter中</li>
+</ul>
+<p>希望Adapter只有一个编码风格，这样发现了问题也很容易排查。于是要求所有的Adapter都继承自BaseAdapter，从构造函数注入List&lt;自定义实体&gt;这样的数据集合，从而完成ListView的填充工作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">public class CinemaAdapter extends BaseAdapter &#123;</div><div class="line">	private final ArrayList&lt;CinemaBean&gt; cinemaList;</div><div class="line">	private final AppBaseActivity context;</div><div class="line"></div><div class="line">	public CinemaAdapter(ArrayList&lt;CinemaBean&gt; cinemaList,</div><div class="line">			AppBaseActivity context) &#123;</div><div class="line">		this.cinemaList = cinemaList;</div><div class="line">		this.context = context;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getCount() &#123;</div><div class="line">		return cinemaList.size();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public CinemaBean getItem(final int position) &#123;</div><div class="line">		return cinemaList.get(position);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public long getItemId(final int position) &#123;</div><div class="line"></div><div class="line">		return position;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>对于每个自定义的Adapter，都要实现以下4个方法：</p>
+<ul>
+<li>getCount()</li>
+<li>getItem()</li>
+<li>getItemId()</li>
+<li>getView()</li>
+</ul>
+<p>此外，还要内置一个Holder嵌套类，用于存放ListView中每一行中的控件。ViewHolder的存在，可以避免频繁创建同一个列表项，从而极大的节省内存，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">class Holder &#123;</div><div class="line">		TextView tvCinemaName;</div><div class="line">		TextView tvCinemaId;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>当有很多列表数据时，快速滑动列表会变的很卡，其实就是因为没有ViewHolder机制导致的，正确的写法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public View getView(final int position, View convertView,</div><div class="line">			final ViewGroup parent) &#123;</div><div class="line">		final Holder holder;</div><div class="line">		if (convertView == null) &#123;</div><div class="line">			holder = new Holder();</div><div class="line">			convertView = context.getLayoutInflater().inflate(</div><div class="line">					R.layout.item_cinemalist, null);</div><div class="line">			holder.tvCinemaName = (TextView) convertView</div><div class="line">					.findViewById(R.id.tvCinemaName);</div><div class="line">			holder.tvCinemaId = (TextView) convertView</div><div class="line">					.findViewById(R.id.tvCinemaId);</div><div class="line">			convertView.setTag(holder);</div><div class="line">		&#125; else &#123;</div><div class="line">			holder = (Holder) convertView.getTag();</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		CinemaBean cinema = cinemaList.get(position);</div><div class="line">		holder.tvCinemaName.setText(cinema.getCinemaName());</div><div class="line">		holder.tvCinemaId.setText(cinema.getCinemaId());</div><div class="line">		return convertView;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>在Activity中，在使用Adapter的地方，我们按照下面的方式把列表数据传递过去：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">	protected void initViews(Bundle savedInstanceState) &#123;</div><div class="line">		setContentView(R.layout.activity_listdemo);		</div><div class="line"></div><div class="line">		lvCinemaList = (ListView) findViewById(R.id.lvCinemalist);</div><div class="line">		</div><div class="line">		CinemaAdapter adapter = new CinemaAdapter(</div><div class="line">				cinemaList, ListDemoActivity.this);</div><div class="line">		lvCinemaList.setAdapter(adapter);</div><div class="line">		lvCinemaList.setOnItemClickListener(</div><div class="line">				new AdapterView.OnItemClickListener() &#123;</div><div class="line">					@Override</div><div class="line">					public void onItemClick(AdapterView&lt;?&gt; parent, View view,</div><div class="line">							int position, long id) &#123;</div><div class="line">						//do something</div><div class="line">					&#125;</div><div class="line">				&#125;);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>###1.6类型安全转换函数</p>
+<p>在每天统计线上崩溃的时候，我们发现因为类型转换不正确导致的崩溃占了很大的比例。于是去检查程序中的所有类型转换，发现主要集中在两个地方：Object类型的对象，substring函数。</p>
+<ul>
+<li><p>对于一个Object类型的对象，我们对其使用字符串操作函数toString，当其为null时就会崩溃。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int result = Integer.valueOf(obj.toString());</div></pre></td></tr></table></figure>
+<p> 一旦obj这个对象为空，那么上面这行代码就会直接崩溃，这里的obj，一般是从JSON数据中取出来的，对于MobileAPI返回的JSON数据，我们无法保证其永远不为空。</p>
+<p> 比较好的做法是编写一个类型安全转换函数convertToInt，实现如下：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">public final static int convertToInt(Object value, int defaultValue) &#123;</div><div class="line">	if (value == null || &quot;&quot;.equals(value.toString().trim())) &#123;</div><div class="line">		return defaultValue;</div><div class="line">	&#125;</div><div class="line">	try &#123;</div><div class="line">		return Integer.valueOf(value.toString());</div><div class="line">	&#125; catch (Exception e) &#123;</div><div class="line">		try &#123;</div><div class="line">			return Double.valueOf(value.toString()).intValue();</div><div class="line">		&#125; catch (Exception e1) &#123;</div><div class="line">			return defaultValue;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 将这个方法放到Utils类下面，每当要把一个Object对象转化成整型时，都使用该方法，就不会崩溃</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int result = Utils.convertToInt(obj, 0);</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果长度不够，执行substring函数就会崩溃。Java的substring有两个参数：start和end。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">String cityName = &quot;T&quot;;</div><div class="line">String firstLetter = cityName.substring(1, 2);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>对于第一个参数设为0一般没有问题，设置为大于0如上代码就会崩溃，使用substring函数的时候，都要判断start和end两个参数是否越界了，应该这样写：</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">String cityName = &quot;T&quot;;</div><div class="line">String firstLetter = &quot;&quot;;</div><div class="line">if(cityName.length() &gt; 1)</div><div class="line">&#123;</div><div class="line">	cityName.substring(1, 2);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</code></pre><p><strong>对于MobileAPI返回的数据</strong></p>
+<ul>
+<li>首先，不能让App直接崩溃，应该在解析JSON数据的外面包一层try…catch…语句，讲截获到的异常在catch中进行处理，比如发送错误日志给服务器。</li>
+<li>其次，需要分级对待，例如：<ul>
+<li>对于那些不需要加工就能直接展示的数据，我们不担心，即使为空页面也就是不显示而已，不会引起逻辑的问题。</li>
+<li>对于那些很重要的数据，比如涉及支付的金额不能为空的逻辑，这时候就应该弹出提示框提示用户当前服务不可用，并停止接下来的操作。</li>
+</ul>
+</li>
+</ul>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,596 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="##View的工作原理###4.1 初识ViewRoot和DecorView
+1、ViewRoot对应于ViewRootImpl类，它是连接WindowManager和DecorView的纽带，View的三大流程均是通过ViewRoot来完成的。在ActivityThread中，当Activity对象被创建完毕后，会将DecorView添加到Window中，同时会创建ViewRootImpl对象，">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part5/ReadingNotes/《Android开发艺术探索》第四章笔记.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="##View的工作原理###4.1 初识ViewRoot和DecorView
+1、ViewRoot对应于ViewRootImpl类，它是连接WindowManager和DecorView的纽带，View的三大流程均是通过ViewRoot来完成的。在ActivityThread中，当Activity对象被创建完毕后，会将DecorView添加到Window中，同时会创建ViewRootImpl对象，">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.218Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="##View的工作原理###4.1 初识ViewRoot和DecorView
+1、ViewRoot对应于ViewRootImpl类，它是连接WindowManager和DecorView的纽带，View的三大流程均是通过ViewRoot来完成的。在ActivityThread中，当Activity对象被创建完毕后，会将DecorView添加到Window中，同时会创建ViewRootImpl对象，">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part5/ReadingNotes/《Android开发艺术探索》第四章笔记.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <h2 id="View的工作原理"><a href="#View的工作原理" class="headerlink" title="##View的工作原理"></a>##View的工作原理</h2><p>###4.1 初识ViewRoot和DecorView</p>
+<p>1、ViewRoot对应于ViewRootImpl类，它是连接WindowManager和DecorView的纽带，View的三大流程均是通过ViewRoot来完成的。在ActivityThread中，当Activity对象被创建完毕后，会将DecorView添加到Window中，同时会创建ViewRootImpl对象，并将ViewRootImpl对象和DecorView建立连接。</p>
+<p>2、View的绘制流程是从ViewRoot的performTraversals方法开始的，它经过measure、layout、draw三个过程才能最终将一个View绘制出来，其中measure用来测量View的宽和高，layout用来确定View在父容器的放置位置，而draw则负责将View绘制在屏幕上。</p>
+<p>3、performTraversals会依次调用performMeasure、performLayout、performDraw三个方法，这三个方法分别完成顶级View的measure、layout和draw这三大流程，其中performMeasure会调用measure方法，在measure方法中又会调用onMeasure方法，在onMeasure方法中对所有的子元素进行measure过程，这个时候measure流程就会从父容器传递到子元素中了，这样就完成了一次measure过程。接着子元素就会重复父容器的measure过程，如此反复就完成了整个View树的遍历。</p>
+<p>4、measure过程中决定了View的宽/高，Measure完成以后，可以通过getMeasureWidth和getMeasureHeight方法来获取到View测量后的宽/高，在几乎所有的情况下它都等同于View最终的宽高。layout决定了View的四个顶点的坐标和View的实际的宽高，通过getWidth和getHeight方法可以获得最终的宽高。draw过程决定了View的显示。</p>
+<p>5、DecorView其实是一个FrameLayout，其中包含了一个竖直方向的LinearLayout，上面是标题栏，下面是内容栏（id为android.R.id.content）。View层的事件都先经过DecorView，然后才传给我们的View。</p>
+<p>###理解MeasureSpec</p>
+<p>1、MeasureSpec通过将SpecMode和SpecSize打包成一个int值来避免过多的内存分配，为了方便操作，其提供了打包和解包方法。SpecMode和SpecSize也是一个int值，一组SpecMode和SpecSize可以打包为一个MeasureSpec，而一个MeasureSpec可以通过解包的形式来得出其原始的SpecMode和SpecSize。</p>
+<p>SpecMode有三类，每一类都表示特殊的含义：</p>
+<ol>
+<li>UNSPECIFIED   父容器不对View有任何的限制，要多大给多大，这种情况下一般用于系统内部，表示一种测量的状态。</li>
+<li>EXACTLY   父容器已经检测出View所需要的精确大小，这个时候View的最终大小就是SpecSize所指定的值，它对应于LayoutParams中的match_parent和具体的数值这两种模式</li>
+<li>AT_MOST   父容器指定了一个可用大小即SpecSize，View的大小不能大于这个值，具体是什么值要看不同View的具体实现。它对应于LayoutParams中的wrap_content</li>
+</ol>
+<p>2、MeasureSpec和LayoutParams的对应关系</p>
+<p>在View测量的时候系统会将LayoutParams在父容器的约束下转换成对应的MeasureSpec，然后再根据这个MeasureSpec来确定View测量后的宽高。</p>
+<p>MeasureSpec不是唯一由LayoutParams决定的，LayoutParams需要和父容器一起才能决定View的MeasureSpec，从而进一步确定View的宽高。对于DecorView，它的MeasureSpec由窗口的尺寸和其自身的LayoutParams来决定；对于普通View，它的MeasureSpec由父容器的MeasureSpec和自身的LayoutParams来共同决定</p>
+<p>3、当view采用固定宽高时，不管父容器的MeasureSpec是什么，view的MeasureSpec都是精确模式，并且大小是LayoutParams中的大小。<br>当view的宽高是match_parent时，如果父容器的模式是精确模式，那么view也是精确模式，并且大小是父容器的剩余空间；如果父容器是最大模式，那么view也是最大模式，并且大小是不会超过父容器的剩余空间。<br>当view的宽高是wrap_content时，不管父容器的模式是精确模式还是最大模式，view的模式总是最大模式，并且大小不超过父容器的剩余空间。</p>
+<p>###4.3 View的工作流程</p>
+<p>1、View的measure过程和Activity的生命周期方法不是同步执行的，因此无法保证Activity执行了onCreate、onStart、onResume时某个View已经测量完毕了。如果View还没有测量完毕，那么获得的宽和高都是0。下面是四种解决该问题的方法：</p>
+<ul>
+<li>Activity/View#onWindowsChanged方法</li>
+</ul>
+<p>onWindowFocusChanged方法表示View已经初始化完毕了，宽高已经准备好了，这个时候去获取是没问题的。这个方法会被调用多次，当Activity继续执行或者暂停执行的时候，这个方法都会被调用。</p>
+<ul>
+<li>View.post(runnable)</li>
+</ul>
+<p>通过post将一个Runnable投递到消息队列的尾部，然后等待Looper调用此runnable的时候，View也已经初始化好了。</p>
+<ul>
+<li>ViewTreeObsever</li>
+</ul>
+<p>使用ViewTreeObserver的众多回调方法可以完成这个功能，比如使用onGlobalLayoutListener接口，当View树的状态发生改变或者View树内部的View的可见性发生改变时，onGlobalLayout方法将被回调。伴随着View树的变化，这个方法也会被多次调用。</p>
+<ul>
+<li>view.measure(int widthMeasureSpec, int heightMeasureSpec)</li>
+</ul>
+<p>通过手动对View进行measure来得到View的宽高，这个要根据View的LayoutParams来处理：</p>
+<p>match_parent:无法measure出具体的宽高</p>
+<p>wrap_content:如下measure，设置最大值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">int widthMeasureSpec = MeasureSpec.makeMeasureSpec((1 &lt;&lt; 30) - 1, MeasureSpec.AT_MOST);</div><div class="line"></div><div class="line">int heightMeasureSpec = MeasureSpec.makeMeasureSpec((1 &lt;&lt; 30) - 1, MeasureSpec.AT_MOST);</div><div class="line"></div><div class="line">view.measure(widthMeasureSpec, heightMeasureSpec);</div></pre></td></tr></table></figure>
+<p>精确值：例如100px</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">int widthMeasureSpec = MeasureSpec.makeMeasureSpec(100, MeasureSpec.EXACTLY);</div><div class="line"></div><div class="line">int heightMeasureSpec = MeasureSpec.makeMeasureSpec(100, MeasureSpec.EXACTLY);</div><div class="line"></div><div class="line">view.measure(widthMeasureSpec, heightMeasureSpec);</div></pre></td></tr></table></figure>
+<p>2、在View的默认实现中，View的测量宽高和最终宽高时相等的，只不过测量宽高形成于measure过程，而最终宽高形成于layout过程。</p>
+<p>3、draw过程大概有下面几步：</p>
+<ol>
+<li>绘制背景：background.draw(canvas);</li>
+<li>绘制自己：onDraw();</li>
+<li>绘制children：dispatchDraw;</li>
+<li>绘制装饰：onDrawScrollBars</li>
+</ol>
+<p>###4.4自定义View</p>
+<p>作者将自定义View分为以下4类：</p>
+<ol>
+<li>继承view重写onDraw方法</li>
+<li>继承ViewGroup派生特殊的Layout</li>
+<li>继承特定的View(比如TextView)</li>
+<li>继承特殊的ViewGroup(比如LinearLayout)</li>
+</ol>
+<p>自定义View须知：</p>
+<ol>
+<li>让View支持wrap_content</li>
+<li>如果有必要，让你的View支持padding</li>
+<li>尽量不要在View中使用Handler，没必要</li>
+<li>View中如果有线程或者动画，需要及时停止，参考View#onDetachedFromWindow</li>
+<li>View带有滑动嵌套情形时，需要处理好滑动冲突</li>
+</ol>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,567 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#Zygote和System进程的启动过程##init脚本的启动12345+------------+    +-------+   +-----------+|Linux Kernel+--&amp;gt; |init.rc+-&amp;gt; |app_process|+------------+    +-------+   +-----------+               create and pu">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part1/Android/Zygote和System进程的启动过程.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="#Zygote和System进程的启动过程##init脚本的启动12345+------------+    +-------+   +-----------+|Linux Kernel+--&amp;gt; |init.rc+-&amp;gt; |app_process|+------------+    +-------+   +-----------+               create and pu">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.133Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="#Zygote和System进程的启动过程##init脚本的启动12345+------------+    +-------+   +-----------+|Linux Kernel+--&amp;gt; |init.rc+-&amp;gt; |app_process|+------------+    +-------+   +-----------+               create and pu">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part1/Android/Zygote和System进程的启动过程.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <h2 id="Zygote和System进程的启动过程"><a href="#Zygote和System进程的启动过程" class="headerlink" title="#Zygote和System进程的启动过程"></a>#Zygote和System进程的启动过程</h2><h2 id="init脚本的启动"><a href="#init脚本的启动" class="headerlink" title="##init脚本的启动"></a>##init脚本的启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+------------+    +-------+   +-----------+</div><div class="line">|Linux Kernel+--&gt; |init.rc+-&gt; |app_process|</div><div class="line">+------------+    +-------+   +-----------+</div><div class="line">               create and public          </div><div class="line">                 server socket</div></pre></td></tr></table></figure>
+<p>linux内核加载完成后，运行init.rc脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-system-server socket zygote stream 666</div></pre></td></tr></table></figure>
+<ul>
+<li>/system/bin/app_process Zygote服务启动的进程名</li>
+<li>–start-system-server 表明Zygote启动完成之后，要启动System进程。</li>
+<li>socket zygote stream 666 在Zygote启动时，创建一个权限为666的socket。此socket用来请求Zygote创建新进程。socket的fd保存在名称为“ANDROID_SOCKET_zygote”的环境变量中。</li>
+</ul>
+<h2 id="Zygote进程的启动过程"><a href="#Zygote进程的启动过程" class="headerlink" title="##Zygote进程的启动过程"></a>##Zygote进程的启动过程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">             create rumtime                            </div><div class="line">+-----------+            +----------+                  </div><div class="line">|app_process+----------&gt; |ZygoteInit|                  </div><div class="line">+-----------+            +-----+----+                  </div><div class="line">                               |                       </div><div class="line">                               |                       </div><div class="line">                               | registerZygoteSocket()</div><div class="line">                               |                       </div><div class="line"> +------+  startSystemServer() |                       </div><div class="line"> |System| &lt;-------+            |                       </div><div class="line"> +------+   fork               | runSelectLoopMode()   </div><div class="line">                               |                       </div><div class="line">                               v</div></pre></td></tr></table></figure>
+<p><strong>app_process进程</strong></p>
+<hr>
+<p>/system/bin/app_process 启动时创建了一个AppRuntime对象。通过AppRuntime对象的start方法，通过JNI调用创建了一个虚拟机实例，然后运行com.android.internal.os.ZygoteInit类的静态main方法，传递true(boolean startSystemServer)参数。</p>
+<p><strong>ZygoteInit类</strong></p>
+<hr>
+<p>ZygoteInit类的main方法运行时，会通过registerZygoteSocket方法创建一个供ActivityManagerService使用的server socket。然后通过调用startSystemServer方法来启动System进程。最后通过runSelectLoopMode来等待AMS的新建进程请求。</p>
+<ol>
+<li>在registerZygoteSocket方法中，通过名为ANDROID_SOCKET_zygote的环境获取到zygote启动时创建的socket的fd，然后以此来创建server socket。</li>
+<li>在startSystemServer方法中，通过Zygote.forkSystemServer方法创建了一个子进程，并将其用户和用户组的ID设置为1000。</li>
+<li>在runSelectLoopMode方法中，会将之前建立的server socket保存起来。然后进入一个无限循环，在其中通过selectReadable方法，监听socket是否有数据可读。有数据则说明接收到了一个请求。<br>selectReadable方法会返回一个整数值index。如果index为0，则说明这个是AMS发过来的连接请求。这时会与AMS建立一个新的socket连接，并包装成ZygoteConnection对象保存起来。如果index大于0，则说明这是AMS发过来的一个创建新进程的请求。此时会取出之前保存的ZygoteConnection对象，调用其中的runOnce方法创建新进程。调用完成后将connection删除。<br>这就是Zygote处理一次AMS请求的过程。</li>
+</ol>
+<h2 id="System进程的启动"><a href="#System进程的启动" class="headerlink" title="##System进程的启动"></a>##System进程的启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">+                                                     </div><div class="line">|                                                     </div><div class="line">|                                                     </div><div class="line">v fork()                                              </div><div class="line">+--------------+                                      </div><div class="line">|System Process|                                      </div><div class="line">+------+-------+                                      </div><div class="line">       |                                              </div><div class="line">       | RuntimeInit.zygoteInit() commonInit, zygoteInitNative                                             </div><div class="line">       | init1()  SurfaceFlinger, SensorServic...     </div><div class="line">       |                                              </div><div class="line">       |                                              </div><div class="line">       | init2() +------------+                       </div><div class="line">       +-------&gt; |ServerThread|                       </div><div class="line">       |         +----+-------+                       </div><div class="line">       |              |                               </div><div class="line">       |              | AMS, PMS, WMS...              </div><div class="line">       |              |                               </div><div class="line">       |              |                               </div><div class="line">       |              |                               </div><div class="line">       v              v</div></pre></td></tr></table></figure>
+<p>System进程是在ZygoteInit的handleSystemServerProcess中开始启动的。</p>
+<ol>
+<li>首先，因为System进程是直接fork Zygote进程的，所以要先通过closeServerSocket方法关掉server socket。</li>
+<li>调用RuntimeInit.zygoteInit方法进一步启动System进程。在zygoteInit中，通过commonInit方法设置时区和键盘布局等通用信息，然后通过zygoteInitNative方法启动了一个Binder线程池。最后通过invokeStaticMain方法调用SystemServer类的静态Main方法。</li>
+<li>SystemServer类的main通过JNI调用cpp实现的init1方法。在init1方法中，会启动各种以C++开发的系统服务（例如SurfaceFlinger和SensorService）。然后回调ServerServer类的init2方法来启动以Java开发的系统服务。</li>
+<li>在init2方法中，首先会新建名为”android.server.ServerThread”的ServerThread线程，并调用其start方法。然后在该线程中启动各种Service（例如AMS，PMS，WMS等）。启动的方式是调用对应Service类的静态main方法。</li>
+<li>首先，AMS会被创建，但未注册到ServerManager中。然后PMS被创建，AMS这时候才注册到ServerManager中。然后到ContentService、WMS等。<br>注册到ServerManager中时会制定Service的名字，其后其他进程可以通过这个名字来获取到Binder Proxy对象，以访问Service提供的服务。</li>
+<li>执行到这里，System就将系统的关键服务启动起来了，这时候其他进程便可利用这些Service提供的基础服务了。</li>
+<li>最后会调用ActivityManagerService的systemReady方法，在该方法里会启动系统界面以及Home程序。</li>
+</ol>
+<p>##Android进程启动</p>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">   +----------------------+       +-------+      +----------+   +----------------+   +-----------+                         </div><div class="line">   |ActivityManagerService|       |Process|      |ZygoteInit|   |ZygoteConnection|   |RuntimeInit|                         </div><div class="line">   +--------------+-------+       +---+---+      +-----+----+   +-----------+----+   +------+----+                         </div><div class="line">                  |                   |                |                    |               |                              </div><div class="line">                  |                   |                |                    |               |                              </div><div class="line"> startProcessLocked()                 |                |                    |               |                              </div><div class="line">+---------------&gt; |                   |                |                    |               |                              </div><div class="line">                  |  start()          |                |                    |               |                              </div><div class="line">                  |  &quot;android.app.ActivityThread&quot;      |                    |               |                              </div><div class="line">                  +-----------------&gt; |                |                    |               |                              </div><div class="line">                  |                   |                |                    |               |                              </div><div class="line">                  |                   |                |                    |               |                              </div><div class="line">                  |                   |openZygoteSocketIfNeeded()           |               |                              </div><div class="line">                  |                   +------+         |                    |               |                              </div><div class="line">                  |                   |      |         |                    |               |                              </div><div class="line">                  |                   | &lt;----+         |                    |               |                              </div><div class="line">                  |                   |                |                    |               |                              </div><div class="line">                  |                   |sZygoteWriter.write(arg)             |               |                              </div><div class="line">                  |                   +------+         |                    |               |                              </div><div class="line">                  |                   |      |         |                    |               |                              </div><div class="line">                  |                   |      |         |                    |               |                              </div><div class="line">                  |                   | &lt;----+         |                    |               |                              </div><div class="line">                  |                   |                |                    |               |                              </div><div class="line">                  |                   +--------------&gt; |                    |               |                              </div><div class="line">                  |                   |                |                    |               |                              </div><div class="line">                  |                   |                |runSelectLoopMode() |               |                              </div><div class="line">                  |                   |                +-----------------+  |               |                              </div><div class="line">                  |                   |                |                 |  |               |                              </div><div class="line">                  |                   |                | &lt;---------------+  |               |                              </div><div class="line">                  |                   |                |   acceptCommandPeer()              |                              </div><div class="line">                  |                   |                |                    |               |                              </div><div class="line">                  |                   |                |                    |               |                              </div><div class="line">                  |                   |                |  runOnce()         |               |                              </div><div class="line">                  |                   |                +------------------&gt; |               |                              </div><div class="line">                  |                   |                |                    |forkAndSpecialize()                           </div><div class="line">                  |                   |                |                    +-------------+ |                              </div><div class="line">                  |                   |                |                    |             | |                              </div><div class="line">                  |                   |                |                    | &lt;-----------+ |                              </div><div class="line">                  |                   |                |                    |  handleChildProc()                           </div><div class="line">                  |                   |                |                    |               |                              </div><div class="line">                  |                   |                |                    |               |                              </div><div class="line">                  |                   |                |                    |               |                              </div><div class="line">                  |                   |                |                    | zygoteInit()  |                              </div><div class="line">                  |                   |                |                    +-------------&gt; |                              </div><div class="line">                  |                   |                |                    |               |                              </div><div class="line">                  |                   |                |                    |               |in^okeStaticMain()            </div><div class="line">                  |                   |                |                    |               +----------------&gt;             </div><div class="line">                  |                   |                |                    |               |(&quot;android.app.ActivityThread&quot;)</div><div class="line">                  |                   |                |                    |               |                              </div><div class="line">                  |                   |                |                    |               |                              </div><div class="line">                  +                   +                +                    +               +</div></pre></td></tr></table></figure>
+<ul>
+<li>AMS向Zygote发起请求（通过之前保存的socket），携带各种参数，包括“android.app.ActivityThread”。</li>
+<li>Zygote进程fork自己，然后在新Zygote进程中调用RuntimeInit.zygoteInit方法进行一系列的初始化（commonInit、Binder线程池初始化等）。</li>
+<li>新Zygote进程中调用ActivityThread的main函数，并启动消息循环。</li>
+</ul>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

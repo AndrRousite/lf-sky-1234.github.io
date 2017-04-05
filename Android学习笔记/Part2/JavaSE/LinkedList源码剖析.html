@@ -1,0 +1,556 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="##LinkedList简介LinkedList是基于双向循环链表（从源码中可以很容易看出）实现的，除了可以当作链表来操作外，它还可以当作栈，队列和双端队列来使用。
+LinkedList同样是非线程安全的，只在单线程下适合使用。
+LinkedList实现了Serializable接口，因此它支持序列化，能够通过序列化传输，实现了Cloneable接口，能被克隆。
+##LinkedList源码剖析L">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part2/JavaSE/LinkedList源码剖析.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="##LinkedList简介LinkedList是基于双向循环链表（从源码中可以很容易看出）实现的，除了可以当作链表来操作外，它还可以当作栈，队列和双端队列来使用。
+LinkedList同样是非线程安全的，只在单线程下适合使用。
+LinkedList实现了Serializable接口，因此它支持序列化，能够通过序列化传输，实现了Cloneable接口，能被克隆。
+##LinkedList源码剖析L">
+<meta property="og:image" content="http://img.blog.csdn.net/20140629153056171">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.171Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="##LinkedList简介LinkedList是基于双向循环链表（从源码中可以很容易看出）实现的，除了可以当作链表来操作外，它还可以当作栈，队列和双端队列来使用。
+LinkedList同样是非线程安全的，只在单线程下适合使用。
+LinkedList实现了Serializable接口，因此它支持序列化，能够通过序列化传输，实现了Cloneable接口，能被克隆。
+##LinkedList源码剖析L">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20140629153056171">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part2/JavaSE/LinkedList源码剖析.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <p>##LinkedList简介<br>LinkedList是基于双向循环链表（从源码中可以很容易看出）实现的，除了可以当作链表来操作外，它还可以当作栈，队列和双端队列来使用。</p>
+<p>LinkedList同样是非线程安全的，只在单线程下适合使用。</p>
+<p>LinkedList实现了Serializable接口，因此它支持序列化，能够通过序列化传输，实现了Cloneable接口，能被克隆。</p>
+<p>##LinkedList源码剖析<br>LinkedList的源码如下（加入了比较详细的注释）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div><div class="line">355</div><div class="line">356</div><div class="line">357</div><div class="line">358</div><div class="line">359</div><div class="line">360</div><div class="line">361</div><div class="line">362</div><div class="line">363</div><div class="line">364</div><div class="line">365</div><div class="line">366</div><div class="line">367</div><div class="line">368</div><div class="line">369</div><div class="line">370</div><div class="line">371</div><div class="line">372</div><div class="line">373</div><div class="line">374</div><div class="line">375</div><div class="line">376</div><div class="line">377</div><div class="line">378</div><div class="line">379</div><div class="line">380</div><div class="line">381</div><div class="line">382</div><div class="line">383</div><div class="line">384</div><div class="line">385</div><div class="line">386</div><div class="line">387</div><div class="line">388</div><div class="line">389</div><div class="line">390</div><div class="line">391</div><div class="line">392</div><div class="line">393</div><div class="line">394</div><div class="line">395</div><div class="line">396</div><div class="line">397</div><div class="line">398</div><div class="line">399</div><div class="line">400</div><div class="line">401</div><div class="line">402</div><div class="line">403</div><div class="line">404</div><div class="line">405</div><div class="line">406</div><div class="line">407</div><div class="line">408</div><div class="line">409</div><div class="line">410</div><div class="line">411</div><div class="line">412</div><div class="line">413</div><div class="line">414</div><div class="line">415</div><div class="line">416</div><div class="line">417</div><div class="line">418</div><div class="line">419</div><div class="line">420</div><div class="line">421</div><div class="line">422</div><div class="line">423</div><div class="line">424</div><div class="line">425</div><div class="line">426</div><div class="line">427</div><div class="line">428</div><div class="line">429</div><div class="line">430</div><div class="line">431</div><div class="line">432</div><div class="line">433</div><div class="line">434</div><div class="line">435</div><div class="line">436</div><div class="line">437</div><div class="line">438</div><div class="line">439</div><div class="line">440</div><div class="line">441</div><div class="line">442</div><div class="line">443</div><div class="line">444</div><div class="line">445</div><div class="line">446</div><div class="line">447</div><div class="line">448</div><div class="line">449</div><div class="line">450</div><div class="line">451</div><div class="line">452</div><div class="line">453</div><div class="line">454</div><div class="line">455</div><div class="line">456</div><div class="line">457</div><div class="line">458</div><div class="line">459</div><div class="line">460</div><div class="line">461</div><div class="line">462</div><div class="line">463</div><div class="line">464</div><div class="line">465</div><div class="line">466</div><div class="line">467</div><div class="line">468</div><div class="line">469</div><div class="line">470</div><div class="line">471</div><div class="line">472</div><div class="line">473</div><div class="line">474</div><div class="line">475</div><div class="line">476</div><div class="line">477</div><div class="line">478</div><div class="line">479</div><div class="line">480</div><div class="line">481</div><div class="line">482</div><div class="line">483</div><div class="line">484</div><div class="line">485</div><div class="line">486</div><div class="line">487</div><div class="line">488</div><div class="line">489</div><div class="line">490</div><div class="line">491</div><div class="line">492</div><div class="line">493</div><div class="line">494</div><div class="line">495</div><div class="line">496</div><div class="line">497</div><div class="line">498</div><div class="line">499</div><div class="line">500</div><div class="line">501</div><div class="line">502</div><div class="line">503</div><div class="line">504</div><div class="line">505</div><div class="line">506</div><div class="line">507</div><div class="line">508</div><div class="line">509</div><div class="line">510</div><div class="line">511</div><div class="line">512</div><div class="line">513</div><div class="line">514</div><div class="line">515</div><div class="line">516</div><div class="line">517</div><div class="line">518</div><div class="line">519</div><div class="line">520</div><div class="line">521</div><div class="line">522</div><div class="line">523</div><div class="line">524</div><div class="line">525</div><div class="line">526</div><div class="line">527</div><div class="line">528</div><div class="line">529</div><div class="line">530</div><div class="line">531</div><div class="line">532</div><div class="line">533</div><div class="line">534</div><div class="line">535</div><div class="line">536</div><div class="line">537</div><div class="line">538</div><div class="line">539</div><div class="line">540</div><div class="line">541</div><div class="line">542</div><div class="line">543</div><div class="line">544</div><div class="line">545</div><div class="line">546</div><div class="line">547</div><div class="line">548</div><div class="line">549</div><div class="line">550</div><div class="line">551</div><div class="line">552</div><div class="line">553</div><div class="line">554</div><div class="line">555</div><div class="line">556</div><div class="line">557</div><div class="line">558</div><div class="line">559</div><div class="line">560</div><div class="line">561</div><div class="line">562</div><div class="line">563</div><div class="line">564</div><div class="line">565</div><div class="line">566</div><div class="line">567</div><div class="line">568</div><div class="line">569</div><div class="line">570</div><div class="line">571</div><div class="line">572</div><div class="line">573</div><div class="line">574</div><div class="line">575</div><div class="line">576</div><div class="line">577</div><div class="line">578</div><div class="line">579</div><div class="line">580</div><div class="line">581</div><div class="line">582</div><div class="line">583</div><div class="line">584</div><div class="line">585</div><div class="line">586</div><div class="line">587</div><div class="line">588</div><div class="line">589</div><div class="line">590</div><div class="line">591</div><div class="line">592</div><div class="line">593</div><div class="line">594</div><div class="line">595</div><div class="line">596</div><div class="line">597</div><div class="line">598</div><div class="line">599</div><div class="line">600</div><div class="line">601</div><div class="line">602</div><div class="line">603</div><div class="line">604</div><div class="line">605</div><div class="line">606</div><div class="line">607</div><div class="line">608</div><div class="line">609</div><div class="line">610</div><div class="line">611</div><div class="line">612</div><div class="line">613</div><div class="line">614</div><div class="line">615</div><div class="line">616</div><div class="line">617</div><div class="line">618</div><div class="line">619</div><div class="line">620</div><div class="line">621</div><div class="line">622</div><div class="line">623</div><div class="line">624</div><div class="line">625</div><div class="line">626</div><div class="line">627</div><div class="line">628</div><div class="line">629</div><div class="line">630</div><div class="line">631</div><div class="line">632</div><div class="line">633</div><div class="line">634</div><div class="line">635</div><div class="line">636</div><div class="line">637</div><div class="line">638</div><div class="line">639</div></pre></td><td class="code"><pre><div class="line">package java.util;    </div><div class="line">   </div><div class="line">public class LinkedList&lt;E&gt;    </div><div class="line">    extends AbstractSequentialList&lt;E&gt;    </div><div class="line">    implements List&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable    </div><div class="line">&#123;    </div><div class="line">    // 链表的表头，表头不包含任何数据。Entry是个链表类数据结构。    </div><div class="line">    private transient Entry&lt;E&gt; header = new Entry&lt;E&gt;(null, null, null);    </div><div class="line">   </div><div class="line">    // LinkedList中元素个数    </div><div class="line">    private transient int size = 0;    </div><div class="line">   </div><div class="line">    // 默认构造函数：创建一个空的链表    </div><div class="line">    public LinkedList() &#123;    </div><div class="line">        header.next = header.previous = header;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 包含“集合”的构造函数:创建一个包含“集合”的LinkedList    </div><div class="line">    public LinkedList(Collection&lt;? extends E&gt; c) &#123;    </div><div class="line">        this();    </div><div class="line">        addAll(c);    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 获取LinkedList的第一个元素    </div><div class="line">    public E getFirst() &#123;    </div><div class="line">        if (size==0)    </div><div class="line">            throw new NoSuchElementException();    </div><div class="line">   </div><div class="line">        // 链表的表头header中不包含数据。    </div><div class="line">        // 这里返回header所指下一个节点所包含的数据。    </div><div class="line">        return header.next.element;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 获取LinkedList的最后一个元素    </div><div class="line">    public E getLast()  &#123;    </div><div class="line">        if (size==0)    </div><div class="line">            throw new NoSuchElementException();    </div><div class="line">   </div><div class="line">        // 由于LinkedList是双向链表；而表头header不包含数据。    </div><div class="line">        // 因而，这里返回表头header的前一个节点所包含的数据。    </div><div class="line">        return header.previous.element;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 删除LinkedList的第一个元素    </div><div class="line">    public E removeFirst() &#123;    </div><div class="line">        return remove(header.next);    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 删除LinkedList的最后一个元素    </div><div class="line">    public E removeLast() &#123;    </div><div class="line">        return remove(header.previous);    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 将元素添加到LinkedList的起始位置    </div><div class="line">    public void addFirst(E e) &#123;    </div><div class="line">        addBefore(e, header.next);    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 将元素添加到LinkedList的结束位置    </div><div class="line">    public void addLast(E e) &#123;    </div><div class="line">        addBefore(e, header);    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 判断LinkedList是否包含元素(o)    </div><div class="line">    public boolean contains(Object o) &#123;    </div><div class="line">        return indexOf(o) != -1;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 返回LinkedList的大小    </div><div class="line">    public int size() &#123;    </div><div class="line">        return size;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 将元素(E)添加到LinkedList中    </div><div class="line">    public boolean add(E e) &#123;    </div><div class="line">        // 将节点(节点数据是e)添加到表头(header)之前。    </div><div class="line">        // 即，将节点添加到双向链表的末端。    </div><div class="line">        addBefore(e, header);    </div><div class="line">        return true;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 从LinkedList中删除元素(o)    </div><div class="line">    // 从链表开始查找，如存在元素(o)则删除该元素并返回true；    </div><div class="line">    // 否则，返回false。    </div><div class="line">    public boolean remove(Object o) &#123;    </div><div class="line">        if (o==null) &#123;    </div><div class="line">            // 若o为null的删除情况    </div><div class="line">            for (Entry&lt;E&gt; e = header.next; e != header; e = e.next) &#123;    </div><div class="line">                if (e.element==null) &#123;    </div><div class="line">                    remove(e);    </div><div class="line">                    return true;    </div><div class="line">                &#125;    </div><div class="line">            &#125;    </div><div class="line">        &#125; else &#123;    </div><div class="line">            // 若o不为null的删除情况    </div><div class="line">            for (Entry&lt;E&gt; e = header.next; e != header; e = e.next) &#123;    </div><div class="line">                if (o.equals(e.element)) &#123;    </div><div class="line">                    remove(e);    </div><div class="line">                    return true;    </div><div class="line">                &#125;    </div><div class="line">            &#125;    </div><div class="line">        &#125;    </div><div class="line">        return false;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 将“集合(c)”添加到LinkedList中。    </div><div class="line">    // 实际上，是从双向链表的末尾开始，将“集合(c)”添加到双向链表中。    </div><div class="line">    public boolean addAll(Collection&lt;? extends E&gt; c) &#123;    </div><div class="line">        return addAll(size, c);    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 从双向链表的index开始，将“集合(c)”添加到双向链表中。    </div><div class="line">    public boolean addAll(int index, Collection&lt;? extends E&gt; c) &#123;    </div><div class="line">        if (index &lt; 0 || index &gt; size)    </div><div class="line">            throw new IndexOutOfBoundsException(&quot;Index: &quot;+index+    </div><div class="line">                                                &quot;, Size: &quot;+size);    </div><div class="line">        Object[] a = c.toArray();    </div><div class="line">        // 获取集合的长度    </div><div class="line">        int numNew = a.length;    </div><div class="line">        if (numNew==0)    </div><div class="line">            return false;    </div><div class="line">        modCount++;    </div><div class="line">   </div><div class="line">        // 设置“当前要插入节点的后一个节点”    </div><div class="line">        Entry&lt;E&gt; successor = (index==size ? header : entry(index));    </div><div class="line">        // 设置“当前要插入节点的前一个节点”    </div><div class="line">        Entry&lt;E&gt; predecessor = successor.previous;    </div><div class="line">        // 将集合(c)全部插入双向链表中    </div><div class="line">        for (int i=0; i&lt;numNew; i++) &#123;    </div><div class="line">            Entry&lt;E&gt; e = new Entry&lt;E&gt;((E)a[i], successor, predecessor);    </div><div class="line">            predecessor.next = e;    </div><div class="line">            predecessor = e;    </div><div class="line">        &#125;    </div><div class="line">        successor.previous = predecessor;    </div><div class="line">   </div><div class="line">        // 调整LinkedList的实际大小    </div><div class="line">        size += numNew;    </div><div class="line">        return true;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 清空双向链表    </div><div class="line">    public void clear() &#123;    </div><div class="line">        Entry&lt;E&gt; e = header.next;    </div><div class="line">        // 从表头开始，逐个向后遍历；对遍历到的节点执行一下操作：    </div><div class="line">        // (01) 设置前一个节点为null     </div><div class="line">        // (02) 设置当前节点的内容为null     </div><div class="line">        // (03) 设置后一个节点为“新的当前节点”    </div><div class="line">        while (e != header) &#123;    </div><div class="line">            Entry&lt;E&gt; next = e.next;    </div><div class="line">            e.next = e.previous = null;    </div><div class="line">            e.element = null;    </div><div class="line">            e = next;    </div><div class="line">        &#125;    </div><div class="line">        header.next = header.previous = header;    </div><div class="line">        // 设置大小为0    </div><div class="line">        size = 0;    </div><div class="line">        modCount++;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 返回LinkedList指定位置的元素    </div><div class="line">    public E get(int index) &#123;    </div><div class="line">        return entry(index).element;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 设置index位置对应的节点的值为element    </div><div class="line">    public E set(int index, E element) &#123;    </div><div class="line">        Entry&lt;E&gt; e = entry(index);    </div><div class="line">        E oldVal = e.element;    </div><div class="line">        e.element = element;    </div><div class="line">        return oldVal;    </div><div class="line">    &#125;    </div><div class="line">     </div><div class="line">    // 在index前添加节点，且节点的值为element    </div><div class="line">    public void add(int index, E element) &#123;    </div><div class="line">        addBefore(element, (index==size ? header : entry(index)));    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 删除index位置的节点    </div><div class="line">    public E remove(int index) &#123;    </div><div class="line">        return remove(entry(index));    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 获取双向链表中指定位置的节点    </div><div class="line">    private Entry&lt;E&gt; entry(int index) &#123;    </div><div class="line">        if (index &lt; 0 || index &gt;= size)    </div><div class="line">            throw new IndexOutOfBoundsException(&quot;Index: &quot;+index+    </div><div class="line">                                                &quot;, Size: &quot;+size);    </div><div class="line">        Entry&lt;E&gt; e = header;    </div><div class="line">        // 获取index处的节点。    </div><div class="line">        // 若index &lt; 双向链表长度的1/2,则从前先后查找;    </div><div class="line">        // 否则，从后向前查找。    </div><div class="line">        if (index &lt; (size &gt;&gt; 1)) &#123;    </div><div class="line">            for (int i = 0; i &lt;= index; i++)    </div><div class="line">                e = e.next;    </div><div class="line">        &#125; else &#123;    </div><div class="line">            for (int i = size; i &gt; index; i--)    </div><div class="line">                e = e.previous;    </div><div class="line">        &#125;    </div><div class="line">        return e;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 从前向后查找，返回“值为对象(o)的节点对应的索引”    </div><div class="line">    // 不存在就返回-1    </div><div class="line">    public int indexOf(Object o) &#123;    </div><div class="line">        int index = 0;    </div><div class="line">        if (o==null) &#123;    </div><div class="line">            for (Entry e = header.next; e != header; e = e.next) &#123;    </div><div class="line">                if (e.element==null)    </div><div class="line">                    return index;    </div><div class="line">                index++;    </div><div class="line">            &#125;    </div><div class="line">        &#125; else &#123;    </div><div class="line">            for (Entry e = header.next; e != header; e = e.next) &#123;    </div><div class="line">                if (o.equals(e.element))    </div><div class="line">                    return index;    </div><div class="line">                index++;    </div><div class="line">            &#125;    </div><div class="line">        &#125;    </div><div class="line">        return -1;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 从后向前查找，返回“值为对象(o)的节点对应的索引”    </div><div class="line">    // 不存在就返回-1    </div><div class="line">    public int lastIndexOf(Object o) &#123;    </div><div class="line">        int index = size;    </div><div class="line">        if (o==null) &#123;    </div><div class="line">            for (Entry e = header.previous; e != header; e = e.previous) &#123;    </div><div class="line">                index--;    </div><div class="line">                if (e.element==null)    </div><div class="line">                    return index;    </div><div class="line">            &#125;    </div><div class="line">        &#125; else &#123;    </div><div class="line">            for (Entry e = header.previous; e != header; e = e.previous) &#123;    </div><div class="line">                index--;    </div><div class="line">                if (o.equals(e.element))    </div><div class="line">                    return index;    </div><div class="line">            &#125;    </div><div class="line">        &#125;    </div><div class="line">        return -1;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 返回第一个节点    </div><div class="line">    // 若LinkedList的大小为0,则返回null    </div><div class="line">    public E peek() &#123;    </div><div class="line">        if (size==0)    </div><div class="line">            return null;    </div><div class="line">        return getFirst();    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 返回第一个节点    </div><div class="line">    // 若LinkedList的大小为0,则抛出异常    </div><div class="line">    public E element() &#123;    </div><div class="line">        return getFirst();    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 删除并返回第一个节点    </div><div class="line">    // 若LinkedList的大小为0,则返回null    </div><div class="line">    public E poll() &#123;    </div><div class="line">        if (size==0)    </div><div class="line">            return null;    </div><div class="line">        return removeFirst();    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 将e添加双向链表末尾    </div><div class="line">    public boolean offer(E e) &#123;    </div><div class="line">        return add(e);    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 将e添加双向链表开头    </div><div class="line">    public boolean offerFirst(E e) &#123;    </div><div class="line">        addFirst(e);    </div><div class="line">        return true;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 将e添加双向链表末尾    </div><div class="line">    public boolean offerLast(E e) &#123;    </div><div class="line">        addLast(e);    </div><div class="line">        return true;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 返回第一个节点    </div><div class="line">    // 若LinkedList的大小为0,则返回null    </div><div class="line">    public E peekFirst() &#123;    </div><div class="line">        if (size==0)    </div><div class="line">            return null;    </div><div class="line">        return getFirst();    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 返回最后一个节点    </div><div class="line">    // 若LinkedList的大小为0,则返回null    </div><div class="line">    public E peekLast() &#123;    </div><div class="line">        if (size==0)    </div><div class="line">            return null;    </div><div class="line">        return getLast();    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 删除并返回第一个节点    </div><div class="line">    // 若LinkedList的大小为0,则返回null    </div><div class="line">    public E pollFirst() &#123;    </div><div class="line">        if (size==0)    </div><div class="line">            return null;    </div><div class="line">        return removeFirst();    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 删除并返回最后一个节点    </div><div class="line">    // 若LinkedList的大小为0,则返回null    </div><div class="line">    public E pollLast() &#123;    </div><div class="line">        if (size==0)    </div><div class="line">            return null;    </div><div class="line">        return removeLast();    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 将e插入到双向链表开头    </div><div class="line">    public void push(E e) &#123;    </div><div class="line">        addFirst(e);    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 删除并返回第一个节点    </div><div class="line">    public E pop() &#123;    </div><div class="line">        return removeFirst();    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 从LinkedList开始向后查找，删除第一个值为元素(o)的节点    </div><div class="line">    // 从链表开始查找，如存在节点的值为元素(o)的节点，则删除该节点    </div><div class="line">    public boolean removeFirstOccurrence(Object o) &#123;    </div><div class="line">        return remove(o);    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 从LinkedList末尾向前查找，删除第一个值为元素(o)的节点    </div><div class="line">    // 从链表开始查找，如存在节点的值为元素(o)的节点，则删除该节点    </div><div class="line">    public boolean removeLastOccurrence(Object o) &#123;    </div><div class="line">        if (o==null) &#123;    </div><div class="line">            for (Entry&lt;E&gt; e = header.previous; e != header; e = e.previous) &#123;    </div><div class="line">                if (e.element==null) &#123;    </div><div class="line">                    remove(e);    </div><div class="line">                    return true;    </div><div class="line">                &#125;    </div><div class="line">            &#125;    </div><div class="line">        &#125; else &#123;    </div><div class="line">            for (Entry&lt;E&gt; e = header.previous; e != header; e = e.previous) &#123;    </div><div class="line">                if (o.equals(e.element)) &#123;    </div><div class="line">                    remove(e);    </div><div class="line">                    return true;    </div><div class="line">                &#125;    </div><div class="line">            &#125;    </div><div class="line">        &#125;    </div><div class="line">        return false;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 返回“index到末尾的全部节点”对应的ListIterator对象(List迭代器)    </div><div class="line">    public ListIterator&lt;E&gt; listIterator(int index) &#123;    </div><div class="line">        return new ListItr(index);    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // List迭代器    </div><div class="line">    private class ListItr implements ListIterator&lt;E&gt; &#123;    </div><div class="line">        // 上一次返回的节点    </div><div class="line">        private Entry&lt;E&gt; lastReturned = header;    </div><div class="line">        // 下一个节点    </div><div class="line">        private Entry&lt;E&gt; next;    </div><div class="line">        // 下一个节点对应的索引值    </div><div class="line">        private int nextIndex;    </div><div class="line">        // 期望的改变计数。用来实现fail-fast机制。    </div><div class="line">        private int expectedModCount = modCount;    </div><div class="line">   </div><div class="line">        // 构造函数。    </div><div class="line">        // 从index位置开始进行迭代    </div><div class="line">        ListItr(int index) &#123;    </div><div class="line">            // index的有效性处理    </div><div class="line">            if (index &lt; 0 || index &gt; size)    </div><div class="line">                throw new IndexOutOfBoundsException(&quot;Index: &quot;+index+ &quot;, Size: &quot;+size);    </div><div class="line">            // 若 “index 小于 ‘双向链表长度的一半’”，则从第一个元素开始往后查找；    </div><div class="line">            // 否则，从最后一个元素往前查找。    </div><div class="line">            if (index &lt; (size &gt;&gt; 1)) &#123;    </div><div class="line">                next = header.next;    </div><div class="line">                for (nextIndex=0; nextIndex&lt;index; nextIndex++)    </div><div class="line">                    next = next.next;    </div><div class="line">            &#125; else &#123;    </div><div class="line">                next = header;    </div><div class="line">                for (nextIndex=size; nextIndex&gt;index; nextIndex--)    </div><div class="line">                    next = next.previous;    </div><div class="line">            &#125;    </div><div class="line">        &#125;    </div><div class="line">   </div><div class="line">        // 是否存在下一个元素    </div><div class="line">        public boolean hasNext() &#123;    </div><div class="line">            // 通过元素索引是否等于“双向链表大小”来判断是否达到最后。    </div><div class="line">            return nextIndex != size;    </div><div class="line">        &#125;    </div><div class="line">   </div><div class="line">        // 获取下一个元素    </div><div class="line">        public E next() &#123;    </div><div class="line">            checkForComodification();    </div><div class="line">            if (nextIndex == size)    </div><div class="line">                throw new NoSuchElementException();    </div><div class="line">   </div><div class="line">            lastReturned = next;    </div><div class="line">            // next指向链表的下一个元素    </div><div class="line">            next = next.next;    </div><div class="line">            nextIndex++;    </div><div class="line">            return lastReturned.element;    </div><div class="line">        &#125;    </div><div class="line">   </div><div class="line">        // 是否存在上一个元素    </div><div class="line">        public boolean hasPrevious() &#123;    </div><div class="line">            // 通过元素索引是否等于0，来判断是否达到开头。    </div><div class="line">            return nextIndex != 0;    </div><div class="line">        &#125;    </div><div class="line">   </div><div class="line">        // 获取上一个元素    </div><div class="line">        public E previous() &#123;    </div><div class="line">            if (nextIndex == 0)    </div><div class="line">            throw new NoSuchElementException();    </div><div class="line">   </div><div class="line">            // next指向链表的上一个元素    </div><div class="line">            lastReturned = next = next.previous;    </div><div class="line">            nextIndex--;    </div><div class="line">            checkForComodification();    </div><div class="line">            return lastReturned.element;    </div><div class="line">        &#125;    </div><div class="line">   </div><div class="line">        // 获取下一个元素的索引    </div><div class="line">        public int nextIndex() &#123;    </div><div class="line">            return nextIndex;    </div><div class="line">        &#125;    </div><div class="line">   </div><div class="line">        // 获取上一个元素的索引    </div><div class="line">        public int previousIndex() &#123;    </div><div class="line">            return nextIndex-1;    </div><div class="line">        &#125;    </div><div class="line">   </div><div class="line">        // 删除当前元素。    </div><div class="line">        // 删除双向链表中的当前节点    </div><div class="line">        public void remove() &#123;    </div><div class="line">            checkForComodification();    </div><div class="line">            Entry&lt;E&gt; lastNext = lastReturned.next;    </div><div class="line">            try &#123;    </div><div class="line">                LinkedList.this.remove(lastReturned);    </div><div class="line">            &#125; catch (NoSuchElementException e) &#123;    </div><div class="line">                throw new IllegalStateException();    </div><div class="line">            &#125;    </div><div class="line">            if (next==lastReturned)    </div><div class="line">                next = lastNext;    </div><div class="line">            else   </div><div class="line">                nextIndex--;    </div><div class="line">            lastReturned = header;    </div><div class="line">            expectedModCount++;    </div><div class="line">        &#125;    </div><div class="line">   </div><div class="line">        // 设置当前节点为e    </div><div class="line">        public void set(E e) &#123;    </div><div class="line">            if (lastReturned == header)    </div><div class="line">                throw new IllegalStateException();    </div><div class="line">            checkForComodification();    </div><div class="line">            lastReturned.element = e;    </div><div class="line">        &#125;    </div><div class="line">   </div><div class="line">        // 将e添加到当前节点的前面    </div><div class="line">        public void add(E e) &#123;    </div><div class="line">            checkForComodification();    </div><div class="line">            lastReturned = header;    </div><div class="line">            addBefore(e, next);    </div><div class="line">            nextIndex++;    </div><div class="line">            expectedModCount++;    </div><div class="line">        &#125;    </div><div class="line">   </div><div class="line">        // 判断 “modCount和expectedModCount是否相等”，依次来实现fail-fast机制。    </div><div class="line">        final void checkForComodification() &#123;    </div><div class="line">            if (modCount != expectedModCount)    </div><div class="line">            throw new ConcurrentModificationException();    </div><div class="line">        &#125;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 双向链表的节点所对应的数据结构。    </div><div class="line">    // 包含3部分：上一节点，下一节点，当前节点值。    </div><div class="line">    private static class Entry&lt;E&gt; &#123;    </div><div class="line">        // 当前节点所包含的值    </div><div class="line">        E element;    </div><div class="line">        // 下一个节点    </div><div class="line">        Entry&lt;E&gt; next;    </div><div class="line">        // 上一个节点    </div><div class="line">        Entry&lt;E&gt; previous;    </div><div class="line">   </div><div class="line">        /**   </div><div class="line">         * 链表节点的构造函数。   </div><div class="line">         * 参数说明：   </div><div class="line">         *   element  —— 节点所包含的数据   </div><div class="line">         *   next      —— 下一个节点   </div><div class="line">         *   previous —— 上一个节点   </div><div class="line">         */   </div><div class="line">        Entry(E element, Entry&lt;E&gt; next, Entry&lt;E&gt; previous) &#123;    </div><div class="line">            this.element = element;    </div><div class="line">            this.next = next;    </div><div class="line">            this.previous = previous;    </div><div class="line">        &#125;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 将节点(节点数据是e)添加到entry节点之前。    </div><div class="line">    private Entry&lt;E&gt; addBefore(E e, Entry&lt;E&gt; entry) &#123;    </div><div class="line">        // 新建节点newEntry，将newEntry插入到节点e之前；并且设置newEntry的数据是e    </div><div class="line">        Entry&lt;E&gt; newEntry = new Entry&lt;E&gt;(e, entry, entry.previous);    </div><div class="line">        newEntry.previous.next = newEntry;    </div><div class="line">        newEntry.next.previous = newEntry;    </div><div class="line">        // 修改LinkedList大小    </div><div class="line">        size++;    </div><div class="line">        // 修改LinkedList的修改统计数：用来实现fail-fast机制。    </div><div class="line">        modCount++;    </div><div class="line">        return newEntry;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 将节点从链表中删除    </div><div class="line">    private E remove(Entry&lt;E&gt; e) &#123;    </div><div class="line">        if (e == header)    </div><div class="line">            throw new NoSuchElementException();    </div><div class="line">   </div><div class="line">        E result = e.element;    </div><div class="line">        e.previous.next = e.next;    </div><div class="line">        e.next.previous = e.previous;    </div><div class="line">        e.next = e.previous = null;    </div><div class="line">        e.element = null;    </div><div class="line">        size--;    </div><div class="line">        modCount++;    </div><div class="line">        return result;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 反向迭代器    </div><div class="line">    public Iterator&lt;E&gt; descendingIterator() &#123;    </div><div class="line">        return new DescendingIterator();    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 反向迭代器实现类。    </div><div class="line">    private class DescendingIterator implements Iterator &#123;    </div><div class="line">        final ListItr itr = new ListItr(size());    </div><div class="line">        // 反向迭代器是否下一个元素。    </div><div class="line">        // 实际上是判断双向链表的当前节点是否达到开头    </div><div class="line">        public boolean hasNext() &#123;    </div><div class="line">            return itr.hasPrevious();    </div><div class="line">        &#125;    </div><div class="line">        // 反向迭代器获取下一个元素。    </div><div class="line">        // 实际上是获取双向链表的前一个节点    </div><div class="line">        public E next() &#123;    </div><div class="line">            return itr.previous();    </div><div class="line">        &#125;    </div><div class="line">        // 删除当前节点    </div><div class="line">        public void remove() &#123;    </div><div class="line">            itr.remove();    </div><div class="line">        &#125;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">   </div><div class="line">    // 返回LinkedList的Object[]数组    </div><div class="line">    public Object[] toArray() &#123;    </div><div class="line">    // 新建Object[]数组    </div><div class="line">    Object[] result = new Object[size];    </div><div class="line">        int i = 0;    </div><div class="line">        // 将链表中所有节点的数据都添加到Object[]数组中    </div><div class="line">        for (Entry&lt;E&gt; e = header.next; e != header; e = e.next)    </div><div class="line">            result[i++] = e.element;    </div><div class="line">    return result;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // 返回LinkedList的模板数组。所谓模板数组，即可以将T设为任意的数据类型    </div><div class="line">    public &lt;T&gt; T[] toArray(T[] a) &#123;    </div><div class="line">        // 若数组a的大小 &lt; LinkedList的元素个数(意味着数组a不能容纳LinkedList中全部元素)    </div><div class="line">        // 则新建一个T[]数组，T[]的大小为LinkedList大小，并将该T[]赋值给a。    </div><div class="line">        if (a.length &lt; size)    </div><div class="line">            a = (T[])java.lang.reflect.Array.newInstance(    </div><div class="line">                                a.getClass().getComponentType(), size);    </div><div class="line">        // 将链表中所有节点的数据都添加到数组a中    </div><div class="line">        int i = 0;    </div><div class="line">        Object[] result = a;    </div><div class="line">        for (Entry&lt;E&gt; e = header.next; e != header; e = e.next)    </div><div class="line">            result[i++] = e.element;    </div><div class="line">   </div><div class="line">        if (a.length &gt; size)    </div><div class="line">            a[size] = null;    </div><div class="line">   </div><div class="line">        return a;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">   </div><div class="line">    // 克隆函数。返回LinkedList的克隆对象。    </div><div class="line">    public Object clone() &#123;    </div><div class="line">        LinkedList&lt;E&gt; clone = null;    </div><div class="line">        // 克隆一个LinkedList克隆对象    </div><div class="line">        try &#123;    </div><div class="line">            clone = (LinkedList&lt;E&gt;) super.clone();    </div><div class="line">        &#125; catch (CloneNotSupportedException e) &#123;    </div><div class="line">            throw new InternalError();    </div><div class="line">        &#125;    </div><div class="line">   </div><div class="line">        // 新建LinkedList表头节点    </div><div class="line">        clone.header = new Entry&lt;E&gt;(null, null, null);    </div><div class="line">        clone.header.next = clone.header.previous = clone.header;    </div><div class="line">        clone.size = 0;    </div><div class="line">        clone.modCount = 0;    </div><div class="line">   </div><div class="line">        // 将链表中所有节点的数据都添加到克隆对象中    </div><div class="line">        for (Entry&lt;E&gt; e = header.next; e != header; e = e.next)    </div><div class="line">            clone.add(e.element);    </div><div class="line">   </div><div class="line">        return clone;    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // java.io.Serializable的写入函数    </div><div class="line">    // 将LinkedList的“容量，所有的元素值”都写入到输出流中    </div><div class="line">    private void writeObject(java.io.ObjectOutputStream s)    </div><div class="line">        throws java.io.IOException &#123;    </div><div class="line">        // Write out any hidden serialization magic    </div><div class="line">        s.defaultWriteObject();    </div><div class="line">   </div><div class="line">        // 写入“容量”    </div><div class="line">        s.writeInt(size);    </div><div class="line">   </div><div class="line">        // 将链表中所有节点的数据都写入到输出流中    </div><div class="line">        for (Entry e = header.next; e != header; e = e.next)    </div><div class="line">            s.writeObject(e.element);    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">    // java.io.Serializable的读取函数：根据写入方式反向读出    </div><div class="line">    // 先将LinkedList的“容量”读出，然后将“所有的元素值”读出    </div><div class="line">    private void readObject(java.io.ObjectInputStream s)    </div><div class="line">        throws java.io.IOException, ClassNotFoundException &#123;    </div><div class="line">        // Read in any hidden serialization magic    </div><div class="line">        s.defaultReadObject();    </div><div class="line">   </div><div class="line">        // 从输入流中读取“容量”    </div><div class="line">        int size = s.readInt();    </div><div class="line">   </div><div class="line">        // 新建链表表头节点    </div><div class="line">        header = new Entry&lt;E&gt;(null, null, null);    </div><div class="line">        header.next = header.previous = header;    </div><div class="line">   </div><div class="line">        // 从输入流中将“所有的元素值”并逐个添加到链表中    </div><div class="line">        for (int i=0; i&lt;size; i++)    </div><div class="line">            addBefore((E)s.readObject(), header);    </div><div class="line">    &#125;    </div><div class="line">   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>##几点总结</p>
+<p>关于LinkedList的源码，给出几点比较重要的总结：</p>
+<p>1、从源码中很明显可以看出，LinkedList的实现是基于双向循环链表的，且头结点中不存放数据，如下图;</p>
+<p><img src="http://img.blog.csdn.net/20140629153056171" alt=""></p>
+<p>2、注意两个不同的构造方法。无参构造方法直接建立一个仅包含head节点的空链表，包含Collection的构造方法，先调用无参构造方法建立一个空链表，然后将Collection中的数据加入到链表的尾部后面。</p>
+<p>3、在查找和删除某元素时，源码中都划分为该元素为null和不为null两种情况来处理，LinkedList中允许元素为null。</p>
+<p>4、LinkedList是基于链表实现的，因此不存在容量不足的问题，所以这里没有扩容的方法。</p>
+<p> 5、注意源码中的Entry<e> entry(int index)方法。该方法返回双向链表中指定位置处的节点，而链表中是没有下标索引的，要指定位置出的元素，就要遍历该链表，从源码的实现中，我们看到这里有一个加速动作。源码中先将index与长度size的一半比较，如果index<size 2，就只从位置0往后遍历到位置index处，而如果index="">size/2，就只从位置size往前遍历到位置index处。这样可以减少一部分不必要的遍历，从而提高一定的效率（实际上效率还是很低）。</size></e></p>
+<p> 6、注意链表类对应的数据结构Entry。如下;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">// 双向链表的节点所对应的数据结构。    </div><div class="line">// 包含3部分：上一节点，下一节点，当前节点值。    </div><div class="line">private static class Entry&lt;E&gt; &#123;    </div><div class="line">    // 当前节点所包含的值    </div><div class="line">    E element;    </div><div class="line">    // 下一个节点    </div><div class="line">    Entry&lt;E&gt; next;    </div><div class="line">    // 上一个节点    </div><div class="line">    Entry&lt;E&gt; previous;    </div><div class="line">  </div><div class="line">    /**   </div><div class="line">     * 链表节点的构造函数。   </div><div class="line">     * 参数说明：   </div><div class="line">     *   element  —— 节点所包含的数据   </div><div class="line">     *   next      —— 下一个节点   </div><div class="line">     *   previous —— 上一个节点   </div><div class="line">     */   </div><div class="line">    Entry(E element, Entry&lt;E&gt; next, Entry&lt;E&gt; previous) &#123;    </div><div class="line">        this.element = element;    </div><div class="line">        this.next = next;    </div><div class="line">        this.previous = previous;    </div><div class="line">    &#125;    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 7、LinkedList是基于链表实现的，因此插入删除效率高，查找效率低（虽然有一个加速动作）。</p>
+<p> 8、要注意源码中还实现了栈和队列的操作方法，因此也可以作为栈、队列和双端队列来使用。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

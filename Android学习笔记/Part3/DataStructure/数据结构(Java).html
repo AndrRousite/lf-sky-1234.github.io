@@ -1,0 +1,572 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#数据结构和算法：(推荐书籍：剑指offer、编程之美、Cracking、程序员代码面试指南，特别是这四本书上的重复题)
+数组与链表
+####数组：
+创建
+12int c[] = &amp;#123;2,3,6,10,99&amp;#125;;int[] d = new int[10];
+12345678910111213141516/** * 数组检索 * @param args */public static">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part3/DataStructure/数据结构(Java).html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="#数据结构和算法：(推荐书籍：剑指offer、编程之美、Cracking、程序员代码面试指南，特别是这四本书上的重复题)
+数组与链表
+####数组：
+创建
+12int c[] = &amp;#123;2,3,6,10,99&amp;#125;;int[] d = new int[10];
+12345678910111213141516/** * 数组检索 * @param args */public static">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201304/13/1365855052_1221.jpg">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.202Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="#数据结构和算法：(推荐书籍：剑指offer、编程之美、Cracking、程序员代码面试指南，特别是这四本书上的重复题)
+数组与链表
+####数组：
+创建
+12int c[] = &amp;#123;2,3,6,10,99&amp;#125;;int[] d = new int[10];
+12345678910111213141516/** * 数组检索 * @param args */public static">
+<meta name="twitter:image" content="http://img.my.csdn.net/uploads/201304/13/1365855052_1221.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part3/DataStructure/数据结构(Java).html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <h2 id="数据结构和算法："><a href="#数据结构和算法：" class="headerlink" title="#数据结构和算法："></a>#数据结构和算法：</h2><p>(推荐书籍：剑指offer、编程之美、Cracking、程序员代码面试指南，特别是这四本书上的重复题)</p>
+<p><strong>数组与链表</strong></p>
+<p>####数组：</p>
+<p>创建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int c[] = &#123;2,3,6,10,99&#125;;</div><div class="line">int[] d = new int[10];</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 数组检索</div><div class="line"> * @param args</div><div class="line"> */</div><div class="line">public static void main(String[] args) &#123;</div><div class="line">	String name[];</div><div class="line">	</div><div class="line">	name = new String[5];</div><div class="line">	name[0] = &quot;egg&quot;;</div><div class="line">	name[1] = &quot;erqing&quot;;</div><div class="line">	name[2] = &quot;baby&quot;;</div><div class="line">	</div><div class="line">	for(int i = 0; i &lt; name.length; i++)&#123;</div><div class="line">		System.out.println(name[i]);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">	 * 插入</div><div class="line">	 * </div><div class="line">	 * @param old</div><div class="line">	 * @param value</div><div class="line">	 * @param index</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public static int[] insert(int[] old, int value, int index) &#123;  </div><div class="line">        for (int k = old.length - 1; k &gt; index; k--)  </div><div class="line">            old[k] = old[k - 1];  </div><div class="line">        old[index] = value;  </div><div class="line">        return old;  </div><div class="line">    &#125;  </div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 遍历</div><div class="line">	 * </div><div class="line">	 * @param data</div><div class="line">	 */</div><div class="line">	public static void traverse(int data[]) &#123;</div><div class="line">		for (int j = 0; j &lt; data.length; j++) &#123;</div><div class="line">			System.out.println(data[j] + &quot; &quot;);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 删除</div><div class="line">	 * </div><div class="line">	 * @param old</div><div class="line">	 * @param index</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public static int[] delete(int[] old, int index) &#123;</div><div class="line">		for (int h = index; h &lt; old.length - 1; h++) &#123;</div><div class="line">			old[h] = old[h + 1];</div><div class="line">		&#125;</div><div class="line">		old[old.length - 1] = 0;</div><div class="line">		return old;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>Tips:数组中删除和增加元素的原理：增加元素，需要将index后面的依次往后移动，然后将值插入index位置，删除则是将后面的值一次向前移动。</p>
+<p>数组表示相同类型的一类数据的集合，下标从0开始。</p>
+<p>####单链表：</p>
+<p><img src="http://img.my.csdn.net/uploads/201304/13/1365855052_1221.jpg" alt=""></p>
+<p><strong>队列和栈，出栈与入栈。</strong></p>
+<p><strong>链表的删除、插入、反向。</strong></p>
+<p><strong>字符串操作。</strong></p>
+<p><strong>Hash表的hash函数，冲突解决方法有哪些。</strong></p>
+<p><strong>各种排序：冒泡、选择、插入、希尔、归并、快排、堆排、桶排、基数的原理、平均时间复杂度、最坏时间复杂度、空间复杂度、是否稳定。</strong></p>
+<p><strong>快排的partition函数与归并的Merge函数。</strong></p>
+<p><strong>对冒泡与快排的改进。</strong></p>
+<p><strong>二分查找，与变种二分查找。</strong></p>
+<p><strong>二叉树、B+树、AVL树、红黑树、哈夫曼树。</strong></p>
+<p><strong>二叉树的前中后续遍历：递归与非递归写法，层序遍历算法。</strong></p>
+<p>二叉树的前序遍历：</p>
+<p><strong>图的BFS与DFS算法，最小生成树prim算法与最短路径Dijkstra算法。</strong></p>
+<p><strong>KMP算法。</strong></p>
+<p><strong>排列组合问题。</strong></p>
+<p><strong>动态规划、贪心算法、分治算法。（一般不会问到）</strong></p>
+<p><strong>大数据处理：类似10亿条数据找出最大的1000个数………等等</strong></p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

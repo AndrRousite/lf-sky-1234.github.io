@@ -1,0 +1,759 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#《Android开发艺术探索》第三章笔记##View的基础知识
+
+什么是View
+
+View是Android中所有控件的基类，View是一种界面层的控件的一种抽象，它代表了一个控件，在Android设计中，ViewGroup也继承了View，这就意味着View本身就可以是单个控件也可以是多个控件组成的一组控件，通过这种关系就形成了View树的结构。
+
+View的位置参数
+
+view的位置主要由它">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part5/ReadingNotes/《Android开发艺术探索》第三章笔记.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="#《Android开发艺术探索》第三章笔记##View的基础知识
+
+什么是View
+
+View是Android中所有控件的基类，View是一种界面层的控件的一种抽象，它代表了一个控件，在Android设计中，ViewGroup也继承了View，这就意味着View本身就可以是单个控件也可以是多个控件组成的一组控件，通过这种关系就形成了View树的结构。
+
+View的位置参数
+
+view的位置主要由它">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.218Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="#《Android开发艺术探索》第三章笔记##View的基础知识
+
+什么是View
+
+View是Android中所有控件的基类，View是一种界面层的控件的一种抽象，它代表了一个控件，在Android设计中，ViewGroup也继承了View，这就意味着View本身就可以是单个控件也可以是多个控件组成的一组控件，通过这种关系就形成了View树的结构。
+
+View的位置参数
+
+view的位置主要由它">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part5/ReadingNotes/《Android开发艺术探索》第三章笔记.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <h2 id="《Android开发艺术探索》第三章笔记"><a href="#《Android开发艺术探索》第三章笔记" class="headerlink" title="#《Android开发艺术探索》第三章笔记"></a>#《Android开发艺术探索》第三章笔记</h2><p>##View的基础知识</p>
+<ul>
+<li>什么是View</li>
+</ul>
+<p>View是Android中所有控件的基类，View是一种界面层的控件的一种抽象，它代表了一个控件，在Android设计中，ViewGroup也继承了View，这就意味着View本身就可以是单个控件也可以是多个控件组成的一组控件，通过这种关系就形成了View树的结构。</p>
+<ul>
+<li>View的位置参数</li>
+</ul>
+<p>view的位置主要由它的四个顶点来决定，分别对应于View的四个属性：top、left、right、bottom，其中top是左上角纵坐标，left是左上角横坐标，right是右下角横坐标，bottom是右下角纵坐标<br>View的宽高和坐标的关系：</p>
+<p>width = right - left;</p>
+<p>height = bottom - top;</p>
+<p>如何得到这四个参数：</p>
+<p>Left = getLeft();</p>
+<p>Right = getRight();</p>
+<p>Top = getTop();</p>
+<p>Bottom = getBottom();</p>
+<p>从Android 3.0开始，view增加了x、y、translationX、translationY四个参数，这几个参数也是相对于父容器的坐标。x和y是左上角的坐标，而translationX和translationY是view左上角相对于父容器的偏移量，默认值都是0。</p>
+<p>x = left + translationX</p>
+<p>y = top + translationY</p>
+<ul>
+<li>MotionEvent和TouchSlop</li>
+</ul>
+<p>MotionEvent:</p>
+<p>在手指触摸屏幕后所产生的一系列事件中，典型的时间类型有：</p>
+<p>1、ACTION_DOWN-手指刚接触屏幕</p>
+<p>2、ACTION_MOVE-手指在屏幕上移动</p>
+<p>3、ACTION_UP-手机从屏幕上松开的一瞬间</p>
+<p>正常情况下，一次手指触摸屏幕的行为会触发一系列点击事件，考虑如下几种情况：</p>
+<p>1、点击屏幕后离开松开，事件序列为 DOWN -&gt; UP</p>
+<p>2、点击屏幕滑动一会再松开，事件序列为DOWN-&gt;MOVE-&gt;…-&gt;UP</p>
+<p>通过MotionEvent对象我们可以得到点击事件发生的x和y坐标，getX/getY返回的是相对于当前View左上角的x和y坐标，getRawX和getRawY是相对于手机屏幕左上角的x和y坐标。</p>
+<p>TouchSlop:</p>
+<p>TouchSlope是系统所能识别出的可以被认为是滑动的最小距离，获取方式是ViewConfiguration.get(getContext()).getScaledTouchSlope()。</p>
+<ul>
+<li>VelocityTracker、GestureDetector和Scroller</li>
+</ul>
+<p>1、 VelocityTracker：用于追踪手指在滑动过程中的速度，包括水平和垂直方向上的速度。</p>
+<p>VelocityTracker的使用方式：</p>
+<pre><code>//初始化
+VelocityTracker mVelocityTracker = VelocityTracker.obtain();
+
+//在onTouchEvent方法中
+mVelocityTracker.addMovement(event);
+
+//获取速度
+mVelocityTracker.computeCurrentVelocity(1000);
+
+float xVelocity = mVelocityTracker.getXVelocity();
+//重置和回收
+
+mVelocityTracker.clear(); //一般在MotionEvent.ACTION_UP的时候调用
+
+mVelocityTracker.recycle(); //一般在onDetachedFromWindow中调用
+</code></pre><p>速度的计算公式：</p>
+<p>速度 = （终点位置 - 起点位置） / 时间段</p>
+<p>速度可能为负值，例如当手指从屏幕右边往左边滑动的时候。此外，速度是单位时间内移动的像素数，单位时间不一定是1秒钟，可以使用方法computeCurrentVelocity(xxx)指定单位时间是多少，单位是ms。例如通过computeCurrentVelocity(1000)来获取速度，手指在1s中滑动了100个像素，那么速度是100，即100(像素/1000ms)。如果computeCurrentVelocity(100)来获取速度，在100ms内手指只是滑动了10个像素，那么速度是10，即10(像素/100ms)。</p>
+<p>当不需要的时候，需要调用clear方法来重置并回收内存</p>
+<pre><code>velocityTracker.clear();
+velocityTracker.recycler();
+</code></pre><p>2、GestureDetector</p>
+<p>手势检测，用于辅助检测用户的点击、滑动、长按、双击等行为。</p>
+<p>在日常开发中，比较常用的有:onSingleTapUp(单击)、onFling(快速滑动)、onScroll（拖动）、onLongPress(长按)、onDoubleTap(双击)，建议：如果只是监听滑动相关的事件在onTouchEvent中实现；如果要监听双击这种行为的话，那么就使用GestureDetector。</p>
+<p>3、Scroller</p>
+<p>弹性滑动对象，用于实现View的弹性滑动。Scroller本身无法让View弹性滑动，它需要和View的computeScroll方法配合使用才能共同完成这个功能。</p>
+<p>##View的滑动</p>
+<p>通过三种方式可以实现View的滑动</p>
+<ul>
+<li>第一种是通过View本身提供的scrollTo/scrollBy方法来实现滑动</li>
+<li>第二种是通过动画给View施加平移效果来实现滑动</li>
+<li>通过改变View的LayoutParams使得View重新布局从而实现滑动</li>
+</ul>
+<p>1、使用scrollTo/scrollBy<br>scrollTo和scrollBy方法只能改变view内容的位置而不能改变view在布局中的位置。 scrollBy是基于当前位置的相对滑动，而scrollTo是基于所传参数的绝对滑动。通过View的getScrollX和getScrollY方法可以得到滑动的距离。</p>
+<p>2、使用动画<br>使用动画来移动view主要是操作view的translationX和translationY属性，既可以使用传统的view动画，也可以使用属性动画，使用后者需要考虑兼容性问题，如果要兼容Android3.0一下版本系统的话推荐使用nineoldandroids。使用动画还存在一个交互问题：在android3.0以前的系统上，view动画和属性动画，新位置均无法触发点击事件，同时，老位置仍然可以触发单击事件。从3.0开始，属性动画的单击事件触发位置为移动后的位置，view动画仍然在原位置。</p>
+<p>3、改变布局参数<br>通过改变LayoutParams的方式去实现View的滑动是一种灵活的方法。</p>
+<p>4、各种滑动方式的对比</p>
+<ul>
+<li>scrollTo/scrollBy:操作简单，适合对View内容的滑动</li>
+<li>动画：操作简单，主要适用于没有交互的View和实现复杂的动画效果</li>
+<li>改变布局参数：操作稍微复杂，适用于有交互的View</li>
+</ul>
+<p>动画兼容库nineoldandroids中的ViewHelper类提供了很多的get/set方法来为属性动画服务，例如setTranslationX和setTranslationY方法，这些方法是没有版本要求的。</p>
+<p>##弹性滑动</p>
+<p>1、使用Scroller<br>Scroller的工作原理：Scroller本身并不能实现view的滑动，它需要配合view的computeScroll方法才能完成弹性滑动的效果，它不断地让view重绘，而每一次重绘距滑动起始时间会有一个时间间隔，通过这个时间间隔Scroller就可以得出view的当前的滑动位置，知道了滑动位置就可以通过scrollTo方法来完成view的滑动。就这样，view的每一次重绘都会导致view进行小幅度的滑动，而多次的小幅度滑动就组成了弹性滑动，这就是Scroller的工作原理。</p>
+<p>2、通过动画<br>采用这种方法除了能完成弹性滑动以外，还可以实现其他动画效果，我们完全可以在onAnimationUpdate方法中加上我们想要的其他操作。</p>
+<p>3、使用延时策略<br>使用延时策略来实现弹性滑动，它的核心思想是通过发送一系列延时消息从而达到一种渐进式的效果，具体来说可以使用Handler的sendEmptyMessageDelayed(xxx)或view的postDelayed方法，也可以使用线程的sleep方法。</p>
+<p>##View的事件分发机制</p>
+<p>1、事件分发机制的三个重要方法</p>
+<ul>
+<li>public boolean dispatchTouchEvent(MotionEvent ev)</li>
+</ul>
+<p>用来进行事件的分发。如果事件能够传递给当前的View，那么此方法一定会被调用，返回结果受当前View的onTouchEvent和下级View的dispatchTouchEvent方法的影响，表示是否消耗当前事件。</p>
+<ul>
+<li>public boolean onInterceptTouchEvent(MotionEvent event)</li>
+</ul>
+<p>在上述方法内部调用，用来判断是否拦截某个事件，如果当前View拦截了某个事件，那么在同一个事件序列当中，此方法不会被再次调用，返回结果表示是否拦截当前事件。</p>
+<ul>
+<li>public boolean onTouchEvent(MotionEvent event)</li>
+</ul>
+<p>在dispatchTouchEvent方法中调用，用来处理点击事件，返回结果表示是否消耗当前的事件，如果不消耗，则在同一个事件序列中，当前View无法再次接受到事件。</p>
+<p>这三个方法的关系可以用如下伪代码表示：</p>
+<pre><code>public boolean dispatchTouchEvent(MotionEvent event)
+{
+    boolean consume = false;
+    if(onInterceptTouchEvent(ev))
+    {
+        consume = onTouchEvent(ev);
+    }
+    else
+    {
+        consume = child.dispatchTouchEvent(ev);
+    }
+    return consume;
+}
+</code></pre><p>我们可以大致了解点击事件的传递规则：对于一个根ViewGroup来说，点击事件产生后，首先会传递给它，这时它的dispatchTouchEvent会被调用，如果这个ViewGroup的onInterceptTouchEvent方法返回true就表示它要拦截当前事件，接着事件就会交给这个ViewGroup处理，即它的onTouchEvent方法就会被调用；如果这个ViewGroup的onInterceptTouchEvent方法返回false就表示它不拦截当前事件，这时当前事件就会继续传递给它的子元素，接着子元素的dispatchTouchEvent方法就会被调用，如此反复直到事件被最终处理。</p>
+<p>####OnTouchListener的优先级比onTouchEvent要高</p>
+<p>如果给一个view设置了OnTouchListener，那么OnTouchListener中的onTouch方法会被回调。这时事件如何处理还要看onTouch的返回值，如果返回false，那么当前view的onTouchEvent方法会被调用；如果返回true，那么onTouchEvent方法将不会被调用。<br>在onTouchEvent方法中，如果当前view设置了OnClickListener，那么它的onClick方法会被调用，所以OnClickListener的优先级最低。</p>
+<p>当点击一个事件产生后，它的传递过程遵循如顺序，Activity-&gt;Window-&gt;View</p>
+<p>如果一个View的onTouchEvent方法返回false，那么它的父容器的onTouchEvent方法将会被调用，依次类推，如果所有的元素都不处理这个事件，那么这个事件将会最终传递给Activity处理（调用Activity的onTouchEvent方法）</p>
+<p>关于事件传递的机制，给出一些结论：</p>
+<ul>
+<li>同一个事件序列是以down事件开始，中间含有数量不定的move事件，最终以up事件结束</li>
+<li>正常情况下，一个事件序列只能被一个View拦截且消耗。一旦一个元素拦截了某次事件，那么同一个事件序列内的所有事件都会直接交给它处理，因此同一个事件序列中的事件不能分别由两个View同时处理，但是通过特殊手段可以做到，比如一个View将本该自己处理的事件通过onTouchEvent强行传递给其他View处理</li>
+<li>某个View一旦开始处理事件，如果它不消耗ACTION_DOWN事件，那么同一事件序列的其他事情都不会再交给它来处理，并且事件将重新交给它的父容器去处理（调用父容器的onTouchEvent方法）；如果它消耗ACTION_DOWN事件，但是不消耗其他类型事件，那么这个点击事件会消失，父容器的onTouchEvent方法不会被调用，当前view依然可以收到后续的事件，但是这些事件最后都会传递给Activity处理。</li>
+<li>ViewGroup默认不拦截任何事件。Android源码中ViewGroup的onInterceptTouchEvent方法默认返回false，View没有onInterceptTouchEvent方法，一旦有点击事件传递给它，那么它的onTouchEvent方法就会调用。</li>
+<li>View的onTouchEvent默认都会消耗事件（返回true），除非它是不可点击的（clickable和longClickable同时为false）。View的longClickable属性默认都为false，clickable要分情况，比如Button的clickable属性默认为true，而TextView的clickable属性默认为false。</li>
+<li>View的enable属性不影响onTouchEvent的默认返回值，哪怕一个View是disable状态的，只要它的clickable或者longClickable有一个为true，那么它的onTouchEvent就返回true</li>
+<li>事件传递过程总是先传递给父元素，然后再由父元素分发给子view，通过requestDisallowInterceptTouchEvent方法可以在子元素中干预父元素的事件分发过程，但是ACTION_DOWN事件除外，即当面对ACTION_DOWN事件时，ViewGroup总是会调用自己的onInterceptTouchEvent方法来询问自己是否要拦截事件。</li>
+</ul>
+<p>##View的滑动冲突</p>
+<p>1、常见的滑动冲突场景</p>
+<ul>
+<li>外部滑动方向与内部滑动方向不一致，比如ViewPager中包含ListView</li>
+<li>外部滑动方向与内部滑动方向一致</li>
+<li>上面两种情况的嵌套</li>
+</ul>
+<p>2、滑动冲突的处理规则</p>
+<p>可以根据滑动距离和水平方向形成的夹角；或者根据水平和竖直方向滑动的距离差；或者两个方向上的速度差等。</p>
+<p>3、滑动冲突的解决方式</p>
+<ul>
+<li>外部拦截法</li>
+</ul>
+<p>点击事件都经过父容器的拦截处理，如果父容器需要此事件就拦截，如果不需要此事件就不拦截，该方法需要重写父容器的onInterceptTouchEvent方法，在内部做相应的拦截即可，伪代码如下：</p>
+<pre><code>public boolean onInterceptTouchEvent(MotionEvent event) {
+    boolean intercepted = false;
+    int x = (int) event.getX();
+       int y = (int) event.getY();
+
+    switch (event.getAction()) {
+    case MotionEvent.ACTION_DOWN: {
+        intercepted = false;
+        break;
+    }
+    case MotionEvent.ACTION_MOVE: {
+        int deltaX = x - mLastXIntercept;
+        int deltaY = y - mLastYIntercept;
+        if (父容器需要拦截当前点击事件的条件，例如：Math.abs(deltaX) &gt; Math.abs(deltaY)) {
+            intercepted = true;
+        } else {
+            intercepted = false;
+        }
+        break;
+    }
+    case MotionEvent.ACTION_UP: {
+        intercepted = false;
+        break;
+    }    
+    default:
+        break;
+    }
+
+    mLastXIntercept = x;
+    mLastYIntercept = y;
+
+    return intercepted;
+}
+</code></pre><ul>
+<li>内部拦截法</li>
+</ul>
+<p>父容器不拦截任何事件，所有的事件都传递给子元素，如果子元素需要此事件就直接消耗掉，否则就由父容器进行处理，这种方法和Android中的事件分发机制不一样，需要配合requestDisallowInterceptTouchEvent方法才能正常工作。</p>
+<pre><code>public boolean dispatchTouchEvent(MotionEvent event) {
+    int x = (int) event.getX();
+    int y = (int) event.getY();
+
+    switch (event.getAction()) {
+    case MotionEvent.ACTION_DOWN: {]
+        getParent().requestDisallowInterceptTouchEvent(true);
+        break;
+    }
+    case MotionEvent.ACTION_MOVE: {
+        int deltaX = x - mLastX;
+        int deltaY = y - mLastY;
+        if (当前view需要拦截当前点击事件的条件，例如：    Math.abs(deltaX) &gt; Math.abs(deltaY)) {
+                getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        break;
+    }
+    case MotionEvent.ACTION_UP: {
+        break;
+    }
+    default:
+        break;
+    }
+
+    mLastX = x;
+    mLastY = y;
+    return super.dispatchTouchEvent(event);
+}
+</code></pre>
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

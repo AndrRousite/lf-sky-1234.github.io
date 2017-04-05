@@ -1,0 +1,582 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#《Java编程思想》第一章##对象导论
+封装
+
+被隐藏（也即封装）的部分通常代表对象内部脆弱的部分，它们很容易被程序员所毁坏，因此将实现隐藏起来可以减少程序的bug。
+隐藏是通过访问控制修饰符（public、protected、包访问、private）来实现的。
+访问控制的第一个存在原因就是让调用者无法直接触及他们不应该触及的部分，但从另一方面来看，其实这不失为一项服务，因为他们可以很容易地看出">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part5/ReadingNotes/《Java编程思想》第一章读书笔记.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="#《Java编程思想》第一章##对象导论
+封装
+
+被隐藏（也即封装）的部分通常代表对象内部脆弱的部分，它们很容易被程序员所毁坏，因此将实现隐藏起来可以减少程序的bug。
+隐藏是通过访问控制修饰符（public、protected、包访问、private）来实现的。
+访问控制的第一个存在原因就是让调用者无法直接触及他们不应该触及的部分，但从另一方面来看，其实这不失为一项服务，因为他们可以很容易地看出">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.233Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="#《Java编程思想》第一章##对象导论
+封装
+
+被隐藏（也即封装）的部分通常代表对象内部脆弱的部分，它们很容易被程序员所毁坏，因此将实现隐藏起来可以减少程序的bug。
+隐藏是通过访问控制修饰符（public、protected、包访问、private）来实现的。
+访问控制的第一个存在原因就是让调用者无法直接触及他们不应该触及的部分，但从另一方面来看，其实这不失为一项服务，因为他们可以很容易地看出">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part5/ReadingNotes/《Java编程思想》第一章读书笔记.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <h2 id="《Java编程思想》第一章"><a href="#《Java编程思想》第一章" class="headerlink" title="#《Java编程思想》第一章"></a>#《Java编程思想》第一章</h2><p>##对象导论</p>
+<p>封装</p>
+<ul>
+<li>被隐藏（也即封装）的部分通常代表对象内部脆弱的部分，它们很容易被程序员所毁坏，因此将实现隐藏起来可以减少程序的bug。</li>
+<li>隐藏是通过访问控制修饰符（public、protected、包访问、private）来实现的。</li>
+<li>访问控制的第一个存在原因就是让调用者无法直接触及他们不应该触及的部分，但从另一方面来看，其实这不失为一项服务，因为他们可以很容易地看出哪些东西对他们来说很重要，而哪些东西可能不关心；访问控制的第二个存在原因就是允许库设计者可以改变类的内部的工作方式而不用担心会影响到调用者。</li>
+</ul>
+<p>继承</p>
+<ul>
+<li>代码复用：复用是面向对象程序设计所提供最了不起的优点之一。</li>
+<li>最简单的代码复用就是直接调用类的方法，此外，我们还可以将该类置于某个新类中，使它成为新类的属性成员。新的类也可由任意数量、任意类型的其他对象以任意可以实现新的类中想要功能的方式所组成，这种使用现有的类合成新的类方式称为组合复用。</li>
+<li>组合复用带来了极大的灵活性，使得它能在运行时动态的修改其实现行为，但继承并不具备这样的灵活性，因为继承是在编译时期就已经确定其行为，在运行时期是不能修改的。</li>
+<li>继承两种实现方式，第一种方式非常直接：直接在子类中添加新的方法，即扩展父类接口。第二种方式就是子类覆写父类方法，但不新增父类没有接口。</li>
+<li>“is-a是一个”与“is-like-a像是一个”。继承时，我们使用第一种还是第二种方式呢？这可能引起争论：继承应该只覆盖基类的方法，而并不添加在基类中没有的新方法吗？如果这样做，就意味着子类与基类是完全相同的类型，因为它们具有完全相同的接口，结果可以用一个子类对象来完全替代一个基类对象，这可被认为是纯粹替代，通常称之为替代原则，这也是一种理想的方式，我们经常称这种情况下的子类与基类的关系是“is-a是一个”；有时必须在子类型中添加新的接口，这样也就扩展了接口，这个新的类型仍可以替代基类，但是这种替代并不完美，因为基类无法访问新添加的方法，这种情况下我们可以描述为“is-like-a像是一个”关系。</li>
+</ul>
+<p>多态</p>
+<ul>
+<li>一个非面向对象编程的编译器产生的函数调用会引起所谓的前期绑定，而向对象程序设计语言使用了后期绑定的概念。</li>
+<li>方法的调用就是编译器将产生对一个具体函数名字的调用，前期绑定是在运行时将这个调用解析到将要被执行的代码的绝对地址。然而在OOP中，程序直到运行时才能够确定代码的地址，为了执行后期绑定，Java编译器使用了一小段特殊代码来替代绝对地址调用，这段代码使用对象中存储的信息来计算方法体的地址，根据这段特殊代码，每个对象都可以具有不同的行为表现。</li>
+<li>在某些语言中，必须明确地声明某个方法具备后期绑定属性所带来的灵活性，如C++使用virtual关键字来实现，在默认情况下，C++不是动态绑定的，而在Java中，动态绑定是默认行为，不需要添加额外的关键字来实现多态。</li>
+</ul>
+<p>Java语言支持四种类型</p>
+<p>接口（interface）、类（class）、数组（array）和基本类型（primitive）。前三种类型通常被称为引用类型（reference type），类实例和数组是对象（object），而基本类型的值则不是对象。类的成员（member）由它的域（field）、方法（method）、成员类（member class）和成员接口（member interface）组成。方法签名（signature）由它的名称和所有参数类型组成；签名不包括它的返回类型。</p>
+<p>类与类之间的关系</p>
+<p>类和类、类和接口、接口和接口之间有如下几种关系：泛化关系、实现关系、关联关系（聚合、合成）、依赖关系。</p>
+<ul>
+<li><p>泛化：表示类与类之间的继承关系，使用extends关键字来表示。在图形上使用虚线三角形箭头表示。</p>
+</li>
+<li><p>实现：表示类与接口之间的实现关系，使用implements关键字来表示。在图形上使用实线三角形箭头表示。</p>
+</li>
+<li><p>关联：类与类之间的联接。关联可以是双向的，也可以是单向的，双向的关联可以有两个箭头或都没有箭头。单向的关联有一个箭头，表示关联的方向。在Java里，关联关系是使用实例变量实现的。在每一个关联的端点，还可以有一个基数，表时这一端的类可以有几个实例。常见的基数有：0..1（零个或者一个实例）、0..<em>或者</em>（没限制，可以是零）、1（只有一个实例）、1..*（至少有一个实例）。一个关联关系可以进一步确定为聚合与合成关系。在图形上使用实线的箭头表示。</p>
+</li>
+<li><p>聚合：是关联关系的一种，是强的关联关系，聚合是整体和个体之间的关系。关联与聚合仅仅从Java语法是上是分辨不出的，需要考察所涉及的类之间的逻辑关系。如果不确定是聚合关系，可以将之设置为关联关系。图形是在实线的箭头的尾部多一个空心菱形。</p>
+</li>
+<li><p>合成：是关联关系的一种，是比聚合关系强的关系。它要求普通的聚合关系中代表整体的对象负责代表部分的对象的生命周期。整体消亡，则部分与消亡。图形是在实线的箭头的尾部多一个黑心菱形。</p>
+</li>
+<li><p>依赖：类与类之间的连接，依赖总是单向的。表示一个类依赖于另一个类的定义。一般而言，依赖关系在Java里体现为局部变量、方法的参数、以及对静态方法的调用。但如果对方出现在实例变量中，那关系就超过了依赖关系，而成了关联关系了。在图形上使用虚线的箭头表示。</p>
+</li>
+</ul>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

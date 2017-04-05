@@ -1,0 +1,638 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#TCP与UDP面向报文的传输方式是应用层交给UDP多长的报文，UDP就照样发送，即一次发送一个报文。因此，应用程序必须选择合适大小的报文。若报文太长，则IP层需要分片，降低效率。若太短，会是IP太小。UDP对应用层交下来的报文，既不合并，也不拆分，而是保留这些报文的边界。这也就是说，应用层交给UDP多长的报文，UDP就照样发送，即一次发送一个报文。面向字节流的话，虽然应用程序和TCP的交互是一次">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part4/Network/TCP与UDP.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="#TCP与UDP面向报文的传输方式是应用层交给UDP多长的报文，UDP就照样发送，即一次发送一个报文。因此，应用程序必须选择合适大小的报文。若报文太长，则IP层需要分片，降低效率。若太短，会是IP太小。UDP对应用层交下来的报文，既不合并，也不拆分，而是保留这些报文的边界。这也就是说，应用层交给UDP多长的报文，UDP就照样发送，即一次发送一个报文。面向字节流的话，虽然应用程序和TCP的交互是一次">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.218Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="#TCP与UDP面向报文的传输方式是应用层交给UDP多长的报文，UDP就照样发送，即一次发送一个报文。因此，应用程序必须选择合适大小的报文。若报文太长，则IP层需要分片，降低效率。若太短，会是IP太小。UDP对应用层交下来的报文，既不合并，也不拆分，而是保留这些报文的边界。这也就是说，应用层交给UDP多长的报文，UDP就照样发送，即一次发送一个报文。面向字节流的话，虽然应用程序和TCP的交互是一次">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part4/Network/TCP与UDP.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <h2 id="TCP与UDP"><a href="#TCP与UDP" class="headerlink" title="#TCP与UDP"></a>#TCP与UDP</h2><p><strong>面向报文的传输方式</strong>是应用层交给UDP多长的报文，UDP就照样发送，即一次发送一个报文。因此，应用程序必须选择合适大小的报文。若报文太长，则IP层需要分片，降低效率。若太短，会是IP太小。UDP对应用层交下来的报文，既不合并，也不拆分，而是保留这些报文的边界。这也就是说，应用层交给UDP多长的报文，UDP就照样发送，即一次发送一个报文。<br><strong>面向字节流</strong>的话，虽然应用程序和TCP的交互是一次一个数据块（大小不等），但TCP把应用程序看成是一连串的无结构的字节流。TCP有一个缓冲，当应用程序传送的数据块太长，TCP就可以把它划分短一些再传送。如果应用程序一次只发送一个字节，TCP也可以等待积累有足够多的字节后再构成报文段发送出去。</p>
+<h2 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h2><hr>
+<ul>
+<li>Transmission Control Protocol，传输控制协议</li>
+<li>面向连接的协议</li>
+<li>需要三次握手建立连接</li>
+<li>需要四次挥手断开连接</li>
+<li>TCP报头最小长度：20字节</li>
+</ul>
+<h2 id="三次握手的过程："><a href="#三次握手的过程：" class="headerlink" title="三次握手的过程："></a>三次握手的过程：</h2><hr>
+<ol>
+<li>客户端发送：SYN = 1, SEQ = X, 端口号</li>
+<li>服务器回复：SYN = 1, ACK = X + 1, SEQ = Y</li>
+<li>客户端发送：ACK = Y + 1, SEQ = X + 1</li>
+</ol>
+<blockquote>
+<p>确认应答信号ACK = 收到的SEQ + 1。<br>连接建立中，同步信号SYN始终为1。连接建立后，同步信号SYN=0。</p>
+</blockquote>
+<h2 id="四次挥手过程"><a href="#四次挥手过程" class="headerlink" title="四次挥手过程"></a>四次挥手过程</h2><hr>
+<ol>
+<li>A向B提出停止连接请求，FIN = 1</li>
+<li>B收到，ACK = 1</li>
+<li>B向A提出停止连接请求，FIN = 1</li>
+<li>A收到，ACK = 1</li>
+</ol>
+<p><strong>优点：</strong> </p>
+<hr>
+<ul>
+<li>可靠，稳定<pre><code>1、传递数据前，会有三次握手建立连接
+2、传递数据时，有确认、窗口、重传、拥塞控制
+3、传递数据后，会断开连接节省系统资源
+</code></pre></li>
+</ul>
+<p><strong>缺点：</strong></p>
+<hr>
+<ul>
+<li><p>传输慢，效率低，占用系统资源高<br>1、传递数据前，建立连接需要耗时<br>2、传递数据时，确认、重传、拥塞等会消耗大量时间以及CPU和内存等硬件资源</p>
+</li>
+<li><p>易被攻击<br>1、因为有确认机制，三次握手等机制，容易被人利用，实现DOS 、DDOS攻击</p>
+</li>
+</ul>
+<p><strong>如何保证接收的顺序性：</strong></p>
+<hr>
+<p>TCP协议使用SEQ和ACK机制保证了顺序性<br>TCP的每个报文都是有序号的。确认应答信号ACK=收到的SEQ+1</p>
+<h2 id="UDP协议"><a href="#UDP协议" class="headerlink" title="UDP协议"></a>UDP协议</h2><hr>
+<ul>
+<li>User Data Protocol，用户数据包协议</li>
+<li>面向无连接的协议</li>
+<li>UDP报头只有8字节</li>
+</ul>
+<p><strong>简介：</strong></p>
+<hr>
+<ul>
+<li>传输数据之前源端和终端不建立连接，当它想传送时就简单地去抓取来自应用程序的数据，并尽可能快的把它扔到网络上</li>
+<li>在发送端，UDP传送数据的速度仅仅是受应用程序生成数据的速度、计算机的能力和传输带宽的限制</li>
+<li>在接收端，UDP把每个消息段放在队列中，应用程序每次从队列中读一个消息段</li>
+<li>由于传输数据不建立连接，因此也就不需要维护连接状态，包括收发状态等，因此一台服务机可同时向多个客户机传输相同的消息</li>
+<li>UDP信息包的标题很短，只有8个字节，相对于TCP的20个字节信息包的额外开销很小</li>
+<li>吞吐量不受拥挤控制算法的调节，只受应用软件生成数据的速率、传输带宽、源端和终端主机性能的限制</li>
+<li>UDP使用尽最大努力交付，即不保证可靠交付，因此主机不需要维持复杂的链接状态表。</li>
+<li>UDP是面向报文的。发送方的UDP对应用程序交下来的报文，在添加首部后就向下交付给IP层。既不拆分，也不合并，而是保留这些报文的边界，因此，应用程序需要选择合适的报文大小。</li>
+</ul>
+<blockquote>
+<p>使用“ping”命令来测试两台主机之间TCP/IP通信是否正常，其实“ping”命令的原理就是向对方主机发送UDP数据包，然后对方主机确认收到数据包，如果数据包是否到达的消息及时反馈回来，那么网络就是通的。</p>
+</blockquote>
+<p><strong>优点：</strong></p>
+<hr>
+<ul>
+<li><p>传输速率快<br>1、传输数据前，不需要像TCP一样建立连接<br>2、传输数据时，没有确认、窗口、重传、拥塞控制等机制</p>
+</li>
+<li><p>较安全<br>1、由于没有了TCP的一些机制，被攻击者利用的漏洞就少了</p>
+</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<hr>
+<ul>
+<li>不可靠，不稳定<br>1、由于没有了TCP的机制，在数据传输时如果网络不好，很可能丢包</li>
+</ul>
+<p><strong>用UDP协议通讯时怎样得知目标机是否获得了数据包</strong></p>
+<hr>
+<p>仿造TCP的做法，每发一个UDP包，都在里面加一个SEQ序号，接收方收到包后，将SEQ序号回复给发送方。如果发送方在指定时间以内没有收到回应，说明丢包了。</p>
+<h2 id="TCP与UDP的区别"><a href="#TCP与UDP的区别" class="headerlink" title="TCP与UDP的区别"></a>TCP与UDP的区别</h2><hr>
+<table class="table table-bordered table-striped table-condensed"><br>    <tr><br>        <td>TCP面向<strong>有链接</strong>的通信服务</td><br>        <td>UDP面向<strong>无连接</strong>的通信服务</td><br>    </tr><br>    <tr><br>        <td>TCP提供可靠的通信传输</td><br>        <td>UDP不可靠,会丢包</td><br>    </tr><br>    <tr><br>        <td>TCP保证数据顺序</td><br>        <td>UDP不保证</td><br>    </tr><br>    <tr><br>        <td>TCP数据无边界</td><br>        <td>UDP有边界</td><br>    </tr><br>    <tr><br>        <td>TCP速度快</td><br>        <td>UDP速度慢</td><br>    </tr><br>    <tr><br>        <td>TCP面向字节流</td><br>        <td>UDP面向报文</td><br>    </tr><br>    <tr><br>        <td>TCP一对一</td><br>        <td>UDP可以一对一，一对多</td><br>    </tr><br>    <tr><br>        <td>TCP报头至少20字节</td><br>        <td>UDP报头8字节</td><br>    </tr><br>    <tr><br>        <td>TCP有流量控制，拥塞控制</td><br>        <td>UDP没有</td><br>    </tr><br></table>
+
+
+
+<p><strong>为什么UDP比TCP快</strong></p>
+<hr>
+<ol>
+<li>TCP需要三次握手</li>
+<li>TCP有拥塞控制，控制流量等机制</li>
+</ol>
+<p><strong>为什么TCP比UDP可靠</strong></p>
+<hr>
+<ol>
+<li>TCP是面向有连接的，建立连接之后才发送数据；而UDP则不管对方存不存在都会发送数据。</li>
+<li>TCP有确认机制，接收端每收到一个正确包都会回应给发送端。超时或者数据包不完整的话发送端会重传。UDP没有。因此可能丢包。</li>
+</ol>
+<p><strong>什么时候使用TCP</strong></p>
+<hr>
+<p>当对网络通讯质量有要求的时候，比如：整个数据要准确无误的传递给对方，这往往用于一些要求可靠的应用，比如HTTP、HTTPS、FTP等传输文件的协议，POP、SMTP等邮件传输的协议。<br>在日常生活中，常见使用TCP协议的应用如下：<br>浏览器，用的HTTP<br>FlashFXP，用的FTP<br>Outlook，用的POP、SMTP<br>Putty，用的Telnet、SSH<br>QQ文件传输</p>
+<p><strong>什么时候应该使用UDP：</strong></p>
+<hr>
+<p>当对网络通讯质量要求不高的时候，要求网络通讯速度能尽量的快，这时就可以使用UDP。<br>比如，日常生活中，常见使用UDP协议的应用如下：<br>QQ语音<br>QQ视频<br>TFTP</p>
+<p><strong>TCP无边界，UDP有边界</strong></p>
+<hr>
+<p><strong>TCP无边界</strong></p>
+<p>客户端分多次发送数据给服务器，若服务器的缓冲区够大，那么服务器端会在客户端发送完之后一次性接收过来，所以是无边界的；</p>
+<p><strong>UDP有边界</strong></p>
+<p>客户端每发送一次，服务器端就会接收一次，也就是说发送多少次就会接收多少次，因此是有边界的。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

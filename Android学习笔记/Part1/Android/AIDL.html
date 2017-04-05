@@ -1,0 +1,597 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#AIDL
+创建一个接口，再里面定义方法
+
+123456package com.example.taidl;  interface ICalcAIDL  &amp;#123;      int add(int x , int y);      int min(int x , int y );  &amp;#125;
+build一下gen目录下会生成ICalcAIDL.java文件
+1234567891011121">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part1/Android/AIDL.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="#AIDL
+创建一个接口，再里面定义方法
+
+123456package com.example.taidl;  interface ICalcAIDL  &amp;#123;      int add(int x , int y);      int min(int x , int y );  &amp;#125;
+build一下gen目录下会生成ICalcAIDL.java文件
+1234567891011121">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.102Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="#AIDL
+创建一个接口，再里面定义方法
+
+123456package com.example.taidl;  interface ICalcAIDL  &amp;#123;      int add(int x , int y);      int min(int x , int y );  &amp;#125;
+build一下gen目录下会生成ICalcAIDL.java文件
+1234567891011121">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part1/Android/AIDL.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <h2 id="AIDL"><a href="#AIDL" class="headerlink" title="#AIDL"></a>#AIDL</h2><ol>
+<li>创建一个接口，再里面定义方法</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">package com.example.taidl;  </div><div class="line">interface ICalcAIDL  </div><div class="line">&#123;  </div><div class="line">    int add(int x , int y);  </div><div class="line">    int min(int x , int y );  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>build一下gen目录下会生成ICalcAIDL.java文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * This file is auto-generated.  DO NOT MODIFY.</div><div class="line"> * Original file: /Users/dream/Downloads/android/androidProject/TAIDL/src/com/example/taidl/ICalcAIDL.aidl</div><div class="line"> */</div><div class="line">package com.example.taidl;</div><div class="line">public interface ICalcAIDL extends android.os.IInterface</div><div class="line">&#123;</div><div class="line">/** Local-side IPC implementation stub class. */</div><div class="line">public static abstract class Stub extends android.os.Binder implements com.example.taidl.ICalcAIDL</div><div class="line">&#123;</div><div class="line">private static final java.lang.String DESCRIPTOR = &quot;com.example.taidl.ICalcAIDL&quot;;</div><div class="line">/** Construct the stub at attach it to the interface. */</div><div class="line">public Stub()</div><div class="line">&#123;</div><div class="line">this.attachInterface(this, DESCRIPTOR);</div><div class="line">&#125;</div><div class="line">/**</div><div class="line"> * Cast an IBinder object into an com.example.taidl.ICalcAIDL interface,</div><div class="line"> * generating a proxy if needed.</div><div class="line"> */</div><div class="line">public static com.example.taidl.ICalcAIDL asInterface(android.os.IBinder obj)</div><div class="line">&#123;</div><div class="line">if ((obj==null)) &#123;</div><div class="line">return null;</div><div class="line">&#125;</div><div class="line">android.os.IInterface iin = obj.queryLocalInterface(DESCRIPTOR);</div><div class="line">if (((iin!=null)&amp;&amp;(iin instanceof com.example.taidl.ICalcAIDL))) &#123;</div><div class="line">return ((com.example.taidl.ICalcAIDL)iin);</div><div class="line">&#125;</div><div class="line">return new com.example.taidl.ICalcAIDL.Stub.Proxy(obj);</div><div class="line">&#125;</div><div class="line">@Override public android.os.IBinder asBinder()</div><div class="line">&#123;</div><div class="line">return this;</div><div class="line">&#125;</div><div class="line">@Override public boolean onTransact(int code, android.os.Parcel data, android.os.Parcel reply, int flags) throws android.os.RemoteException</div><div class="line">&#123;</div><div class="line">switch (code)</div><div class="line">&#123;</div><div class="line">case INTERFACE_TRANSACTION:</div><div class="line">&#123;</div><div class="line">reply.writeString(DESCRIPTOR);</div><div class="line">return true;</div><div class="line">&#125;</div><div class="line">case TRANSACTION_add:</div><div class="line">&#123;</div><div class="line">data.enforceInterface(DESCRIPTOR);</div><div class="line">int _arg0;</div><div class="line">_arg0 = data.readInt();</div><div class="line">int _arg1;</div><div class="line">_arg1 = data.readInt();</div><div class="line">int _result = this.add(_arg0, _arg1);</div><div class="line">reply.writeNoException();</div><div class="line">reply.writeInt(_result);</div><div class="line">return true;</div><div class="line">&#125;</div><div class="line">case TRANSACTION_min:</div><div class="line">&#123;</div><div class="line">data.enforceInterface(DESCRIPTOR);</div><div class="line">int _arg0;</div><div class="line">_arg0 = data.readInt();</div><div class="line">int _arg1;</div><div class="line">_arg1 = data.readInt();</div><div class="line">int _result = this.min(_arg0, _arg1);</div><div class="line">reply.writeNoException();</div><div class="line">reply.writeInt(_result);</div><div class="line">return true;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">return super.onTransact(code, data, reply, flags);</div><div class="line">&#125;</div><div class="line">private static class Proxy implements com.example.taidl.ICalcAIDL</div><div class="line">&#123;</div><div class="line">private android.os.IBinder mRemote;</div><div class="line">Proxy(android.os.IBinder remote)</div><div class="line">&#123;</div><div class="line">mRemote = remote;</div><div class="line">&#125;</div><div class="line">@Override public android.os.IBinder asBinder()</div><div class="line">&#123;</div><div class="line">return mRemote;</div><div class="line">&#125;</div><div class="line">public java.lang.String getInterfaceDescriptor()</div><div class="line">&#123;</div><div class="line">return DESCRIPTOR;</div><div class="line">&#125;</div><div class="line">@Override public int add(int x, int y) throws android.os.RemoteException</div><div class="line">&#123;</div><div class="line">android.os.Parcel _data = android.os.Parcel.obtain();</div><div class="line">android.os.Parcel _reply = android.os.Parcel.obtain();</div><div class="line">int _result;</div><div class="line">try &#123;</div><div class="line">_data.writeInterfaceToken(DESCRIPTOR);</div><div class="line">_data.writeInt(x);</div><div class="line">_data.writeInt(y);</div><div class="line">mRemote.transact(Stub.TRANSACTION_add, _data, _reply, 0);</div><div class="line">_reply.readException();</div><div class="line">_result = _reply.readInt();</div><div class="line">&#125;</div><div class="line">finally &#123;</div><div class="line">_reply.recycle();</div><div class="line">_data.recycle();</div><div class="line">&#125;</div><div class="line">return _result;</div><div class="line">&#125;</div><div class="line">@Override public int min(int x, int y) throws android.os.RemoteException</div><div class="line">&#123;</div><div class="line">android.os.Parcel _data = android.os.Parcel.obtain();</div><div class="line">android.os.Parcel _reply = android.os.Parcel.obtain();</div><div class="line">int _result;</div><div class="line">try &#123;</div><div class="line">_data.writeInterfaceToken(DESCRIPTOR);</div><div class="line">_data.writeInt(x);</div><div class="line">_data.writeInt(y);</div><div class="line">mRemote.transact(Stub.TRANSACTION_min, _data, _reply, 0);</div><div class="line">_reply.readException();</div><div class="line">_result = _reply.readInt();</div><div class="line">&#125;</div><div class="line">finally &#123;</div><div class="line">_reply.recycle();</div><div class="line">_data.recycle();</div><div class="line">&#125;</div><div class="line">return _result;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">static final int TRANSACTION_add = (android.os.IBinder.FIRST_CALL_TRANSACTION + 0);</div><div class="line">static final int TRANSACTION_min = (android.os.IBinder.FIRST_CALL_TRANSACTION + 1);</div><div class="line">&#125;</div><div class="line">public int add(int x, int y) throws android.os.RemoteException;</div><div class="line">public int min(int x, int y) throws android.os.RemoteException;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>新建一个Service</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line">package com.example.taidl;</div><div class="line"></div><div class="line">import android.app.Service;</div><div class="line">import android.content.Intent;</div><div class="line">import android.os.IBinder;</div><div class="line">import android.os.RemoteException;</div><div class="line">import android.util.Log;</div><div class="line"></div><div class="line">public class CalcService extends Service&#123;</div><div class="line"></div><div class="line">	private static final String TAG = &quot;server&quot;;  </div><div class="line">	</div><div class="line">	public void onCreate()  </div><div class="line">    &#123;  </div><div class="line">        Log.e(TAG, &quot;onCreate&quot;);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public IBinder onBind(Intent t)  </div><div class="line">    &#123;  </div><div class="line">        Log.e(TAG, &quot;onBind&quot;);  </div><div class="line">        return mBinder;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public void onDestroy()  </div><div class="line">    &#123;  </div><div class="line">        Log.e(TAG, &quot;onDestroy&quot;);  </div><div class="line">        super.onDestroy();  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public boolean onUnbind(Intent intent)  </div><div class="line">    &#123;  </div><div class="line">        Log.e(TAG, &quot;onUnbind&quot;);  </div><div class="line">        return super.onUnbind(intent);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public void onRebind(Intent intent)  </div><div class="line">    &#123;  </div><div class="line">        Log.e(TAG, &quot;onRebind&quot;);  </div><div class="line">        super.onRebind(intent);  </div><div class="line">    &#125;  </div><div class="line">	private final ICalcAIDL.Stub mBinder = new ICalcAIDL.Stub() &#123;</div><div class="line">		</div><div class="line">		@Override</div><div class="line">		public int min(int x, int y) throws RemoteException &#123;</div><div class="line">			return x + y;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		@Override</div><div class="line">		public int add(int x, int y) throws RemoteException &#123;</div><div class="line">			// TODO Auto-generated method stub</div><div class="line">			return x - y;</div><div class="line">		&#125;</div><div class="line">	&#125;;</div><div class="line">	</div><div class="line">	</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>创建了一个mBinder对象，并在Service的onBind方法中返回</p>
+<p>注册：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;service android:name=&quot;com.example.taidl.CalcService&quot;&gt;</div><div class="line">    &lt;intent-filter&gt;  </div><div class="line">       &lt;action android:name=&quot;com.example.taidl.calc&quot; /&gt;  </div><div class="line">  </div><div class="line">       &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;  </div><div class="line">   &lt;/intent-filter&gt;  </div><div class="line">&lt;/service&gt;</div></pre></td></tr></table></figure>
+<p>我们一会会在别的应用程序中通过Intent来查找此Service；这个不需要Activity，所以我也就没写Activity，安装完成也看不到安装图标，悄悄在后台运行着。服务端编写完毕。下面开始编写客户端:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div></pre></td><td class="code"><pre><div class="line">package com.example.tclient;</div><div class="line"></div><div class="line">import com.example.taidl.ICalcAIDL;</div><div class="line"></div><div class="line">import android.app.Activity;</div><div class="line">import android.content.ComponentName;</div><div class="line">import android.content.Context;</div><div class="line">import android.content.Intent;</div><div class="line">import android.content.ServiceConnection;</div><div class="line">import android.os.Bundle;</div><div class="line">import android.os.IBinder;</div><div class="line">import android.util.Log;</div><div class="line">import android.view.View;</div><div class="line">import android.widget.Toast;</div><div class="line"></div><div class="line">public class MainActivity extends Activity &#123;</div><div class="line"></div><div class="line">	private ICalcAIDL mCalcAidl;</div><div class="line"></div><div class="line">	private ServiceConnection mServiceConn = new ServiceConnection()</div><div class="line">	&#123;</div><div class="line">		@Override</div><div class="line">		public void onServiceDisconnected(ComponentName name)</div><div class="line">		&#123;</div><div class="line">			Log.e(&quot;client&quot;, &quot;onServiceDisconnected&quot;);</div><div class="line">			mCalcAidl = null;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		@Override</div><div class="line">		public void onServiceConnected(ComponentName name, IBinder service)</div><div class="line">		&#123;</div><div class="line">			Log.e(&quot;client&quot;, &quot;onServiceConnected&quot;);</div><div class="line">			mCalcAidl = ICalcAIDL.Stub.asInterface(service);</div><div class="line">		&#125;</div><div class="line">	&#125;;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	protected void onCreate(Bundle savedInstanceState)</div><div class="line">	&#123;</div><div class="line">		super.onCreate(savedInstanceState);</div><div class="line">		setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * 点击BindService按钮时调用</div><div class="line">	 * @param view</div><div class="line">	 */</div><div class="line">	public void bindService(View view)</div><div class="line">	&#123;</div><div class="line">		Intent intent = new Intent();</div><div class="line">		intent.setAction(&quot;com.example.taidl.calc&quot;);</div><div class="line">		bindService(intent, mServiceConn, Context.BIND_AUTO_CREATE);</div><div class="line">	&#125;</div><div class="line">	/**</div><div class="line">	 * 点击unBindService按钮时调用</div><div class="line">	 * @param view</div><div class="line">	 */</div><div class="line">	public void unbindService(View view)</div><div class="line">	&#123;</div><div class="line">		unbindService(mServiceConn);</div><div class="line">	&#125;</div><div class="line">	/**</div><div class="line">	 * 点击12+12按钮时调用</div><div class="line">	 * @param view</div><div class="line">	 */</div><div class="line">	public void addInvoked(View view) throws Exception</div><div class="line">	&#123;</div><div class="line"></div><div class="line">		if (mCalcAidl != null)</div><div class="line">		&#123;</div><div class="line">			int addRes = mCalcAidl.add(12, 12);</div><div class="line">			Toast.makeText(this, addRes + &quot;&quot;, Toast.LENGTH_SHORT).show();</div><div class="line">		&#125; else</div><div class="line">		&#123;</div><div class="line">			Toast.makeText(this, &quot;服务器被异常杀死，请重新绑定服务端&quot;, Toast.LENGTH_SHORT)</div><div class="line">					.show();</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">	&#125;</div><div class="line">	/**</div><div class="line">	 * 点击50-12按钮时调用</div><div class="line">	 * @param view</div><div class="line">	 */</div><div class="line">	public void minInvoked(View view) throws Exception</div><div class="line">	&#123;</div><div class="line"></div><div class="line">		if (mCalcAidl != null)</div><div class="line">		&#123;</div><div class="line">			int addRes = mCalcAidl.min(50, 12);</div><div class="line">			Toast.makeText(this, addRes + &quot;&quot;, Toast.LENGTH_SHORT).show();</div><div class="line">		&#125; else</div><div class="line">		&#123;</div><div class="line">			Toast.makeText(this, &quot;服务器未绑定或被异常杀死，请重新绑定服务端&quot;, Toast.LENGTH_SHORT)</div><div class="line">					.show();</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>将服务端的aidl文件完整的复制过来，包名一定要一致。</p>
+<p>##分析AIDL生成的代码</p>
+<ol>
+<li>服务端</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">private final ICalcAIDL.Stub mBinder = new ICalcAIDL.Stub()  </div><div class="line">    &#123;  </div><div class="line">  </div><div class="line">        @Override  </div><div class="line">        public int add(int x, int y) throws RemoteException  </div><div class="line">        &#123;  </div><div class="line">            return x + y;  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        @Override  </div><div class="line">        public int min(int x, int y) throws RemoteException  </div><div class="line">        &#123;  </div><div class="line">            return x - y;  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">    &#125;;</div></pre></td></tr></table></figure>
+<p>ICalcAILD.Stub来执行的，让我们来看看Stub这个类的声明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public static abstract class Stub extends android.os.Binder implements com.zhy.calc.aidl.ICalcAIDL</div></pre></td></tr></table></figure>
+<p>清楚的看到这个类是Binder的子类，是不是符合我们文章开通所说的服务端其实是一个Binder类的实例<br>接下来看它的onTransact()方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">@Override public boolean onTransact(int code, android.os.Parcel data, android.os.Parcel reply, int flags) throws android.os.RemoteException  </div><div class="line">&#123;  </div><div class="line">switch (code)  </div><div class="line">&#123;  </div><div class="line">case INTERFACE_TRANSACTION:  </div><div class="line">&#123;  </div><div class="line">reply.writeString(DESCRIPTOR);  </div><div class="line">return true;  </div><div class="line">&#125;  </div><div class="line">case TRANSACTION_add:  </div><div class="line">&#123;  </div><div class="line">data.enforceInterface(DESCRIPTOR);  </div><div class="line">int _arg0;  </div><div class="line">_arg0 = data.readInt();  </div><div class="line">int _arg1;  </div><div class="line">_arg1 = data.readInt();  </div><div class="line">int _result = this.add(_arg0, _arg1);  </div><div class="line">reply.writeNoException();  </div><div class="line">reply.writeInt(_result);  </div><div class="line">return true;  </div><div class="line">&#125;  </div><div class="line">case TRANSACTION_min:  </div><div class="line">&#123;  </div><div class="line">data.enforceInterface(DESCRIPTOR);  </div><div class="line">int _arg0;  </div><div class="line">_arg0 = data.readInt();  </div><div class="line">int _arg1;  </div><div class="line">_arg1 = data.readInt();  </div><div class="line">int _result = this.min(_arg0, _arg1);  </div><div class="line">reply.writeNoException();  </div><div class="line">reply.writeInt(_result);  </div><div class="line">return true;  </div><div class="line">&#125;  </div><div class="line">&#125;  </div><div class="line">return super.onTransact(code, data, reply, flags);  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>文章开头也说到服务端的Binder实例会根据客户端依靠Binder驱动发来的消息，执行onTransact方法，然后由其参数决定执行服务端的代码。<br>可以看到onTransact有四个参数<br>code ， data ，replay ， flags</p>
+<ul>
+<li>code 是一个整形的唯一标识，用于区分执行哪个方法，客户端会传递此参数，告诉服务端执行哪个方法</li>
+<li>data客户端传递过来的参数</li>
+<li>replay服务器返回回去的值</li>
+<li>flags标明是否有返回值，0为有（双向），1为没有（单向）</li>
+</ul>
+<p>我们仔细看case TRANSACTION_min中的代码</p>
+<p>data.enforceInterface(DESCRIPTOR);</p>
+<p>与客户端的writeInterfaceToken对用，标识远程服务的名称</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">int _arg0;</div><div class="line">_arg0 = data.readInt();</div><div class="line">int _arg1;</div><div class="line">_arg1 = data.readInt();</div></pre></td></tr></table></figure>
+<p>接下来分别读取了客户端传入的两个参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int _result = this.min(_arg0, _arg1);</div><div class="line">reply.writeNoException();</div><div class="line">reply.writeInt(_result);</div></pre></td></tr></table></figure>
+<p>然后执行this.min，即我们实现的min方法；返回result由reply写回。</p>
+<p>add同理，可以看到服务端通过AIDL生成Stub的类，封装了服务端本来需要写的代码。</p>
+<p>###客户端</p>
+<p>客户端主要通过ServiceConnected与服务端连接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">private ServiceConnection mServiceConn = new ServiceConnection()  </div><div class="line">    &#123;  </div><div class="line">        @Override  </div><div class="line">        public void onServiceDisconnected(ComponentName name)  </div><div class="line">        &#123;  </div><div class="line">            Log.e(&quot;client&quot;, &quot;onServiceDisconnected&quot;);  </div><div class="line">            mCalcAidl = null;  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        @Override  </div><div class="line">        public void onServiceConnected(ComponentName name, IBinder service)  </div><div class="line">        &#123;  </div><div class="line">            Log.e(&quot;client&quot;, &quot;onServiceConnected&quot;);  </div><div class="line">            mCalcAidl = ICalcAIDL.Stub.asInterface(service);  </div><div class="line">        &#125;  </div><div class="line">    &#125;;</div></pre></td></tr></table></figure>
+<p>如果你比较敏锐，应该会猜到这个onServiceConnected中的IBinder实例，其实就是我们文章开通所说的Binder驱动，也是一个Binder实例<br>在ICalcAIDL.Stub.asInterface中最终调用了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">return new com.zhy.calc.aidl.ICalcAIDL.Stub.Proxy(obj);</div></pre></td></tr></table></figure>
+<p>这个Proxy实例传入了我们的Binder驱动，并且封装了我们调用服务端的代码，文章开头说，客户端会通过Binder驱动的transact()方法调用服务端代码</p>
+<p>直接看Proxy中的add方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">@Override public int add(int x, int y) throws android.os.RemoteException  </div><div class="line">&#123;  </div><div class="line">android.os.Parcel _data = android.os.Parcel.obtain();  </div><div class="line">android.os.Parcel _reply = android.os.Parcel.obtain();  </div><div class="line">int _result;  </div><div class="line">try &#123;  </div><div class="line">_data.writeInterfaceToken(DESCRIPTOR);  </div><div class="line">_data.writeInt(x);  </div><div class="line">_data.writeInt(y);  </div><div class="line">mRemote.transact(Stub.TRANSACTION_add, _data, _reply, 0);  </div><div class="line">_reply.readException();  </div><div class="line">_result = _reply.readInt();  </div><div class="line">&#125;  </div><div class="line">finally &#123;  </div><div class="line">_reply.recycle();  </div><div class="line">_data.recycle();  </div><div class="line">&#125;  </div><div class="line">return _result;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>首先声明两个Parcel对象，一个用于传递数据，一个用户接收返回的数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">_data.writeInterfaceToken(DESCRIPTOR);与服务器端的enforceInterfac对应</div><div class="line">_data.writeInt(x);</div><div class="line">_data.writeInt(y);写入需要传递的参数</div><div class="line">mRemote.transact(Stub.TRANSACTION_add, _data, _reply, 0);</div></pre></td></tr></table></figure>
+<p>终于看到了我们的transact方法，第一个对应服务端的code,_data,_repay分别对应服务端的data，reply，0表示是双向的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">_reply.readException();</div><div class="line">_result = _reply.readInt();</div></pre></td></tr></table></figure>
+<p>最后读出我们服务端返回的数据，然后return。可以看到和服务端的onTransact基本是一行一行对应的。</p>
+<p>我们已经通过AIDL生成的代码解释了Android Binder框架的工作原理。Service的作用其实就是为我们创建Binder驱动，即服务端与客户端连接的桥梁。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

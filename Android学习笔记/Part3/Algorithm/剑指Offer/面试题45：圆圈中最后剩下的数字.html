@@ -1,0 +1,567 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#面试题45 圆圈中最后剩下的数字题目
+
+0,1,…,n-1这n个数字排成一个圆圈，从数字0开始每次从这个圆圈里删除第m个数字。求这个圆圈里剩下的最后一个数字。
+
+解法:
+
+可以创建一个总共有n个结点的环形链表，然后每次在这个链表中删除第m个结点。我们发现使用环形链表里重复遍历很多遍。重复遍历当然对时间效率有负面的影响。这种方法每删除一个数字需要m步运算，总共有n个数字，因此总的时间复杂度为O(m">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part3/Algorithm/剑指Offer/面试题45：圆圈中最后剩下的数字.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="#面试题45 圆圈中最后剩下的数字题目
+
+0,1,…,n-1这n个数字排成一个圆圈，从数字0开始每次从这个圆圈里删除第m个数字。求这个圆圈里剩下的最后一个数字。
+
+解法:
+
+可以创建一个总共有n个结点的环形链表，然后每次在这个链表中删除第m个结点。我们发现使用环形链表里重复遍历很多遍。重复遍历当然对时间效率有负面的影响。这种方法每删除一个数字需要m步运算，总共有n个数字，因此总的时间复杂度为O(m">
+<meta property="og:image" content="http://img.blog.csdn.net/20160705171823279">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.202Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="#面试题45 圆圈中最后剩下的数字题目
+
+0,1,…,n-1这n个数字排成一个圆圈，从数字0开始每次从这个圆圈里删除第m个数字。求这个圆圈里剩下的最后一个数字。
+
+解法:
+
+可以创建一个总共有n个结点的环形链表，然后每次在这个链表中删除第m个结点。我们发现使用环形链表里重复遍历很多遍。重复遍历当然对时间效率有负面的影响。这种方法每删除一个数字需要m步运算，总共有n个数字，因此总的时间复杂度为O(m">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160705171823279">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part3/Algorithm/剑指Offer/面试题45：圆圈中最后剩下的数字.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <h2 id="面试题45-圆圈中最后剩下的数字"><a href="#面试题45-圆圈中最后剩下的数字" class="headerlink" title="#面试题45 圆圈中最后剩下的数字"></a>#面试题45 圆圈中最后剩下的数字</h2><p>题目</p>
+<blockquote>
+<p>0,1,…,n-1这n个数字排成一个圆圈，从数字0开始每次从这个圆圈里删除第m个数字。求这个圆圈里剩下的最后一个数字。</p>
+</blockquote>
+<p>解法:</p>
+<blockquote>
+<p>可以创建一个总共有n个结点的环形链表，然后每次在这个链表中删除第m个结点。我们发现使用环形链表里重复遍历很多遍。重复遍历当然对时间效率有负面的影响。这种方法每删除一个数字需要m步运算，总共有n个数字，因此总的时间复杂度为O(mn)。同时这种思路还需要一个辅助的链表来模拟圆圈，其空间复杂度O(n）。接下来我们试着找到每次被删除的数字有哪些规律，希望能够找到更加高效的算法。</p>
+<p>首先我们定义一个关于n和m的方程f(n,m)，表示每次在n个数字0，1，。。。n-1中每次删除第m个数字最后剩下的数字。</p>
+<p>在这n个数字中，第一个被删除的数字是（m-1)%n.为了简单起见，我们把（m-1)%n记为k，那么删除k之后剩下的n-1个数字为0，1，。。。。k-1，k+1,…..n-1。并且下一次删除从数字k+1,……n-1,0,1,….k-1。该序列最后剩下的数字也应该是关于n和m的函数。由于这个序列的规律和前面最初的序列不一样（最初的序列是从0开始的连续序列），因此该函数不同于前面的函数，即为f’(n-1,m)。最初序列最后剩下的数字f(n,m)一定是删除一个数字之后的序列最后剩下的数字，即f(n,m)=f’(n-1,m).</p>
+<p>接下来我么把剩下的这n-1个数字的序列k+1,….n-1，0，1，,,,,,,k-1做一个映射，映射的结果是形成一个从0到n-2的序列</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">k+1        ------&gt;     0</div><div class="line">k+2      ---------&gt;    1</div><div class="line">。。。。</div><div class="line">n-1      -----    &gt; n-k-2</div><div class="line">0         -------&gt;    n-k-1</div><div class="line">1       ---------&gt;    n-k</div><div class="line">.....</div><div class="line">k-1   ---------&gt;    n-k</div></pre></td></tr></table></figure>
+<blockquote>
+<p>我们把映射定义为p，则p(x) = (x-k-1)%n。它表示如果映射前的数字是x,那么映射后的数字是（x-k-1)%n.该映射的逆映射是p-1(x)= (x+k+1)%n.</p>
+<p>由于映射之后的序列和最初的序列具有同样的形式，即都是从0开始的连续序列，因此仍然可以用函数f来表示，记为f(n-1,m).根据我们的映射规则，映射之前的序列中最后剩下的数字f’(n-1,m) = p-1[(n-1,m)] = [f(n-1,m)+k+1]%n ,把k= (m-1)%n代入f(n,m) = f’(n-1,m) =[f(n-1,m)+m]%n.</p>
+<p>经过上面的复杂的分析，我们终于找到一个递归的公示。要得到n个数字的序列中最后剩下的数字，只需要得到n-1个数字的序列和最后剩下的数字，并以此类推。当n-1时，也就是序列中开始只有一个数字0，那么很显然最后剩下的数字就是0.我们把这种关系表示为：</p>
+</blockquote>
+<p><img src="http://img.blog.csdn.net/20160705171823279" alt="这里写图片描述"></p>
+<p>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public static int lastRemaining(int n, int m)&#123;</div><div class="line">		if(n &lt; 1 || m &lt; 1)&#123;</div><div class="line">			return -1;</div><div class="line">		&#125;</div><div class="line">		int last = 0;</div><div class="line">		for(int i = 2; i &lt;= n; i++)&#123;</div><div class="line">			last = (last + m) % i;</div><div class="line">		&#125;</div><div class="line">		return last;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

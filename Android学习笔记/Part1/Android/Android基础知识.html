@@ -1,0 +1,804 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#Android：五种布局： FrameLayout 、 LinearLayout 、 AbsoluteLayout 、 RelativeLayout 、 TableLayout 全都继承自ViewGroup，各自特点及绘制效率对比。
+
+FrameLayout(框架布局)
+  此布局是五种布局中最简单的布局，Android中并没有对child view的摆布进行控制，这个布局中所有的控件都会默认出">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part1/Android/Android基础知识.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="#Android：五种布局： FrameLayout 、 LinearLayout 、 AbsoluteLayout 、 RelativeLayout 、 TableLayout 全都继承自ViewGroup，各自特点及绘制效率对比。
+
+FrameLayout(框架布局)
+  此布局是五种布局中最简单的布局，Android中并没有对child view的摆布进行控制，这个布局中所有的控件都会默认出">
+<meta property="og:image" content="http://img.blog.csdn.net/20130828141902812">
+<meta property="og:image" content="https://github.com/GeniusVJR/LearningNotes/blob/master/Part1/Android/FlowchartDiagram.jpg?raw=true">
+<meta property="og:image" content="http://7xntdm.com1.z0.glb.clouddn.com/fragment_lifecycle.png">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.102Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="#Android：五种布局： FrameLayout 、 LinearLayout 、 AbsoluteLayout 、 RelativeLayout 、 TableLayout 全都继承自ViewGroup，各自特点及绘制效率对比。
+
+FrameLayout(框架布局)
+  此布局是五种布局中最简单的布局，Android中并没有对child view的摆布进行控制，这个布局中所有的控件都会默认出">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20130828141902812">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part1/Android/Android基础知识.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <h2 id="Android："><a href="#Android：" class="headerlink" title="#Android："></a>#Android：</h2><p><strong>五种布局： FrameLayout 、 LinearLayout 、 AbsoluteLayout 、 RelativeLayout 、 TableLayout 全都继承自ViewGroup，各自特点及绘制效率对比。</strong></p>
+<ul>
+<li><p>FrameLayout(框架布局)</p>
+<p>  此布局是五种布局中最简单的布局，Android中并没有对child view的摆布进行控制，这个布局中所有的控件都会默认出现在视图的左上角，我们可以使用<code>android:layout_margin</code>，<code>android:layout_gravity</code>等属性去控制子控件相对布局的位置。</p>
+</li>
+<li><p>LinearLayout(线性布局)</p>
+<p>  一行（或一列）只控制一个控件的线性布局，所以当有很多控件需要在一个界面中列出时，可以用LinearLayout布局。<br>  此布局有一个需要格外注意的属性:<code>android:orientation=“horizontal|vertical</code>。</p>
+<ul>
+<li>当<code>android:orientation=&quot;horizontal</code>时，<em>说明你希望将水平方向的布局交给<strong>LinearLayout</strong> </em>，其子元素的<code>android:layout_gravity=&quot;right|left&quot;</code> 等控制水平方向的gravity值都是被忽略的，<em>此时<strong>LinearLayout</strong>中的子元素都是默认的按照水平从左向右来排</em>，我们可以用<code>android:layout_gravity=&quot;top|bottom&quot;</code>等gravity值来控制垂直展示。</li>
+<li>反之，可以知道 当<code>android:orientation=&quot;vertical</code>时，<strong>LinearLayout</strong>对其子元素展示上的的处理方式。</li>
+</ul>
+</li>
+<li><p>AbsoluteLayout(绝对布局)</p>
+<p>  可以放置多个控件，并且可以自己定义控件的x,y位置</p>
+</li>
+<li><p>RelativeLayout(相对布局)</p>
+<p>  这个布局也是相对自由的布局，Android 对该布局的child view的 水平layout&amp; 垂直layout做了解析，由此我们可以FrameLayout的基础上使用标签或者Java代码对垂直方向 以及 水平方向 布局中的views进行任意的控制.</p>
+<ul>
+<li><p>相关属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">    </div><div class="line">    　　android:layout_centerInParent=&quot;true|false&quot;</div><div class="line">	　　android:layout_centerHorizontal=&quot;true|false&quot;</div><div class="line">	　　android:layout_alignParentRight=&quot;true|false&quot;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>TableLayout(表格布局)</p>
+<p>  将子元素的位置分配到行或列中，一个TableLayout由许多的TableRow组成</p>
+</li>
+</ul>
+<hr>
+<p><strong>Activity生命周期。</strong></p>
+<ul>
+<li>启动Activity:<br>onCreate()—&gt;onStart()—&gt;onResume()，Activity进入运行状态。</li>
+<li>Activity退居后台:<br>当前Activity转到新的Activity界面或按Home键回到主屏：<br>onPause()—&gt;onStop()，进入停滞状态。</li>
+<li>Activity返回前台:<br>onRestart()—&gt;<strong>onStart()</strong>—&gt;onResume()，再次回到运行状态。</li>
+<li>Activity退居后台，且系统内存不足，<br>系统会杀死这个后台状态的Activity（此时这个Activity引用仍然处在任务栈中，只是这个时候引用指向的对象已经为null），若再次回到这个Activity,则会走onCreate()–&gt;onStart()—&gt;onResume()(将重新走一次Activity的初始化生命周期)</li>
+<li>锁屏：<code>onPause()-&gt;onStop()</code></li>
+<li><p>解锁：<code>onStart()-&gt;onResume()</code></p>
+</li>
+<li><p>更多流程分支，请参照以下生命周期流程图<br>  <img src="http://img.blog.csdn.net/20130828141902812" alt=""></p>
+</li>
+</ul>
+<hr>
+<p><strong>通过Acitivty的xml标签来改变任务栈的默认行为</strong></p>
+<ul>
+<li><p>使用<code>android:launchMode=&quot;standard|singleInstance|singleTask|singleTop&quot;</code>来控制Acivity任务栈。</p>
+<p>  <strong>任务栈</strong>是一种后进先出的结构。位于栈顶的Activity处于焦点状态,当按下back按钮的时候,栈内的Activity会一个一个的出栈,并且调用其<code>onDestory()</code>方法。如果栈内没有Activity,那么系统就会回收这个栈,每个APP默认只有一个栈,以APP的包名来命名.</p>
+<ul>
+<li>standard : 标准模式,每次启动Activity都会创建一个新的Activity实例,并且将其压入任务栈栈顶,而不管这个Activity是否已经存在。Activity的启动三回调(<em>onCreate()-&gt;onStart()-&gt;onResume()</em>)都会执行。</li>
+</ul>
+<ul>
+<li>singleTop : 栈顶复用模式.这种模式下,如果新Activity已经位于任务栈的栈顶,那么此Activity不会被重新创建,所以它的启动三回调就不会执行,同时Activity的<code>onNewIntent()</code>方法会被回调.如果Activity已经存在但是不在栈顶,那么作用与<em>standard模式</em>一样.</li>
+<li>singleTask: 栈内复用模式.创建这样的Activity的时候,系统会先确认它所需任务栈已经创建,否则先创建任务栈.然后放入Activity,如果栈中已经有一个Activity实例,那么这个Activity就会被调到栈顶,<code>onNewIntent()</code>,并且singleTask会清理在当前Activity上面的所有Activity.(clear top)</li>
+<li>singleInstance : 加强版的singleTask模式,这种模式的Activity只能单独位于一个任务栈内,由于栈内复用的特性,后续请求均不会创建新的Activity,除非这个独特的任务栈被系统销毁了</li>
+</ul>
+</li>
+</ul>
+<p>Activity的堆栈管理以ActivityRecord为单位,所有的ActivityRecord都放在一个List里面.可以认为一个ActivityRecord就是一个Activity栈</p>
+<hr>
+<p><strong>Activity缓存方法。</strong></p>
+<p>有a、b两个Activity，当从a进入b之后一段时间，可能系统会把a回收，这时候按back，执行的不是a的onRestart而是onCreate方法，a被重新创建一次，这是a中的临时数据和状态可能就丢失了。</p>
+<p>可以用Activity中的onSaveInstanceState()回调方法保存临时数据和状态，这个方法一定会在活动被回收之前调用。方法中有一个Bundle参数，putString()、putInt()等方法需要传入两个参数，一个键一个值。数据保存之后会在onCreate中恢复，onCreate也有一个Bundle类型的参数。</p>
+<p>示例代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">    super.onCreate(savedInstanceState);</div><div class="line">    setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">    //这里，当Acivity第一次被创建的时候为空</div><div class="line">    //所以我们需要判断一下</div><div class="line">    if( savedInstanceState != null )&#123;</div><div class="line">        savedInstanceState.getString(&quot;anAnt&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@Override</div><div class="line">protected void onSaveInstanceState(Bundle outState) &#123;</div><div class="line">    super.onSaveInstanceState(outState);</div><div class="line"></div><div class="line">    outState.putString(&quot;anAnt&quot;,&quot;Android&quot;);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>一、onSaveInstanceState (Bundle outState)</p>
+<p>当某个activity变得“容易”被系统销毁时，该activity的onSaveInstanceState就会被执行，除非该activity是被用户主动销毁的，例如当用户按BACK键的时候。</p>
+<p>注意上面的双引号，何为“容易”？言下之意就是该activity还没有被销毁，而仅仅是一种可能性。这种可能性有哪些？通过重写一个activity的所有生命周期的onXXX方法，包括onSaveInstanceState和onRestoreInstanceState方法，我们可以清楚地知道当某个activity（假定为activity A）显示在当前task的最上层时，其onSaveInstanceState方法会在什么时候被执行，有这么几种情况：</p>
+<p>1、当用户按下HOME键时。</p>
+<p>这是显而易见的，系统不知道你按下HOME后要运行多少其他的程序，自然也不知道activity A是否会被销毁，故系统会调用onSaveInstanceState，让用户有机会保存某些非永久性的数据。以下几种情况的分析都遵循该原则</p>
+<p>2、长按HOME键，选择运行其他的程序时。</p>
+<p>3、按下电源按键（关闭屏幕显示）时。</p>
+<p>4、从activity A中启动一个新的activity时。</p>
+<p>5、屏幕方向切换时，例如从竖屏切换到横屏时。（如果不指定configchange属性）<br>在屏幕切换之前，系统会销毁activity A，在屏幕切换之后系统又会自动地创建activity A，所以onSaveInstanceState一定会被执行</p>
+<p>总而言之，onSaveInstanceState的调用遵循一个重要原则，即当系统“未经你许可”时销毁了你的activity，则onSaveInstanceState会被系统调用，这是系统的责任，因为它必须要提供一个机会让你保存你的数据（当然你不保存那就随便你了）。另外，需要注意的几点：</p>
+<p>1.布局中的每一个View默认实现了onSaveInstanceState()方法，这样的话，这个UI的任何改变都会自动地存储和在activity重新创建的时候自动地恢复。但是这种情况只有在你为这个UI提供了唯一的ID之后才起作用，如果没有提供ID，app将不会存储它的状态。</p>
+<p>2.由于默认的onSaveInstanceState()方法的实现帮助UI存储它的状态，所以如果你需要覆盖这个方法去存储额外的状态信息，你应该在执行任何代码之前都调用父类的onSaveInstanceState()方法（super.onSaveInstanceState()）。<br>既然有现成的可用，那么我们到底还要不要自己实现onSaveInstanceState()?这得看情况了，如果你自己的派生类中有变量影响到UI，或你程序的行为，当然就要把这个变量也保存了，那么就需要自己实现，否则就不需要。</p>
+<p>3.由于onSaveInstanceState()方法调用的不确定性，你应该只使用这个方法去记录activity的瞬间状态（UI的状态）。不应该用这个方法去存储持久化数据。当用户离开这个activity的时候应该在onPause()方法中存储持久化数据（例如应该被存储到数据库中的数据）。</p>
+<p>4.onSaveInstanceState()如果被调用，这个方法会在onStop()前被触发，但系统并不保证是否在onPause()之前或者之后触发。</p>
+<p>二、onRestoreInstanceState (Bundle outState)</p>
+<p>至于onRestoreInstanceState方法，需要注意的是，onSaveInstanceState方法和onRestoreInstanceState方法“不一定”是成对的被调用的，（本人注：我昨晚调试时就发现原来不一定成对被调用的！）</p>
+<p>onRestoreInstanceState被调用的前提是，activity A“确实”被系统销毁了，而如果仅仅是停留在有这种可能性的情况下，则该方法不会被调用，例如，当正在显示activity A的时候，用户按下HOME键回到主界面，然后用户紧接着又返回到activity A，这种情况下activity A一般不会因为内存的原因被系统销毁，故activity A的onRestoreInstanceState方法不会被执行</p>
+<p>另外，onRestoreInstanceState的bundle参数也会传递到onCreate方法中，你也可以选择在onCreate方法中做数据还原。<br>还有onRestoreInstanceState在onstart之后执行。<br>至于这两个函数的使用，给出示范代码（留意自定义代码在调用super的前或后）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public void onSaveInstanceState(Bundle savedInstanceState) &#123;</div><div class="line">        savedInstanceState.putBoolean(&quot;MyBoolean&quot;, true);</div><div class="line">        savedInstanceState.putDouble(&quot;myDouble&quot;, 1.9);</div><div class="line">        savedInstanceState.putInt(&quot;MyInt&quot;, 1);</div><div class="line">        savedInstanceState.putString(&quot;MyString&quot;, &quot;Welcome back to Android&quot;);</div><div class="line">        // etc.</div><div class="line">        super.onSaveInstanceState(savedInstanceState);</div><div class="line">&#125;</div><div class="line"></div><div class="line">@Override</div><div class="line">public void onRestoreInstanceState(Bundle savedInstanceState) &#123;</div><div class="line">        super.onRestoreInstanceState(savedInstanceState);</div><div class="line"></div><div class="line">        boolean myBoolean = savedInstanceState.getBoolean(&quot;MyBoolean&quot;);</div><div class="line">        double myDouble = savedInstanceState.getDouble(&quot;myDouble&quot;);</div><div class="line">        int myInt = savedInstanceState.getInt(&quot;MyInt&quot;);</div><div class="line">        String myString = savedInstanceState.getString(&quot;MyString&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<p><strong>Fragment的生命周期和activity如何的一个关系</strong></p>
+<p>这我们引用本知识库里的一张图片：<br><img src="https://github.com/GeniusVJR/LearningNotes/blob/master/Part1/Android/FlowchartDiagram.jpg?raw=true" alt="Mou icon"></p>
+<p><strong>为什么在Service中创建子线程而不是Activity中</strong></p>
+<p>这是因为Activity很难对Thread进行控制，当Activity被销毁之后，就没有任何其它的办法可以再重新获取到之前创建的子线程的实例。而且在一个Activity中创建的子线程，另一个Activity无法对其进行操作。但是Service就不同了，所有的Activity都可以与Service进行关联，然后可以很方便地操作其中的方法，即使Activity被销毁了，之后只要重新与Service建立关联，就又能够获取到原有的Service中Binder的实例。因此，使用Service来处理后台任务，Activity就可以放心地finish，完全不需要担心无法对后台任务进行控制的情况。</p>
+<p><strong>Intent的使用方法，可以传递哪些数据类型。</strong></p>
+<p>通过查询Intent/Bundle的API文档，我们可以获知，Intent/Bundle支持传递基本类型的数据和基本类型的数组数据，以及String/CharSequence类型的数据和String/CharSequence类型的数组数据。而对于其它类型的数据貌似无能为力，其实不然，我们可以在Intent/Bundle的API中看到Intent/Bundle还可以传递Parcelable（包裹化，邮包）和Serializable（序列化）类型的数据，以及它们的数组/列表数据。</p>
+<p>所以要让非基本类型和非String/CharSequence类型的数据通过Intent/Bundle来进行传输，我们就需要在数据类型中实现Parcelable接口或是Serializable接口。</p>
+<p><a href="http://blog.csdn.net/kkk0526/article/details/7214247" target="_blank" rel="external">http://blog.csdn.net/kkk0526/article/details/7214247</a></p>
+<p><strong>Fragment生命周期</strong></p>
+<p><img src="http://7xntdm.com1.z0.glb.clouddn.com/fragment_lifecycle.png" alt=""></p>
+<p>注意和Activity的相比的区别,按照执行顺序</p>
+<ul>
+<li>onAttach(),onDetach()</li>
+<li>onCreateView(),onDestroyView()</li>
+</ul>
+<hr>
+<p><strong>Service的两种启动方法，有什么区别</strong><br>1.在Context中通过<code>public boolean bindService(Intent service,ServiceConnection conn,int flags)</code> 方法来进行Service与Context的关联并启动，并且Service的生命周期依附于Context(<strong>不求同时同分同秒生！但求同时同分同秒屎！！</strong>)。</p>
+<p>2.通过<code>public ComponentName startService(Intent service)</code>方法去启动一个Service，此时Service的生命周期与启动它的Context无关。</p>
+<p>3.要注意的是，whatever，<strong>都需要在xml里注册你的Service</strong>，就像这样:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;service</div><div class="line">        android:name=&quot;.packnameName.youServiceName&quot;</div><div class="line">        android:enabled=&quot;true&quot; /&gt;</div></pre></td></tr></table></figure></p>
+<p><strong>广播(Broadcast Receiver)的两种动态注册和静态注册有什么区别。</strong></p>
+<ul>
+<li>静态注册：在AndroidManifest.xml文件中进行注册，当App退出后，Receiver仍然可以接收到广播并且进行相应的处理</li>
+<li>动态注册：在代码中动态注册，当App退出后，也就没办法再接受广播了</li>
+</ul>
+<hr>
+<p><strong>ContentProvider使用方法</strong></p>
+<p><a href="http://blog.csdn.net/juetion/article/details/17481039" target="_blank" rel="external">http://blog.csdn.net/juetion/article/details/17481039</a></p>
+<hr>
+<p><strong>目前能否保证service不被杀死</strong></p>
+<p><strong>Service设置成START_STICKY</strong></p>
+<ul>
+<li>kill 后会被重启（等待5秒左右），重传Intent，保持与重启前一样</li>
+</ul>
+<p><strong>提升service优先级</strong></p>
+<ul>
+<li>在AndroidManifest.xml文件中对于intent-filter可以通过<code>android:priority = &quot;1000&quot;</code>这个属性设置最高优先级，1000是最高值，如果数字越小则优先级越低，<strong>同时适用于广播</strong>。</li>
+<li>【结论】目前看来，priority这个属性貌似只适用于broadcast，对于Service来说可能无效</li>
+</ul>
+<p><strong>提升service进程优先级</strong></p>
+<ul>
+<li>Android中的进程是托管的，当系统进程空间紧张的时候，会依照优先级自动进行进程的回收</li>
+<li>当service运行在低内存的环境时，将会kill掉一些存在的进程。因此进程的优先级将会很重要，可以在startForeground()使用startForeground()将service放到前台状态。这样在低内存时被kill的几率会低一些。</li>
+<li>【结论】如果在极度极度低内存的压力下，该service还是会被kill掉，并且不一定会restart()</li>
+</ul>
+<p><strong>onDestroy方法里重启service</strong></p>
+<ul>
+<li>service +broadcast  方式，就是当service走onDestory()的时候，发送一个自定义的广播，当收到广播的时候，重新启动service</li>
+<li>也可以直接在onDestroy()里startService</li>
+<li>【结论】当使用类似口口管家等第三方应用或是在setting里-应用-强制停止时，APP进程可能就直接被干掉了，onDestroy方法都进不来，所以还是无法保证</li>
+</ul>
+<p><strong>监听系统广播判断Service状态</strong></p>
+<ul>
+<li>通过系统的一些广播，比如：手机重启、界面唤醒、应用状态改变等等监听并捕获到，然后判断我们的Service是否还存活，别忘记加权限</li>
+<li>【结论】这也能算是一种措施，不过感觉监听多了会导致Service很混乱，带来诸多不便</li>
+</ul>
+<p><strong>在JNI层,用C代码fork一个进程出来</strong></p>
+<ul>
+<li>这样产生的进程,会被系统认为是两个不同的进程.但是Android5.0之后可能不行</li>
+</ul>
+<p><strong>root之后放到system/app变成系统级应用</strong></p>
+<p><strong>大招: 放一个像素在前台(手机QQ)</strong></p>
+<hr>
+<p><strong>动画有哪两类，各有什么特点？三种动画的区别</strong></p>
+<ul>
+<li><p>tween 补间动画。通过指定View的初末状态和变化时间、方式，对View的内容完成一系列的图形变换来实现动画效果。<br>Alpha<br>Scale<br>Translate<br>Rotate。</p>
+</li>
+<li><p>frame 帧动画<br>AnimationDrawable 控制<br>animation-list xml布局</p>
+</li>
+<li><p>PropertyAnimation 属性动画</p>
+</li>
+</ul>
+<hr>
+<p><strong>Android的数据存储形式。</strong></p>
+<ul>
+<li><p>SQLite：SQLite是一个轻量级的数据库，支持基本的SQL语法，是常被采用的一种数据存储方式。<br>Android为此数据库提供了一个名为SQLiteDatabase的类，封装了一些操作数据库的api</p>
+</li>
+<li><p>SharedPreference： 除SQLite数据库外，另一种常用的数据存储方式，其本质就是一个xml文件，常用于存储较简单的参数设置。</p>
+</li>
+<li><p>File： 即常说的文件（I/O）存储方法，常用语存储大数量的数据，但是缺点是更新数据将是一件困难的事情。</p>
+</li>
+<li><p>ContentProvider: Android系统中能实现所有应用程序共享的一种数据存储方式，由于数据通常在各应用间的是互相私密的，所以此存储方式较少使用，但是其又是必不可少的一种存储方式。例如音频，视频，图片和通讯录，一般都可以采用此种方式进行存储。每个Content Provider都会对外提供一个公共的URI（包装成Uri对象），如果应用程序有数据需要共享时，就需要使用Content Provider为这些数据定义一个URI，然后其他的应用程序就通过Content Provider传入这个URI来对数据进行操作。</p>
+</li>
+</ul>
+<hr>
+<p><strong>Sqlite的基本操作。</strong></p>
+<p><a href="http://blog.csdn.net/zgljl2012/article/details/44769043" target="_blank" rel="external">http://blog.csdn.net/zgljl2012/article/details/44769043</a></p>
+<hr>
+<p><strong>如何判断应用被强杀</strong></p>
+<p>在Application中定义一个static常量，赋值为－1，在欢迎界面改为0，如果被强杀，application重新初始化，在父类Activity判断该常量的值。</p>
+<p><strong>应用被强杀如何解决</strong></p>
+<p>如果在每一个Activity的onCreate里判断是否被强杀，冗余了，封装到Activity的父类中，如果被强杀，跳转回主界面，如果没有被强杀，执行Activity的初始化操作，给主界面传递intent参数，主界面会调用onNewIntent方法，在onNewIntent跳转到欢迎页面，重新来一遍流程。</p>
+<p><strong>Json有什么优劣势。</strong></p>
+<p><strong>怎样退出终止App</strong></p>
+<p><strong>Asset目录与res目录的区别。</strong><br>res 目录下面有很多文件，例如 drawable,mipmap,raw 等。res 下面除了 raw 文件不会被压缩外，其余文件都会被压缩。同时 res目录下的文件可以通过R 文件访问。Asset 也是用来存储资源，但是 asset 文件内容只能通过路径或者 AssetManager 读取。 <a href="https://developer.android.com/studio/projects/index.html" target="_blank" rel="external">官方文档</a></p>
+<p><strong>Android怎么加速启动Activity。</strong><br>分两种情况，启动应用 和 普通Activity<br>启动应用 ：Application 的构造方法，onCreate 方法中不要进行耗时操作，数据预读取(例如 init 数据) 放在异步中操作<br>启动普通的Activity：A 启动B 时不要在 A 的 onPause 中执行耗时操作。因为 B 的 onResume 方法必须等待 A 的 onPause 执行完成后才能运行</p>
+<p><strong>Android内存优化方法：ListView优化，及时关闭资源，图片缓存等等。</strong></p>
+<p><strong>Android中弱引用与软引用的应用场景。</strong></p>
+<p><strong>Bitmap的四种属性，与每种属性队形的大小。</strong></p>
+<p><strong>View与View Group分类。自定义View过程：onMeasure()、onLayout()、onDraw()。</strong></p>
+<p>如何自定义控件：</p>
+<ol>
+<li><p>自定义属性的声明和获取</p>
+<ul>
+<li>分析需要的自定义属性</li>
+<li>在res/values/attrs.xml定义声明</li>
+<li>在layout文件中进行使用</li>
+<li>在View的构造方法中进行获取       </li>
+</ul>
+</li>
+<li>测量onMeasure</li>
+<li>布局onLayout(ViewGroup)</li>
+<li>绘制onDraw</li>
+<li>onTouchEvent</li>
+<li>onInterceptTouchEvent(ViewGroup)</li>
+<li>状态的恢复与保存</li>
+</ol>
+<p><strong>Android长连接，怎么处理心跳机制。</strong></p>
+<hr>
+<p><strong>View树绘制流程</strong></p>
+<hr>
+<p><strong>下拉刷新实现原理</strong></p>
+<hr>
+<p><strong>你用过什么框架，是否看过源码，是否知道底层原理。</strong></p>
+<p>Retrofit</p>
+<p>EventBus</p>
+<p>glide</p>
+<hr>
+<p><strong>Android5.0、6.0新特性。</strong></p>
+<p>Android5.0新特性：</p>
+<ul>
+<li>MaterialDesign设计风格</li>
+<li>支持多种设备</li>
+<li>支持64位ART虚拟机</li>
+</ul>
+<p>Android6.0新特性</p>
+<ul>
+<li>大量漂亮流畅的动画</li>
+<li>支持快速充电的切换</li>
+<li>支持文件夹拖拽应用</li>
+<li>相机新增专业模式</li>
+</ul>
+<p>Android7.0新特性</p>
+<ul>
+<li>分屏多任务</li>
+<li>增强的Java8语言模式</li>
+<li>夜间模式</li>
+</ul>
+<hr>
+<p><strong>Context区别</strong></p>
+<ul>
+<li>Activity和Service以及Application的Context是不一样的,Activity继承自ContextThemeWraper.其他的继承自ContextWrapper</li>
+<li>每一个Activity和Service以及Application的Context都是一个新的ContextImpl对象</li>
+<li>getApplication()用来获取Application实例的，但是这个方法只有在Activity和Service中才能调用的到。那么也许在绝大多数情况下我们都是在Activity或者Service中使用Application的，但是如果在一些其它的场景，比如BroadcastReceiver中也想获得Application的实例，这时就可以借助getApplicationContext()方法，getApplicationContext()比getApplication()方法的作用域会更广一些，任何一个Context的实例，只要调用getApplicationContext()方法都可以拿到我们的Application对象。</li>
+<li>Activity在创建的时候会new一个ContextImpl对象并在attach方法中关联它，Application和Service也差不多。ContextWrapper的方法内部都是转调ContextImpl的方法</li>
+<li>创建对话框传入Application的Context是不可以的</li>
+<li>尽管Application、Activity、Service都有自己的ContextImpl，并且每个ContextImpl都有自己的mResources成员，但是由于它们的mResources成员都来自于唯一的ResourcesManager实例，所以它们看似不同的mResources其实都指向的是同一块内存</li>
+<li>Context的数量等于Activity的个数 + Service的个数 + 1，这个1为Application</li>
+</ul>
+<hr>
+<p><strong>IntentService的使用场景与特点。</strong></p>
+<blockquote>
+<p>IntentService是Service的子类，是一个异步的，会自动停止的服务，很好解决了传统的Service中处理完耗时操作忘记停止并销毁Service的问题</p>
+</blockquote>
+<p>优点：</p>
+<ul>
+<li>一方面不需要自己去new Thread</li>
+<li>另一方面不需要考虑在什么时候关闭该Service</li>
+</ul>
+<p>onStartCommand中回调了onStart，onStart中通过mServiceHandler发送消息到该handler的handleMessage中去。最后handleMessage中回调onHandleIntent(intent)。</p>
+<hr>
+<p><strong>图片缓存</strong></p>
+<p>查看每个应用程序最高可用内存：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);  </div><div class="line">Log.d(&quot;TAG&quot;, &quot;Max memory is &quot; + maxMemory + &quot;KB&quot;);</div></pre></td></tr></table></figure>
+<hr>
+<p><strong>Gradle</strong></p>
+<p>构建工具、Groovy语法、Java</p>
+<p>Jar包里面只有代码，aar里面不光有代码还包括代码还包括资源文件，比如 drawable 文件，xml 资源文件。对于一些不常变动的 Android Library，我们可以直接引用 aar，加快编译速度</p>
+<hr>
+<p><strong>你是如何自学Android</strong></p>
+<p>首先是看书和看视频敲代码，然后看大牛的博客，做一些项目，向github提交代码，觉得自己API掌握的不错之后，开始看进阶的书，以及看源码，看完源码学习到一些思想，开始自己造轮子，开始想代码的提升，比如设计模式，架构，重构等。</p>
+<hr>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

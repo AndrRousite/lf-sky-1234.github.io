@@ -1,0 +1,586 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#String源码分析从一段代码说起：
+12345public void stringTest()&amp;#123;    String a = &amp;quot;a&amp;quot;+&amp;quot;b&amp;quot;+1;    String b = &amp;quot;ab1&amp;quot;;    System.out.println(a == b);&amp;#125;
+大家猜一猜结果如何？如果你的结论是true。好吧，再来一段代码">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AndrRousite">
+<meta property="og:url" content="https://AndrRousite.github.io/Android学习笔记/Part2/JavaSE/String源码分析.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="#String源码分析从一段代码说起：
+12345public void stringTest()&amp;#123;    String a = &amp;quot;a&amp;quot;+&amp;quot;b&amp;quot;+1;    String b = &amp;quot;ab1&amp;quot;;    System.out.println(a == b);&amp;#125;
+大家猜一猜结果如何？如果你的结论是true。好吧，再来一段代码">
+<meta property="og:updated_time" content="2017-04-05T16:46:55.186Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndrRousite">
+<meta name="twitter:description" content="#String源码分析从一段代码说起：
+12345public void stringTest()&amp;#123;    String a = &amp;quot;a&amp;quot;+&amp;quot;b&amp;quot;+1;    String b = &amp;quot;ab1&amp;quot;;    System.out.println(a == b);&amp;#125;
+大家猜一猜结果如何？如果你的结论是true。好吧，再来一段代码">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/Android学习笔记/Part2/JavaSE/String源码分析.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | AndrRousite
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+    
+    
+      <h2 id="String源码分析"><a href="#String源码分析" class="headerlink" title="#String源码分析"></a>#String源码分析</h2><p>从一段代码说起：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public void stringTest()&#123;</div><div class="line">    String a = &quot;a&quot;+&quot;b&quot;+1;</div><div class="line">    String b = &quot;ab1&quot;;</div><div class="line">    System.out.println(a == b);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>大家猜一猜结果如何？如果你的结论是true。好吧，再来一段代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public void stringTest()&#123;</div><div class="line">    String a = new String(&quot;ab1&quot;);</div><div class="line">    String b = &quot;ab1&quot;;</div><div class="line">    System.out.println(a == b);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>结果如何呢？正确答案是false。</p>
+<p>让我们看看经过编译器编译后的代码如何</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//第一段代码</div><div class="line">public void stringTest() &#123;</div><div class="line">    String a = &quot;ab1&quot;;</div><div class="line">    String b = &quot;ab1&quot;;</div><div class="line">    System.out.println(a == b);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//第二段代码</div><div class="line">public void stringTest() &#123;</div><div class="line">    String a1 = new String(&quot;ab1&quot;);</div><div class="line">    String b = &quot;ab1&quot;;</div><div class="line">    System.out.println(a1 == b);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>也就是说第一段代码经过了编译期优化，原因是编译器发现”a”+”b”+1和”ab1”的效果是一样的，都是不可变量组成。但是为什么他们的内存地址会相同呢？如果你对此还有兴趣，那就一起看看String类的一些重要源码吧。</p>
+<p>一 String类</p>
+<p>String类被final所修饰，也就是说String对象是不可变量，并发程序最喜欢不可变量了。String类实现了Serializable, Comparable<string>, CharSequence接口。</string></p>
+<p>Comparable接口有compareTo(String s)方法，CharSequence接口有length()，charAt(int index)，subSequence(int start,int end)方法。</p>
+<p>二 String属性</p>
+<p>String类中包含一个不可变的char数组用来存放字符串，一个int型的变量hash用来存放计算后的哈希值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">/** The value is used for character storage. */</div><div class="line">private final char value[];</div><div class="line"></div><div class="line">/** Cache the hash code for the string */</div><div class="line">private int hash; // Default to 0</div><div class="line"></div><div class="line">/** use serialVersionUID from JDK 1.0.2 for interoperability */</div><div class="line">private static final long serialVersionUID = -6849794470754667710L;</div></pre></td></tr></table></figure>
+<p>三 String构造函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">//不含参数的构造函数，一般没什么用，因为value是不可变量</div><div class="line">public String() &#123;</div><div class="line">    this.value = new char[0];</div><div class="line">&#125;</div><div class="line"></div><div class="line">//参数为String类型</div><div class="line">public String(String original) &#123;</div><div class="line">    this.value = original.value;</div><div class="line">    this.hash = original.hash;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//参数为char数组，使用java.utils包中的Arrays类复制</div><div class="line">public String(char value[]) &#123;</div><div class="line">    this.value = Arrays.copyOf(value, value.length);</div><div class="line">&#125;</div><div class="line"></div><div class="line">//从bytes数组中的offset位置开始，将长度为length的字节，以charsetName格式编码，拷贝到value</div><div class="line">public String(byte bytes[], int offset, int length, String charsetName)</div><div class="line">        throws UnsupportedEncodingException &#123;</div><div class="line">    if (charsetName == null)</div><div class="line">        throw new NullPointerException(&quot;charsetName&quot;);</div><div class="line">    checkBounds(bytes, offset, length);</div><div class="line">    this.value = StringCoding.decode(charsetName, bytes, offset, length);</div><div class="line">&#125;</div><div class="line"></div><div class="line">//调用public String(byte bytes[], int offset, int length, String charsetName)构造函数</div><div class="line">public String(byte bytes[], String charsetName)</div><div class="line">        throws UnsupportedEncodingException &#123;</div><div class="line">    this(bytes, 0, bytes.length, charsetName);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>三 String常用方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">boolean equals(Object anObject)</div><div class="line"></div><div class="line">public boolean equals(Object anObject) &#123;</div><div class="line">    //如果引用的是同一个对象，返回真</div><div class="line">    if (this == anObject) &#123;</div><div class="line">        return true;</div><div class="line">    &#125;</div><div class="line">    //如果不是String类型的数据，返回假</div><div class="line">    if (anObject instanceof String) &#123;</div><div class="line">        String anotherString = (String) anObject;</div><div class="line">        int n = value.length;</div><div class="line">        //如果char数组长度不相等，返回假</div><div class="line">        if (n == anotherString.value.length) &#123;</div><div class="line">            char v1[] = value;</div><div class="line">            char v2[] = anotherString.value;</div><div class="line">            int i = 0;</div><div class="line">            //从后往前单个字符判断，如果有不相等，返回假</div><div class="line">            while (n-- != 0) &#123;</div><div class="line">                if (v1[i] != v2[i])</div><div class="line">                        return false;</div><div class="line">                i++;</div><div class="line">            &#125;</div><div class="line">            //每个字符都相等，返回真</div><div class="line">            return true;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return false;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>equals方法经常用得到，它用来判断两个对象从实际意义上是否相等，String对象判断规则：</p>
+<p>内存地址相同，则为真。</p>
+<p>如果对象类型不是String类型，则为假。否则继续判断。</p>
+<p>如果对象长度不相等，则为假。否则继续判断。</p>
+<p>从后往前，判断String类中char数组value的单个字符是否相等，有不相等则为假。如果一直相等直到第一个数，则返回真。</p>
+<p>由此可以看出，如果对两个超长的字符串进行比较还是非常费时间的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">int compareTo(String anotherString)</div><div class="line"></div><div class="line">public int compareTo(String anotherString) &#123;</div><div class="line">    //自身对象字符串长度len1</div><div class="line">    int len1 = value.length;</div><div class="line">    //被比较对象字符串长度len2</div><div class="line">    int len2 = anotherString.value.length;</div><div class="line">    //取两个字符串长度的最小值lim</div><div class="line">    int lim = Math.min(len1, len2);</div><div class="line">    char v1[] = value;</div><div class="line">    char v2[] = anotherString.value;</div><div class="line"></div><div class="line">    int k = 0;</div><div class="line">    //从value的第一个字符开始到最小长度lim处为止，如果字符不相等，返回自身（对象不相等处字符-被比较对象不相等字符）</div><div class="line">    while (k &lt; lim) &#123;</div><div class="line">        char c1 = v1[k];</div><div class="line">        char c2 = v2[k];</div><div class="line">        if (c1 != c2) &#123;</div><div class="line">            return c1 - c2;</div><div class="line">        &#125;</div><div class="line">        k++;</div><div class="line">    &#125;</div><div class="line">    //如果前面都相等，则返回（自身长度-被比较对象长度）</div><div class="line">    return len1 - len2;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个方法写的很巧妙，先从0开始判断字符大小。如果两个对象能比较字符的地方比较完了还相等，就直接返回自身长度减被比较对象长度，如果两个字符串长度相等，则返回的是0，巧妙地判断了三种情况。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">int hashCode()</div><div class="line"></div><div class="line">public int hashCode() &#123;</div><div class="line">    int h = hash;</div><div class="line">    //如果hash没有被计算过，并且字符串不为空，则进行hashCode计算</div><div class="line">    if (h == 0 &amp;&amp; value.length &gt; 0) &#123;</div><div class="line">        char val[] = value;</div><div class="line"></div><div class="line">        //计算过程</div><div class="line">        //s[0]*31^(n-1) + s[1]*31^(n-2) + ... + s[n-1]</div><div class="line">        for (int i = 0; i &lt; value.length; i++) &#123;</div><div class="line">            h = 31 * h + val[i];</div><div class="line">        &#125;</div><div class="line">        //hash赋值</div><div class="line">        hash = h;</div><div class="line">    &#125;</div><div class="line">    return h;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>String类重写了hashCode方法，Object中的hashCode方法是一个Native调用。String类的hash采用多项式计算得来，我们完全可以通过不相同的字符串得出同样的hash，所以两个String对象的hashCode相同，并不代表两个String是一样的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">boolean startsWith(String prefix,int toffset)</div><div class="line"></div><div class="line">public boolean startsWith(String prefix, int toffset) &#123;</div><div class="line">    char ta[] = value;</div><div class="line">    int to = toffset;</div><div class="line">    char pa[] = prefix.value;</div><div class="line">    int po = 0;</div><div class="line">    int pc = prefix.value.length;</div><div class="line">    // Note: toffset might be near -1&gt;&gt;&gt;1.</div><div class="line">    //如果起始地址小于0或者（起始地址+所比较对象长度）大于自身对象长度，返回假</div><div class="line">    if ((toffset &lt; 0) || (toffset &gt; value.length - pc)) &#123;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line">    //从所比较对象的末尾开始比较</div><div class="line">    while (--pc &gt;= 0) &#123;</div><div class="line">        if (ta[to++] != pa[po++]) &#123;</div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return true;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public boolean startsWith(String prefix) &#123;</div><div class="line">    return startsWith(prefix, 0);</div><div class="line">&#125;</div><div class="line"></div><div class="line">public boolean endsWith(String suffix) &#123;</div><div class="line">    return startsWith(suffix, value.length - suffix.value.length);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>起始比较和末尾比较都是比较经常用得到的方法，例如在判断一个字符串是不是http协议的，或者初步判断一个文件是不是mp3文件，都可以采用这个方法进行比较。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">String concat(String str)</div><div class="line"></div><div class="line">public String concat(String str) &#123;</div><div class="line">    int otherLen = str.length();</div><div class="line">    //如果被添加的字符串为空，返回对象本身</div><div class="line">    if (otherLen == 0) &#123;</div><div class="line">        return this;</div><div class="line">    &#125;</div><div class="line">    int len = value.length;</div><div class="line">    char buf[] = Arrays.copyOf(value, len + otherLen);</div><div class="line">    str.getChars(buf, len);</div><div class="line">    return new String(buf, true);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>concat方法也是经常用的方法之一，它先判断被添加字符串是否为空来决定要不要创建新的对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">String replace(char oldChar,char newChar)</div><div class="line"></div><div class="line">public String replace(char oldChar, char newChar) &#123;</div><div class="line">    //新旧值先对比</div><div class="line">    if (oldChar != newChar) &#123;</div><div class="line">        int len = value.length;</div><div class="line">        int i = -1;</div><div class="line">        char[] val = value; /* avoid getfield opcode */</div><div class="line"></div><div class="line">        //找到旧值最开始出现的位置</div><div class="line">        while (++i &lt; len) &#123;</div><div class="line">            if (val[i] == oldChar) &#123;</div><div class="line">                break;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        //从那个位置开始，直到末尾，用新值代替出现的旧值</div><div class="line">        if (i &lt; len) &#123;</div><div class="line">            char buf[] = new char[len];</div><div class="line">            for (int j = 0; j &lt; i; j++) &#123;</div><div class="line">                buf[j] = val[j];</div><div class="line">            &#125;</div><div class="line">            while (i &lt; len) &#123;</div><div class="line">                char c = val[i];</div><div class="line">                buf[i] = (c == oldChar) ? newChar : c;</div><div class="line">                i++;</div><div class="line">            &#125;</div><div class="line">            return new String(buf, true);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return this;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个方法也有讨巧的地方，例如最开始先找出旧值出现的位置，这样节省了一部分对比的时间。replace(String oldStr,String newStr)方法通过正则表达式来判断。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">String trim()</div><div class="line"></div><div class="line">public String trim() &#123;</div><div class="line">    int len = value.length;</div><div class="line">    int st = 0;</div><div class="line">    char[] val = value;    /* avoid getfield opcode */</div><div class="line"></div><div class="line">    //找到字符串前段没有空格的位置</div><div class="line">    while ((st &lt; len) &amp;&amp; (val[st] &lt;= &apos; &apos;)) &#123;</div><div class="line">        st++;</div><div class="line">    &#125;</div><div class="line">    //找到字符串末尾没有空格的位置</div><div class="line">    while ((st &lt; len) &amp;&amp; (val[len - 1] &lt;= &apos; &apos;)) &#123;</div><div class="line">        len--;</div><div class="line">    &#125;</div><div class="line">    //如果前后都没有出现空格，返回字符串本身</div><div class="line">    return ((st &gt; 0) || (len &lt; value.length)) ? substring(st, len) : this;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>trim方法用起来也6的飞起</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String intern()</div><div class="line"></div><div class="line">public native String intern();</div></pre></td></tr></table></figure>
+<p>intern方法是Native调用，它的作用是在方法区中的常量池里通过equals方法寻找等值的对象，如果没有找到则在常量池中开辟一片空间存放字符串并返回该对应String的引用，否则直接返回常量池中已存在String对象的引用。</p>
+<p>将引言中第二段代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">//String a = new String(&quot;ab1&quot;);</div><div class="line">//改为</div><div class="line">String a = new String(&quot;ab1&quot;).intern();</div></pre></td></tr></table></figure>
+<p>则结果为为真，原因在于a所指向的地址来自于常量池，而b所指向的字符串常量默认会调用这个方法，所以a和b都指向了同一个地址空间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">int hash32()</div><div class="line"></div><div class="line">private transient int hash32 = 0;</div><div class="line">int hash32() &#123;</div><div class="line">    int h = hash32;</div><div class="line">    if (0 == h) &#123;</div><div class="line">       // harmless data race on hash32 here.</div><div class="line">       h = sun.misc.Hashing.murmur3_32(HASHING_SEED, value, 0, value.length);</div><div class="line"></div><div class="line">       // ensure result is not zero to avoid recalcing</div><div class="line">       h = (0 != h) ? h : 1;</div><div class="line"></div><div class="line">       hash32 = h;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return h;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在JDK1.7中，Hash相关集合类在String类作key的情况下，不再使用hashCode方式离散数据，而是采用hash32方法。这个方法默认使用系统当前时间，String类地址，System类地址等作为因子计算得到hash种子，通过hash种子在经过hash得到32位的int型数值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public int length() &#123;</div><div class="line">    return value.length;</div><div class="line">&#125;</div><div class="line">public String toString() &#123;</div><div class="line">    return this;</div><div class="line">&#125;</div><div class="line">public boolean isEmpty() &#123;</div><div class="line">    return value.length == 0;</div><div class="line">&#125;</div><div class="line">public char charAt(int index) &#123;</div><div class="line">    if ((index &lt; 0) || (index &gt;= value.length)) &#123;</div><div class="line">        throw new StringIndexOutOfBoundsException(index);</div><div class="line">    &#125;</div><div class="line">    return value[index];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以上是一些简单的常用方法。</p>
+<p>总结</p>
+<p>String对象是不可变类型，返回类型为String的String方法每次返回的都是新的String对象，除了某些方法的某些特定条件返回自身。</p>
+<p>String对象的三种比较方式：</p>
+<p>==内存比较：直接对比两个引用所指向的内存值，精确简洁直接明了。</p>
+<p>equals字符串值比较：比较两个引用所指对象字面值是否相等。</p>
+<p>hashCode字符串数值化比较：将字符串数值化。两个引用的hashCode相同，不保证内存一定相同，不保证字面值一定相同。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 01:13</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
