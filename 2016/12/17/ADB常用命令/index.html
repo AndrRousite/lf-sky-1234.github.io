@@ -1,0 +1,916 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="主要列举平时经常使用的一些adb命令
+
+一. 基本指令
+adb -s serialNumber shell  //进入指定设备
+adb version  //查看版本
+adb logcat  //查看日志
+adb devices  //查看设备
+adb get-state //连接状态
+adb start-server //启动ADB服务
+adb kill-server //停止ADB服务
+ad">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ADB常用命令">
+<meta property="og:url" content="https://AndrRousite.github.io/2016/12/17/ADB常用命令/index.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="主要列举平时经常使用的一些adb命令
+
+一. 基本指令
+adb -s serialNumber shell  //进入指定设备
+adb version  //查看版本
+adb logcat  //查看日志
+adb devices  //查看设备
+adb get-state //连接状态
+adb start-server //启动ADB服务
+adb kill-server //停止ADB服务
+ad">
+<meta property="og:updated_time" content="2017-04-05T15:56:48.467Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ADB常用命令">
+<meta name="twitter:description" content="主要列举平时经常使用的一些adb命令
+
+一. 基本指令
+adb -s serialNumber shell  //进入指定设备
+adb version  //查看版本
+adb logcat  //查看日志
+adb devices  //查看设备
+adb get-state //连接状态
+adb start-server //启动ADB服务
+adb kill-server //停止ADB服务
+ad">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/2016/12/17/ADB常用命令/"/>
+
+
+
+
+
+  <title> ADB常用命令 | AndrRousite </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://AndrRousite.github.io/2016/12/17/ADB常用命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liu-feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AndrRousite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ADB常用命令
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-17T23:54:13+08:00">
+                2016-12-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>主要列举平时经常使用的一些adb命令</p>
+</blockquote>
+<h3 id="一-基本指令"><a href="#一-基本指令" class="headerlink" title="一. 基本指令"></a>一. 基本指令</h3><ul>
+<li><code>adb -s serialNumber shell</code>  //进入指定设备</li>
+<li><code>adb version</code>  //查看版本</li>
+<li><code>adb logcat</code>  //查看日志</li>
+<li><code>adb devices</code>  //查看设备</li>
+<li><code>adb get-state</code> //连接状态</li>
+<li><code>adb start-server</code> //启动ADB服务</li>
+<li><code>adb kill-server</code> //停止ADB服务</li>
+<li><code>adb push local remote</code> //电脑推送到手机</li>
+<li><code>adb pull remote local</code> //手机拉取到电脑</li>
+</ul>
+<hr>
+<h3 id="二-am-与pm"><a href="#二-am-与pm" class="headerlink" title="二. am 与pm"></a>二. am 与pm</h3><ul>
+<li><code>am start -n {packageName}/.{activityName}</code>  启动app</li>
+<li><code>am kill &lt;packageName&gt;</code>  杀app的进程</li>
+<li><code>am force-stop  &lt;packageName&gt;</code>  强制停止一切</li>
+<li><code>am startservice</code>  启动服务</li>
+<li><p><code>am stopservice</code> 停止服务</p>
+</li>
+<li><p><code>am start -a android.intent.action.VIEW -d  http://www.12306.cn/</code> 打开12306网站</p>
+</li>
+<li><p><code>am start -a android.intent.action.CALL -d tel:10086</code>  拨打10086</p>
+</li>
+<li><p><code>pm list packages</code>  列出手机所有的包名</p>
+</li>
+<li><code>pm install/uninstall</code>  安装/卸载</li>
+</ul>
+<h3 id="三-模拟用户事件"><a href="#三-模拟用户事件" class="headerlink" title="三. 模拟用户事件"></a>三. 模拟用户事件</h3><ul>
+<li><p><strong>文本输入:</strong>  <code>adb shell input text &lt;string&gt;</code><br>例手机端输出demo字符串，相应指令：<code>adb shell input &quot;demo&quot;</code>.</p>
+</li>
+<li><p><strong>键盘事件：</strong> <code>input keyevent &lt;KEYCODE&gt;</code>，其中<code>KEYCODE</code>见本文结尾的附表<br>例点击返回键，相应指令： <code>input keyevent 4</code>.</p>
+</li>
+<li><p><strong>点击事件：</strong> <code>input tap &lt;x&gt; &lt;y&gt;</code><br>例点击坐标（500，500），相应指令： <code>input tap 500 500</code>.</p>
+</li>
+<li><p><strong>滑动事件：</strong> <code>input swipe &lt;x1&gt; &lt;y1&gt; &lt;x2&gt; &lt;y2&gt; &lt;time&gt;</code><br>例从坐标(300，500)滑动到(100，500)，相应指令： <code>input swipe 300 500 100 500</code>.<br>例200ms时间从坐标(300，500)滑动到(100，500)，相应指令： <code>input swipe 300 500 100 500 200</code>.</p>
+</li>
+</ul>
+<hr>
+<h3 id="四-logcat"><a href="#四-logcat" class="headerlink" title="四. logcat"></a>四. logcat</h3><ul>
+<li><code>logcat \| grep  &lt;str&gt;</code> 显示包含<str>的logcat</str></li>
+<li><code>logcat \| grep -i &lt;str&gt;</code> 显示包含<str>，并忽略大小写的logcat</str></li>
+<li><code>logcat -d</code> 读完所有log后返回，而不会一直等待</li>
+<li><code>logcat -c</code> 清空log并退出</li>
+<li><code>logcat -t &lt;count&gt;</code>  打印最近的count</li>
+<li><code>logcat -v  &lt;format&gt;</code>， 格式化输出Log，其中<code>format</code>有如下可选值：<ul>
+<li>brief — 显示优先级/标记和原始进程的PID (默认格式)</li>
+<li>process — 仅显示进程PID</li>
+<li>tag — 仅显示优先级/标记</li>
+<li>thread — 仅显示进程：线程和优先级/标记</li>
+<li>raw — 显示原始的日志信息，没有其他的元数据字段</li>
+<li>time — 显示日期，调用时间，优先级/标记，PID</li>
+<li>long —显示所有的元数据字段并且用空行分隔消息内容</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="五-常用节点"><a href="#五-常用节点" class="headerlink" title="五. 常用节点"></a>五. 常用节点</h3><blockquote>
+<p>查看节点值，例如：cat /sys/class/leds/lcd-backlight/brightness<br>修改节点值，例如：echo 128 &gt; sys/class/leds/lcd-backlight/brightness</p>
+</blockquote>
+<ul>
+<li><p>LPM: echo N &gt; /sys/modue/lpm_levels/parameters/sleep_disabled</p>
+</li>
+<li><p>亮度： /sys/class/leds/lcd-backlight/brightness</p>
+</li>
+</ul>
+<ul>
+<li><p>CPU: /sys/devices/system/cpu/cpu0/cpufreq</p>
+</li>
+<li><p>GPU: /sys/class/ kgsl/kgsl-3d0/gpuclk</p>
+</li>
+<li><p>限频：<br>cat /data/pmlist.config</p>
+</li>
+<li><p>电流：<br>cat /sys/class/power_supply/battery/current_now</p>
+</li>
+<li><p>查看Power：<br>dumpsys power</p>
+</li>
+<li><p>WIFI<br>data/misc/wifi/wpa_supplicant.conf</p>
+</li>
+<li><p>持有wake_lock: echo a&gt; sys/power/wake_lock<br>释放wake_lock: echo a&gt; sys/power/wake_unlock</p>
+</li>
+<li><p>查看Wakeup_source:<br>cat sys/kernel/debug/wakeup_sources</p>
+</li>
+<li><p>SurfaceFlinger<br>dumpsys SurfaceFlinger</p>
+</li>
+<li><p>Display(关闭AD):<br>mv /data/misc/display/calib.cfg  /data/misc/display/calib.cfg.bak   重启</p>
+</li>
+<li><p>关闭cabc：  echo 0 &gt; /sys/device/virtual/graphics/fb0/cabc_onoff<br>打开cabc：echo 3 &gt; /sys/device/virtual/graphics/fb0/cabc_onoff</p>
+</li>
+<li><p>systrace： sdk/tools/monitor</p>
+</li>
+</ul>
+<ul>
+<li><p>限频：  echo <freq> /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq      1497600</freq></p>
+</li>
+<li><p>当出现read-only 且 remount命令不管用时：<br>adb shell mount -o rw,remount /</p>
+</li>
+<li><p>进入9008模式： adb reboot edl</p>
+</li>
+<li><p>查看高通gpio：sys/class/private/tlmm 或者 sys/private/tlmm</p>
+</li>
+<li><p>查看gpio占用情况：sys/kernle/debug/gpio</p>
+</li>
+</ul>
+<hr>
+<h3 id="六-远程ADB"><a href="#六-远程ADB" class="headerlink" title="六. 远程ADB"></a>六. 远程ADB</h3><blockquote>
+<p>为避免使用数据线，可通过wifi通信，前提是<strong>手机与PC处于同一局域网</strong></p>
+</blockquote>
+<p><strong>启动方法</strong>：</p>
+<pre><code>adb tcpip 5555  //这一步，必须通过数据线把手机与PC连接后再执行
+adb connect &lt;手机IP&gt;
+</code></pre><p><strong>停止方法</strong>：</p>
+<pre><code>adb disconnect //断开wifi连接
+adb usb //切换到usb模式
+</code></pre><hr>
+<h3 id="七-Keycode表"><a href="#七-Keycode表" class="headerlink" title="七. Keycode表"></a>七. Keycode表</h3><pre><code>0 --&gt;  &quot;KEYCODE_UNKNOWN&quot;
+1 --&gt;  &quot;KEYCODE_MENU&quot;
+2 --&gt;  &quot;KEYCODE_SOFT_RIGHT&quot;
+3 --&gt;  &quot;KEYCODE_HOME&quot;     //Home键
+4 --&gt;  &quot;KEYCODE_BACK&quot;     //返回键
+5 --&gt;  &quot;KEYCODE_CALL&quot;
+6 --&gt;  &quot;KEYCODE_ENDCALL&quot;
+7 --&gt;  &quot;KEYCODE_0&quot;       //数字键0
+8 --&gt;  &quot;KEYCODE_1&quot;
+9 --&gt;  &quot;KEYCODE_2&quot;
+10 --&gt;  &quot;KEYCODE_3&quot;
+11 --&gt;  &quot;KEYCODE_4&quot;
+12 --&gt;  &quot;KEYCODE_5&quot;
+13 --&gt;  &quot;KEYCODE_6&quot;
+14 --&gt;  &quot;KEYCODE_7&quot;
+15 --&gt;  &quot;KEYCODE_8&quot;
+16 --&gt;  &quot;KEYCODE_9&quot;
+17 --&gt;  &quot;KEYCODE_STAR&quot;
+18 --&gt;  &quot;KEYCODE_POUND&quot;
+19 --&gt;  &quot;KEYCODE_DPAD_UP&quot;
+20 --&gt;  &quot;KEYCODE_DPAD_DOWN&quot;
+21 --&gt;  &quot;KEYCODE_DPAD_LEFT&quot;
+22 --&gt;  &quot;KEYCODE_DPAD_RIGHT&quot;
+23 --&gt;  &quot;KEYCODE_DPAD_CENTER&quot;
+24 --&gt;  &quot;KEYCODE_VOLUME_UP&quot;    //音量键+
+25 --&gt;  &quot;KEYCODE_VOLUME_DOWN&quot;  //音量键-
+26 --&gt;  &quot;KEYCODE_POWER&quot;   //Power键
+27 --&gt;  &quot;KEYCODE_CAMERA&quot;
+28 --&gt;  &quot;KEYCODE_CLEAR&quot;
+29 --&gt;  &quot;KEYCODE_A&quot;    //字母键A
+30 --&gt;  &quot;KEYCODE_B&quot;
+31 --&gt;  &quot;KEYCODE_C&quot;
+32 --&gt;  &quot;KEYCODE_D&quot;
+33 --&gt;  &quot;KEYCODE_E&quot;
+34 --&gt;  &quot;KEYCODE_F&quot;
+35 --&gt;  &quot;KEYCODE_G&quot;
+36 --&gt;  &quot;KEYCODE_H&quot;
+37 --&gt;  &quot;KEYCODE_I&quot;
+38 --&gt;  &quot;KEYCODE_J&quot;
+39 --&gt;  &quot;KEYCODE_K&quot;
+40 --&gt;  &quot;KEYCODE_L&quot;
+41 --&gt;  &quot;KEYCODE_M&quot;
+42 --&gt;  &quot;KEYCODE_N&quot;
+43 --&gt;  &quot;KEYCODE_O&quot;
+44 --&gt;  &quot;KEYCODE_P&quot;
+45 --&gt;  &quot;KEYCODE_Q&quot;
+46 --&gt;  &quot;KEYCODE_R&quot;
+47 --&gt;  &quot;KEYCODE_S&quot;
+48 --&gt;  &quot;KEYCODE_T&quot;
+49 --&gt;  &quot;KEYCODE_U&quot;
+50 --&gt;  &quot;KEYCODE_V&quot;
+51 --&gt;  &quot;KEYCODE_W&quot;
+52 --&gt;  &quot;KEYCODE_X&quot;
+53 --&gt;  &quot;KEYCODE_Y&quot;
+54 --&gt;  &quot;KEYCODE_Z&quot;
+55 --&gt;  &quot;KEYCODE_COMMA&quot;
+56 --&gt;  &quot;KEYCODE_PERIOD&quot;
+57 --&gt;  &quot;KEYCODE_ALT_LEFT&quot;
+58 --&gt;  &quot;KEYCODE_ALT_RIGHT&quot;
+59 --&gt;  &quot;KEYCODE_SHIFT_LEFT&quot;
+60 --&gt;  &quot;KEYCODE_SHIFT_RIGHT&quot;
+61 -&gt;  &quot;KEYCODE_TAB&quot;
+62 --&gt;  &quot;KEYCODE_SPACE&quot;
+63 --&gt;  &quot;KEYCODE_SYM&quot;
+64 --&gt;  &quot;KEYCODE_EXPLORER&quot;
+65 --&gt;  &quot;KEYCODE_ENVELOPE&quot;
+66 --&gt;  &quot;KEYCODE_ENTER&quot;  //回车键
+67 --&gt;  &quot;KEYCODE_DEL&quot;
+68 --&gt;  &quot;KEYCODE_GRAVE&quot;
+69 --&gt;  &quot;KEYCODE_MINUS&quot;
+70 --&gt;  &quot;KEYCODE_EQUALS&quot;
+71 --&gt;  &quot;KEYCODE_LEFT_BRACKET&quot;
+72 --&gt;  &quot;KEYCODE_RIGHT_BRACKET&quot;
+73 --&gt;  &quot;KEYCODE_BACKSLASH&quot;
+74 --&gt;  &quot;KEYCODE_SEMICOLON&quot;
+75 --&gt;  &quot;KEYCODE_APOSTROPHE&quot;
+76 --&gt;  &quot;KEYCODE_SLASH&quot;
+77 --&gt;  &quot;KEYCODE_AT&quot;
+78 --&gt;  &quot;KEYCODE_NUM&quot;
+79 --&gt;  &quot;KEYCODE_HEADSETHOOK&quot;
+80 --&gt;  &quot;KEYCODE_FOCUS&quot;
+81 --&gt;  &quot;KEYCODE_PLUS&quot;
+82 --&gt;  &quot;KEYCODE_MENU&quot;
+83 --&gt;  &quot;KEYCODE_NOTIFICATION&quot;
+84 --&gt;  &quot;KEYCODE_SEARCH&quot;
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/16/ADB用法大全/" rel="next" title="ADB用法大全">
+                <i class="fa fa-chevron-left"></i> ADB用法大全
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/30/我的2016-岁月既往，不可复追/" rel="prev" title="2016-2017--岁月既往，不可复追">
+                2016-2017--岁月既往，不可复追 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-基本指令"><span class="nav-number">1.</span> <span class="nav-text">一. 基本指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-am-与pm"><span class="nav-number">2.</span> <span class="nav-text">二. am 与pm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-模拟用户事件"><span class="nav-number">3.</span> <span class="nav-text">三. 模拟用户事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-logcat"><span class="nav-number">4.</span> <span class="nav-text">四. logcat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五-常用节点"><span class="nav-number">5.</span> <span class="nav-text">五. 常用节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六-远程ADB"><span class="nav-number">6.</span> <span class="nav-text">六. 远程ADB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七-Keycode表"><span class="nav-number">7.</span> <span class="nav-text">七. Keycode表</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-06 12:25</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
