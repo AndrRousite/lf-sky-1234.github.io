@@ -1,0 +1,823 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="php," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="初阶（基础知识及入门）
+《PHP与MySQL程序设计（第四版）》
+《深入浅出MySQL数据库开发 优化与管理维护（第二版）》
+《实战Nginx：取代Apache的高性能Web服务器》
+《Redis实战》
+《MongoDB权威指南（第二版）》
+
+中阶（基本系统知识相关）
+《图解HTTP》
+《图解TCP/IP（第五版）》
+《大话设计模式》
+《大话数据结构》
+《编译原理（第二版）》
+《Linux C编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP程序员进阶学习书籍参考指南">
+<meta property="og:url" content="https://AndrRousite.github.io/2017/04/11/PHP程序员进阶学习书籍参考指南/index.html">
+<meta property="og:site_name" content="AndrRousite">
+<meta property="og:description" content="初阶（基础知识及入门）
+《PHP与MySQL程序设计（第四版）》
+《深入浅出MySQL数据库开发 优化与管理维护（第二版）》
+《实战Nginx：取代Apache的高性能Web服务器》
+《Redis实战》
+《MongoDB权威指南（第二版）》
+
+中阶（基本系统知识相关）
+《图解HTTP》
+《图解TCP/IP（第五版）》
+《大话设计模式》
+《大话数据结构》
+《编译原理（第二版）》
+《Linux C编程">
+<meta property="og:updated_time" content="2017-04-11T16:17:45.836Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PHP程序员进阶学习书籍参考指南">
+<meta name="twitter:description" content="初阶（基础知识及入门）
+《PHP与MySQL程序设计（第四版）》
+《深入浅出MySQL数据库开发 优化与管理维护（第二版）》
+《实战Nginx：取代Apache的高性能Web服务器》
+《Redis实战》
+《MongoDB权威指南（第二版）》
+
+中阶（基本系统知识相关）
+《图解HTTP》
+《图解TCP/IP（第五版）》
+《大话设计模式》
+《大话数据结构》
+《编译原理（第二版）》
+《Linux C编程">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://AndrRousite.github.io/2017/04/11/PHP程序员进阶学习书籍参考指南/"/>
+
+
+
+
+
+  <title> PHP程序员进阶学习书籍参考指南 | AndrRousite </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AndrRousite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-others">
+          <a href="/others" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bars"></i> <br />
+            
+            外链
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://AndrRousite.github.io/2017/04/11/PHP程序员进阶学习书籍参考指南/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liu-feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AndrRousite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                PHP程序员进阶学习书籍参考指南
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-11T22:43:41+08:00">
+                2017-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="初阶（基础知识及入门）"><a href="#初阶（基础知识及入门）" class="headerlink" title="初阶（基础知识及入门）"></a>初阶（基础知识及入门）</h2><ol>
+<li>《PHP与MySQL程序设计（第四版）》</li>
+<li>《深入浅出MySQL数据库开发 优化与管理维护（第二版）》</li>
+<li>《实战Nginx：取代Apache的高性能Web服务器》</li>
+<li>《Redis实战》</li>
+<li>《MongoDB权威指南（第二版）》</li>
+</ol>
+<h2 id="中阶（基本系统知识相关）"><a href="#中阶（基本系统知识相关）" class="headerlink" title="中阶（基本系统知识相关）"></a>中阶（基本系统知识相关）</h2><ol>
+<li>《图解HTTP》</li>
+<li>《图解TCP/IP（第五版）》</li>
+<li>《大话设计模式》</li>
+<li>《大话数据结构》</li>
+<li>《编译原理（第二版）》</li>
+<li>《Linux C编程一站式学习》</li>
+<li>《PHP应用程序安全编程》</li>
+<li>《高性能PHP应用开发》</li>
+<li>《PHP核心技术与最佳实践》</li>
+<li>《感高性能MySQL（第三版）》</li>
+<li>《深入理解Maria DB与MySQL》</li>
+<li>《构建高可用Linux服务器（第三版）》</li>
+</ol>
+<h2 id="中高阶（深入理解系统）"><a href="#中高阶（深入理解系统）" class="headerlink" title="中高阶（深入理解系统）"></a>中高阶（深入理解系统）</h2><ol>
+<li>《深入理解计算机系统（原书第2版）》</li>
+<li>《现代操作系统（原书第3版）》</li>
+<li>《数据库系统概念（原书第6版）》</li>
+<li>《数据库系统实现（第2版）》</li>
+<li>《UNIX环境高级编程（第3版）》</li>
+<li>《UNIX网络编程 卷1 套接字联网API（第3版）》</li>
+<li>《Linux高性能服务器编程》</li>
+</ol>
+<h2 id="高阶（深入理解服务原理）"><a href="#高阶（深入理解服务原理）" class="headerlink" title="高阶（深入理解服务原理）"></a>高阶（深入理解服务原理）</h2><ol>
+<li>《深入理解PHP内核》</li>
+<li>《深入理解MySQL》</li>
+<li>《MySQL技术内幕：InnoDB存储引擎（第2版）》</li>
+<li>《深入剖析Nginx》</li>
+<li>《深入理解Nginx：模块开发与架构解析》</li>
+<li>《Redis设计与实现》</li>
+</ol>
+<h2 id="架构师（Web架构-分布式-云计算-机器学习等方向）"><a href="#架构师（Web架构-分布式-云计算-机器学习等方向）" class="headerlink" title="架构师（Web架构/分布式/云计算/机器学习等方向）"></a>架构师（Web架构/分布式/云计算/机器学习等方向）</h2><ol>
+<li>《大规模Web服务开发技术》</li>
+<li>《大型分布式网站架构设计与实践》</li>
+<li>《大型网站技术架构 核心原理与案例分析》</li>
+<li>《大规模分布式系统架构与设计实战》</li>
+<li>《大规模分布式存储系统：原理解析与架构实战》</li>
+<li>《分布式系统：概念与设计（原书第5版）》</li>
+<li>《Hadoop权威指南（第3版 修订版）》</li>
+<li><p>《Cassandra权威指南》</p>
+</li>
+<li><p>《云计算架构技术与实践》</p>
+</li>
+<li><p>《OpenStack开源云王者归来》</p>
+</li>
+<li><p>《数据挖掘 概念与技术（原书第3版）》</p>
+</li>
+<li>《机器学习》</li>
+<li>《图解机器学习》</li>
+<li>《机器学习实战》</li>
+</ol>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><ol>
+<li>《深入PHP：面向对象、模式与实践（第3版）》</li>
+<li>《Linux网络编程（第2版）》</li>
+<li>《Linux多线程服务端编程 使用muduo C++网络库》</li>
+<li>《Linux运维之道》</li>
+<li>《Linux性能优化大师》</li>
+<li>《PostgreSQL修炼之道：从小工到专家》</li>
+<li><p>《图解网络硬件》</p>
+</li>
+<li><p>《网络安全基础：网络攻防、协议与安全》</p>
+</li>
+<li>《密码学原理与实践（第3版）》</li>
+<li>《黑客大曝光：网络安全机密与解决方案（第7版）》</li>
+<li><p>《黑客攻防技术宝典 Web实战篇 第2版》</p>
+</li>
+<li><p>《精通正则表达式（第3版）》</p>
+</li>
+<li>《Go语言编程》</li>
+<li>《Python基础教程（第2版 修订版）》</li>
+<li>《快学Scala》</li>
+<li>《Erlang/OTP并发编程实战》</li>
+<li>《函数式编程思维》</li>
+<li>《Android从入门到精通》</li>
+<li><p>《iOS开发指南》</p>
+</li>
+<li><p>《搜索引擎：信息检索实践》</p>
+</li>
+<li>《统计自然语言处理（第2版）》</li>
+<li>《这就是搜索引擎：核心技术详解》</li>
+<li>《Elasticsearch服务器开发（第2版）》</li>
+<li><p>《实战Elasticsearch、Logstash、Kibana》</p>
+</li>
+<li><p>《推荐系统实践》</p>
+</li>
+<li>《机器学习实践指南：案例应用解析》</li>
+<li>《Hadoop实战（第2版）》</li>
+<li>《Hadoop大数据分析与挖掘实战》</li>
+<li>《Spark大数据处理：技术、应用与性能优化》</li>
+<li>《Spark机器学习》</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/php/" rel="tag"># php</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/06/Android学习笔记/" rel="next" title="Android学习笔记">
+                <i class="fa fa-chevron-left"></i> Android学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="liu-feng" />
+          <p class="site-author-name" itemprop="name">liu-feng</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#初阶（基础知识及入门）"><span class="nav-number">1.</span> <span class="nav-text">初阶（基础知识及入门）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中阶（基本系统知识相关）"><span class="nav-number">2.</span> <span class="nav-text">中阶（基本系统知识相关）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中高阶（深入理解系统）"><span class="nav-number">3.</span> <span class="nav-text">中高阶（深入理解系统）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高阶（深入理解服务原理）"><span class="nav-number">4.</span> <span class="nav-text">高阶（深入理解服务原理）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#架构师（Web架构-分布式-云计算-机器学习等方向）"><span class="nav-number">5.</span> <span class="nav-text">架构师（Web架构/分布式/云计算/机器学习等方向）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拓展"><span class="nav-number">6.</span> <span class="nav-text">拓展</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017-04-12 12:18</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu-feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
