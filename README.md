@@ -4,7 +4,7 @@ hAdmin是一个免费的后台管理模版,该模版基于bootstrap与jQuery制�
 
 # Demo
 ![名称](./img/1.png)
-> [hAdmin演示地址](https://fzninja.github.io/demo/hAdmin/#)
+> [hAdmin演示地址](https://andrrousite.github.io/)
 
 
 ## beta _测试版_
