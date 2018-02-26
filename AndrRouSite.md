@@ -2,9 +2,10 @@
 ----
 - 姓名：伍琪
 - 性别：男
+- 年龄：25
 - 学历：大专
 - 毕业院校：江西财经大学职院计算机系
-- 技术博客：https://AndrRousite.github.io
+- 技术博客：http://letion.me/hexo
 - 技术：熟练掌握Android native app和 hybrid app开发
 - 期望职位：Android程序员
 - 期望城市：广州
@@ -18,7 +19,7 @@
 
 ### 工作经历
 ----
-- 广州赞赏信息科技（2016.8-2017.3）
+- 广州赞赏信息科技（2015.11-2017.3）
     1. 微赞论坛项目
 
          微赞论坛是一个为粉丝提供互动交流的平台，帮助公众号沉淀用户，产生优质内容，提高变现能力和活跃高质量用户。
@@ -35,7 +36,7 @@
                 移植微赞同城的商家管理功能，实现商家后台管理
             2. 微赞论坛小程序
 
-                移植微赞APP（因微信部分限制暂未上线）
+                移植微赞APP
 
             3. 微赞官网小程序
 
@@ -56,22 +57,18 @@
 
 ### 专业技能
 ----
-- Java/Javascript/PHP
+- 编程语言：Java/Kotlin/javascript/php
 - Android框架：MVP+Dagger2+Retrofit+RxJava
 - Web框架：ThinkPHP/Yii/Smarty
-- 前端框架：Bootstrap/jQuery/Vue/Weex
-- 数据库相关：MySQL/SQLite/PDO
+- 数据库相关：MySQL/SQLite
 - 工具：IDEA/Eclipse/Sublime/...
 - 版本管理，自动化构建工具：Svn/Git/Gradle/Composer
-- 单元测试：JUnit/SimpleTest/PhpUnit
+- 单元测试：JUnit4/mockito/Robolectric
 - 云和开放平台：阿里云/微信开放平台
 
 ### 自我评价
 ----
-爱折腾的不逗比程序员
-
 注重专业基础学习和实践能力
 
 注重团队协作精神，且能承受较大压力
 
-爱Google，爱开源，爱生活！
